@@ -20,3 +20,5 @@ rootProject.name = "gradle-nlp-ui"
 
 include("plugin")
 include("server")
+
+include("test-java-client")
