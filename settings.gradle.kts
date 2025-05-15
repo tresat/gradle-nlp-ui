@@ -1,6 +1,11 @@
+@file:Suppress("UnstableApiUsage")
+
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
+        maven {
+            name = "Central Portal Snapshots"
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
         maven {
             name = "Spring Milestones"
             url = uri("https://repo.spring.io/milestone")
@@ -9,10 +14,7 @@ dependencyResolutionManagement {
             name = "Spring Snapshots"
             url = uri("https://repo.spring.io/snapshot")
         }
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
+        mavenCentral()
     }
 }
 
@@ -22,3 +24,5 @@ include("plugin")
 
 include("test-weather-server")
 include("test-weather-java-client")
+
+include("test-java-spring-chat-client")

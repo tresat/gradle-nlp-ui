@@ -14,3 +14,7 @@ description = """This project is a Java CLI application that connects to the /se
 and queries the forecastByLocation service, printing the results.
 The path to the server jar is hard-coded in the test client's source.
 """.trimMargin()
+
+application {
+    mainClass = "org.gradle.nlp.client.TestClient"
+}

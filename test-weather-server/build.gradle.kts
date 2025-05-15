@@ -8,7 +8,7 @@ plugins {
 dependencies {
     implementation(libs.mcp.sdk)
 
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M8"))
 
     implementation("org.springframework.ai:spring-ai-starter-mcp-server")
     implementation("org.springframework:spring-web:6.2.6")

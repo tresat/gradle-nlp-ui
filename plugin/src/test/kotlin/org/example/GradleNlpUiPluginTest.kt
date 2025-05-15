@@ -17,6 +17,6 @@ class GradleNlpUiPluginTest {
         project.plugins.apply("org.example.greeting")
 
         // Verify the result
-        assertNotNull(project.tasks.findByName("greeting"))
+        assertNotNull(project.tasks.findByName("hello"))
     }
 }

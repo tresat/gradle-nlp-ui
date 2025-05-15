@@ -19,6 +19,25 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    api(project(":test-weather-server"))
+
+    api(platform("org.springframework.ai:spring-ai-bom:1.0.0-M8"))
+    api("org.springframework.ai:spring-ai-starter-mcp-server")
+    implementation("org.springframework:spring-web:6.2.6")
+}
+
+// TODO: A better fix for this
+/*
+* > LoggerFactory is not a Logback LoggerContext but Logback is on the classpath. Either remove Logback or the competing implementation
+*  (class org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext loaded from file:/Users/ttresansky/.gradle/wrapper/dists/gradle-8.14-bin/38aieal9i53h9rfe7vjup95b9/gradle-8.14/lib/gradle-logging-8.14.jar).
+* If you are using WebLogic you will need to add 'org.slf4j' to prefer-application-packages in WEB-INF/weblogic.xml: org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext
+*/
+configurations.all {
+    exclude(module = "spring-boot-starter-logging")
+    exclude(module = "logback-classic")
+}
+
 testing {
     suites {
         // Configure the built-in test suite

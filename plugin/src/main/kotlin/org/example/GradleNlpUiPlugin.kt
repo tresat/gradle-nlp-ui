@@ -5,17 +5,22 @@ package org.example
 
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import org.gradle.nlp.plugin.service.MCPBuildService
+import org.gradle.nlp.plugin.task.CustomTasksReport
+import org.gradle.nlp.plugin.task.StartMCPTask
 
 /**
  * A simple 'hello world' plugin.
  */
 class GradleNlpUiPlugin: Plugin<Project> {
     override fun apply(project: Project) {
-        // Register a task
-        project.tasks.register("greeting") { task ->
-            task.doLast {
-                println("Hello from plugin 'org.example.greeting'")
-            }
+        project.gradle.sharedServices.registerIfAbsent("mcp", MCPBuildService::class.java)
+
+        val mcpTasks = project.tasks.register("mcpTasks", CustomTasksReport::class.java)
+
+        val startMCP = project.tasks.register("startMCP", StartMCPTask::class.java) {
+            it.tasksReportFile.set(mcpTasks.get().outputFile)
+            it.inputs.files(mcpTasks.get().outputs.files) // As the outputFile of TaskReportTask is not a Provider, we need to establish the task dependency like this
         }
     }
 }
