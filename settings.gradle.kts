@@ -18,7 +18,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "gradle-nlp-ui"
 
 include("plugin")
 
@@ -26,3 +25,5 @@ include("test-weather-server")
 include("test-weather-java-client")
 
 include("test-java-spring-chat-client")
+
+rootProject.name = "gradle-nlp-ui"

@@ -1,11 +1,15 @@
 # gradle-nlp-ui
 
+# Building the Plugin
+
+Run the default `build` task via `./gradlew`
+
 # Testing the Plugin
 
 ## Use the Test Build
 The test build is a Gradle build that includes this project and applies the plugin.
 
-From `/test-build`, run `./gradlew startMCP`.
+From `/test-build`, run `./gradlew startMCP`
 
 # Testing Other Examples
 
@@ -46,4 +50,4 @@ From `/test-build`, run `./gradlew startMCP`.
      }
    }
    ```
-3. Start Claude Desktop and see the `spring-ai-mcp-weather` server in "Search and Tools".
+3. Start Claude Desktop and see the `spring-ai-mcp-weather` server in "Search and Tools"

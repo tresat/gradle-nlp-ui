@@ -1,4 +1,4 @@
-package org.gradle.nlp.plugin.task;
+package org.gradle.ai.nlp.plugin.task;
 
 import org.gradle.api.GradleException;
 import org.gradle.api.file.Directory;
@@ -7,7 +7,6 @@ import org.gradle.api.problems.ProblemId;
 import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.Severity;
 import org.gradle.api.provider.Provider;
-import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.diagnostics.TaskReportTask;
 import org.gradle.work.DisableCachingByDefault;
 

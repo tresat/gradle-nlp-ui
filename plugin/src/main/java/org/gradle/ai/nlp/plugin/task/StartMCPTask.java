@@ -1,17 +1,17 @@
-package org.gradle.nlp.plugin.task;
+package org.gradle.ai.nlp.plugin.task;
 
+import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.ServiceReference;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.nlp.plugin.service.MCPBuildService;
+import org.gradle.ai.nlp.plugin.service.MCPBuildService;
 
 import java.io.File;
 
 public abstract class StartMCPTask extends DefaultTask {
-    // This property provides access to the service instance
-    @ServiceReference("mcp")
+    @ServiceReference(GradleNlpUiPlugin.MCP_SERVICE_NAME)
     abstract Property<MCPBuildService> getMCPService();
 
     @InputFile
