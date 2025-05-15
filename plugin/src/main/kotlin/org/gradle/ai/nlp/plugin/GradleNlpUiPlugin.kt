@@ -14,14 +14,15 @@ class GradleNlpUiPlugin: Plugin<Project> {
         const val CUSTOM_TASKS_REPORT_TASK_NAME = "mcpTasksReport"
     }
 
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun apply(project: Project) {
         project.gradle.sharedServices.registerIfAbsent(MCP_SERVICE_NAME, MCPBuildService::class.java)
 
-        val mcpTasks = project.tasks.register(CUSTOM_TASKS_REPORT_TASK_NAME, CustomTasksReport::class.java)
+        val tasksReport = project.tasks.register(CUSTOM_TASKS_REPORT_TASK_NAME, CustomTasksReport::class.java)
 
         project.tasks.register(START_MCP_SERVER_TASK_NAME, StartMCPTask::class.java) {
-            it.tasksReportFile.set(mcpTasks.get().outputFile)
-            it.inputs.files(mcpTasks.get().outputs.files) // As the outputFile of TaskReportTask is not a Provider, we need to establish the task dependency like this
+            it.tasksReportFile.set(tasksReport.map { it.outputFile })
+            it.inputs.files(tasksReport.get().outputs.files) // As the outputFile of TaskReportTask is not a Provider, we need to establish the task dependency like this
         }
     }
 }

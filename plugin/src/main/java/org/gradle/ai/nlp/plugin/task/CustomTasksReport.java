@@ -17,9 +17,10 @@ import java.io.File;
 @DisableCachingByDefault(because = "Not worth caching")
 public abstract class CustomTasksReport extends TaskReportTask {
     public static final String MCP_REPORTS_DIR = "mcp-reports";
+    public static final String REPORTS_FILE = "custom-tasks-report.txt";
 
     private final Provider<Directory> outputDir = getProject().getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR);
-    private final File outputFile = outputDir.map(dir -> dir.file("custom-tasks-report.txt")).get().getAsFile();
+    private final File outputFile = outputDir.map(dir -> dir.file(REPORTS_FILE)).get().getAsFile();
 
     @Inject
     public CustomTasksReport(Problems problemsService) {
@@ -28,25 +29,27 @@ public abstract class CustomTasksReport extends TaskReportTask {
             return false;
         });
 
-        try {
-            if (!outputFile.exists()) {
-                if (!outputDir.get().getAsFile().mkdirs()) {
-                    throw new GradleException("Failed to create output directory: " + outputDir.get().getAsFile());
-                }
-            }
-
-            if (!outputFile.exists()) {
-                if (!outputFile.createNewFile()) {
-                    throw new GradleException("Failed to create output file: " + outputFile);
-                }
-            }
-        } catch (Exception e) {
-            ProblemId id = ProblemId.create("io-error", "IO Error", ProblemGroup.create("mcp-plugin", "mcp-plugin"));
-            throw problemsService.getReporter().throwing(e, id, spec -> {
-                spec.severity(Severity.ERROR);
-            });
-        }
-
         setOutputFile(outputFile);
+
+        doFirst(task -> {
+            try {
+                if (!outputFile.exists()) {
+                    if (!outputDir.get().getAsFile().mkdirs()) {
+                        throw new GradleException("Failed to create output directory: " + outputDir.get().getAsFile());
+                    }
+                }
+
+                if (!outputFile.exists()) {
+                    if (!outputFile.createNewFile()) {
+                        throw new GradleException("Failed to create output file: " + outputFile);
+                    }
+                }
+            } catch (Exception e) {
+                ProblemId id = ProblemId.create("io-error", "IO Error", ProblemGroup.create("mcp-plugin", "mcp-plugin"));
+                throw problemsService.getReporter().throwing(e, id, spec -> {
+                    spec.severity(Severity.ERROR);
+                });
+            }
+        });
     }
 }
