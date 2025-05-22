@@ -1,9 +1,9 @@
 [versions]
 guava = "33.4.8-jre"
 mcp = "0.10.0"
-spock = "2.3-groovy-3.0" # Stuck here until bump to Gradle 9.0
+spock = "2.3-groovy-4.0"
 spring-ai-bom = "1.0.0-M8"
-spring-boot = "3.1.0"
+spring-boot = "3.5.0"
 spring-web = "6.2.6"
 
 [libraries]

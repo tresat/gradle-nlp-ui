@@ -1,14 +1,15 @@
 plugins {
     application
-
-    id("org.springframework.boot").version("3.4.5")
+    alias(libs.plugins.spring.boot)
 }
 
 dependencies {
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M8"))
-    implementation("org.springframework.ai:spring-ai-starter-mcp-client")
-    implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
+    implementation(platform(libs.spring.ai.bom))
+
+    implementation(libs.spring.ai.starter.mcp.client)
+    implementation(libs.spring.ai.starter.model.anthropic)
 }
 
 description = """Test chatbot client using a Spring AI MCP client.
 """.trimMargin()
+

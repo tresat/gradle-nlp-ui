@@ -1,15 +1,30 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     `java-library`
-    id("org.springframework.boot").version("3.1.0")
+    alias(libs.plugins.spring.boot)
 }
 
 dependencies {
+    implementation(platform(libs.spring.ai.bom))
+
     implementation(libs.mcp.sdk)
+    implementation(libs.spring.ai.starter.mcp.server)
+    implementation(libs.spring.web)
+}
 
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M8"))
-
-    implementation("org.springframework.ai:spring-ai-starter-mcp-server")
-    implementation("org.springframework:spring-web:6.2.6")
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            targets {
+                all {
+                    testTask.configure {
+                        failOnNoDiscoveredTests = false
+                    }
+                }
+            }
+        }
+    }
 }
 
 description = "This project showcases the Spring AI MCP Server Boot Starter capabilities with STDIO transport implementation."

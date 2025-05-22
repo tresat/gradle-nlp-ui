@@ -12,4 +12,19 @@ dependencies {
     implementation(libs.spring.web)
 }
 
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            targets {
+                all {
+                    testTask.configure {
+                        failOnNoDiscoveredTests = false
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 description = "This project provides an MCP server built with Spring AI that can be used for NLP Gradle build introspection."

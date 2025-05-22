@@ -7,11 +7,11 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(libs.spring.ai.bom))
-    implementation(libs.spring.ai.starter.mcp.server)
-
     implementation(project(":client"))
     implementation(project(":server"))
+
+    implementation(platform(libs.spring.ai.bom))
+    implementation(libs.spring.ai.starter.mcp.server)
 
     implementation(libs.guava)
     implementation(libs.spring.web)

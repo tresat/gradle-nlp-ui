@@ -3,11 +3,25 @@ plugins {
 }
 
 dependencies {
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
-
-    implementation("org.springframework.ai:spring-ai-starter-mcp-client")
-
     implementation(project(":test-weather-server"))
+
+    implementation(platform(libs.spring.ai.bom))
+
+    implementation(libs.spring.ai.starter.mcp.client)
+}
+
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            targets {
+                all {
+                    testTask.configure {
+                        failOnNoDiscoveredTests = false
+                    }
+                }
+            }
+        }
+    }
 }
 
 description = """This project is a Java CLI application that connects to the /server project
