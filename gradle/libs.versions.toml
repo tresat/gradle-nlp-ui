@@ -1,12 +1,19 @@
 [versions]
+guava = "33.4.8-jre"
 kotlin = "2.1.20"
 mcp = "0.4.0"
 spock = "2.3-groovy-3.0"
+spring-ai-bom = "1.0.0-M8"
+spring-web = "6.2.6"
 
 [libraries]
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 mcp-sdk = { group = "io.modelcontextprotocol", name = "kotlin-sdk", version.ref = "mcp" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
+spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }
+spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server", version.ref = "spring-ai-bom" }
+spring-web = { group = "org.springframework", name = "spring-web", version.ref = "spring-web" }
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.1.20" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

@@ -15,7 +15,7 @@ import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
 @DisableCachingByDefault(because = "Not worth caching")
-public abstract class CustomTasksReport extends TaskReportTask {
+public abstract class CustomTasksReportTask extends TaskReportTask {
     public static final String MCP_REPORTS_DIR = "mcp-reports";
     public static final String REPORTS_FILE = "custom-tasks-report.txt";
 
@@ -23,7 +23,7 @@ public abstract class CustomTasksReport extends TaskReportTask {
     private final File outputFile = outputDir.map(dir -> dir.file(REPORTS_FILE)).get().getAsFile();
 
     @Inject
-    public CustomTasksReport(Problems problemsService) {
+    public CustomTasksReportTask(Problems problemsService) {
         getOutputs().upToDateWhen(task -> {
             // This task is never up-to-date
             return false;

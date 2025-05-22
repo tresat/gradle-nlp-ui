@@ -25,8 +25,9 @@ public abstract class StartMCPTask extends DefaultTask {
     }
 
     @TaskAction
-    public void download() {
+    public void startServer() {
         MCPBuildService server = getMCPService().get();
-        server.useServer();
+        server.setLogger(getLogger());
+        server.startServer();
     }
 }
