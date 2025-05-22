@@ -9,8 +9,17 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
     protected File projectDir
 
-    protected File getBuildFile() { new File(projectDir, 'build.gradle') }
-    protected File getSettingsFile() { new File(projectDir, 'settings.gradle') }
+    protected File getBuildDir() {
+        return new File(projectDir, 'build')
+    }
+
+    protected File getBuildFile() {
+        return new File(projectDir, 'build.gradle')
+    }
+
+    protected File getSettingsFile() {
+        return new File(projectDir, 'settings.gradle')
+    }
 
     def setup() {
         given:

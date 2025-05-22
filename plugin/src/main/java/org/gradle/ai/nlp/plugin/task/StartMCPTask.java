@@ -6,13 +6,15 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.services.ServiceReference;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.ai.nlp.plugin.service.MCPBuildService;
+import org.gradle.ai.nlp.plugin.service.MCPServerService;
+import org.gradle.work.DisableCachingByDefault;
 
 import java.io.File;
 
+@DisableCachingByDefault
 public abstract class StartMCPTask extends DefaultTask {
-    @ServiceReference(GradleNlpUiPlugin.MCP_SERVICE_NAME)
-    abstract Property<MCPBuildService> getMCPService();
+    @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
+    abstract Property<MCPServerService> getMCPService();
 
     @InputFile
     public abstract Property<File> getTasksReportFile();
@@ -26,8 +28,8 @@ public abstract class StartMCPTask extends DefaultTask {
 
     @TaskAction
     public void startServer() {
-        MCPBuildService server = getMCPService().get();
-        server.setLogger(getLogger());
-        server.startServer();
+        MCPServerService serverService = getMCPService().get();
+        serverService.setLogger(getLogger());
+        serverService.startServer();
     }
 }

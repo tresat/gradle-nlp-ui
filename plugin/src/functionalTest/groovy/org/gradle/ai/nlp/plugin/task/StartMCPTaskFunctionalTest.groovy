@@ -2,7 +2,7 @@ package org.gradle.ai.nlp.plugin.task
 
 import org.gradle.ai.nlp.plugin.AbsractGradleNlpUiPluginFunctionalTest
 import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin
-import org.gradle.ai.nlp.plugin.service.MCPBuildService
+import org.gradle.ai.nlp.plugin.service.MCPServerService
 
 class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run start server task"() {
@@ -10,7 +10,7 @@ class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest 
         def result = succeeds(GradleNlpUiPlugin.START_MCP_SERVER_TASK_NAME)
 
         then:
-        result.output.contains(MCPBuildService.SERVER_STARTUP_MESSAGE)
-        result.output.contains(MCPBuildService.SERVER_SHUTDOWN_MESSAGE)
+        result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)
+        result.output.contains(MCPServerService.SERVER_SHUTDOWN_MESSAGE)
     }
 }

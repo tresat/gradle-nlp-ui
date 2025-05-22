@@ -1,22 +1,21 @@
 package org.gradle.ai.nlp.plugin.task;
 
 import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin;
-import org.gradle.ai.nlp.plugin.service.MCPBuildService;
+import org.gradle.ai.nlp.plugin.service.MCPClientService;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.ServiceReference;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
+import org.gradle.work.DisableCachingByDefault;
 
+@DisableCachingByDefault
 public abstract class AskMCPTask extends DefaultTask {
     public static final String QUERY_PARAM = "query";
 
-    public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '{}'";
-    public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server: '{}'";
-
-    @ServiceReference(GradleNlpUiPlugin.MCP_SERVICE_NAME)
-    abstract Property<MCPBuildService> getMCPService();
+    @ServiceReference(GradleNlpUiPlugin.MCP_CLIENT_SERVICE_NAME)
+    abstract Property<MCPClientService> getMCPClient();
 
     @Input
     @Option(option = QUERY_PARAM, description = "Question to ask the MCP Server")
@@ -31,11 +30,8 @@ public abstract class AskMCPTask extends DefaultTask {
 
     @TaskAction
     public void ask() {
-        MCPBuildService server = getMCPService().get();
-
-        String query = getQuery().get();
-        getLogger().lifecycle(QUERYING_MSG_TEMPLATE, query);
-        String answer = server.query(getQuery().get());
-        getLogger().lifecycle(ANSWER_MSG_TEMPLATE, answer);
+        MCPClientService clientService = getMCPClient().get();
+        clientService.setLogger(getLogger());
+        clientService.query(getQuery().get());
     }
 }

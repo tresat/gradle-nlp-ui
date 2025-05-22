@@ -1,15 +1,15 @@
 package org.gradle.ai.nlp.plugin.service;
 
 import com.google.common.base.Preconditions;
+import org.gradle.ai.nlp.server.McpServerApplication;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
-import org.springframework.ai.mcp.sample.server.McpServerApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import org.gradle.api.logging.Logger;
 
-public abstract class MCPBuildService implements BuildService<BuildServiceParameters.None>, AutoCloseable {
+public abstract class MCPServerService implements BuildService<BuildServiceParameters.None>, AutoCloseable {
     public static final String SERVER_STARTUP_MESSAGE = "Started MCP Server";
     public static final String SERVER_SHUTDOWN_MESSAGE = "Shutdown MCP Server";
 
@@ -22,6 +22,7 @@ public abstract class MCPBuildService implements BuildService<BuildServiceParame
 
     public void setLogger(Logger logger) {
         Preconditions.checkState(!isStarted(), "MCP Server already started");
+        Preconditions.checkState(this.logger == null, "Logger already set");
         this.logger = logger;
     }
 

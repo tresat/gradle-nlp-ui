@@ -8,13 +8,11 @@ import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.Severity;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.diagnostics.TaskReportTask;
-import org.gradle.work.DisableCachingByDefault;
 
 import javax.inject.Inject;
 import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
-@DisableCachingByDefault(because = "Not worth caching")
 public abstract class CustomTasksReportTask extends TaskReportTask {
     public static final String MCP_REPORTS_DIR = "mcp-reports";
     public static final String REPORTS_FILE = "custom-tasks-report.txt";
@@ -24,11 +22,6 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
 
     @Inject
     public CustomTasksReportTask(Problems problemsService) {
-        getOutputs().upToDateWhen(task -> {
-            // This task is never up-to-date
-            return false;
-        });
-
         setOutputFile(outputFile);
 
         doFirst(task -> {

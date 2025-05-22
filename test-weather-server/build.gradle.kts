@@ -1,7 +1,5 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.serialization)
-
+    `java-library`
     id("org.springframework.boot").version("3.1.0")
 }
 

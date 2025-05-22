@@ -6,15 +6,12 @@ plugins {
     `java-test-fixtures`
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    api(project(":test-weather-server"))
+    implementation(platform(libs.spring.ai.bom))
+    implementation(libs.spring.ai.starter.mcp.server)
 
-    api(platform(libs.spring.ai.bom))
-    api(libs.spring.ai.starter.mcp.server)
+    implementation(project(":client"))
+    implementation(project(":server"))
 
     implementation(libs.guava)
     implementation(libs.spring.web)
@@ -70,3 +67,5 @@ gradlePlugin {
         implementationClass = "org.gradle.ai.nlp.plugin.GradleNlpUiPlugin"
     }
 }
+
+description = "This project provides a Gradle plugin for NLP Gradle build introspection."

@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.plugin;
 
-import org.gradle.ai.nlp.plugin.service.MCPBuildService;
+import org.gradle.ai.nlp.plugin.service.MCPClientService;
+import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.ai.nlp.plugin.task.AskMCPTask;
 import org.gradle.ai.nlp.plugin.task.CustomTasksReportTask;
 import org.gradle.ai.nlp.plugin.task.StartMCPTask;
@@ -9,7 +10,8 @@ import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskProvider;
 
 public abstract class GradleNlpUiPlugin implements Plugin<Project> {
-    public static final String MCP_SERVICE_NAME = "mcp-server";
+    public static final String MCP_SERVER_SERVICE_NAME = "mcp-server";
+    public static final String MCP_CLIENT_SERVICE_NAME = "mcp-client";
 
     public static final String MCP_TASK_GROUP_NAME = "AI";
 
@@ -20,7 +22,8 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getGradle().getSharedServices().registerIfAbsent(MCP_SERVICE_NAME, MCPBuildService.class);
+        project.getGradle().getSharedServices().registerIfAbsent(MCP_SERVER_SERVICE_NAME, MCPServerService.class);
+        project.getGradle().getSharedServices().registerIfAbsent(MCP_CLIENT_SERVICE_NAME, MCPClientService.class);
 
         TaskProvider<CustomTasksReportTask> tasksReport = project.getTasks().register(CUSTOM_TASKS_REPORT_TASK_NAME, CustomTasksReportTask.class, task -> {
             task.setGroup(MCP_TASK_GROUP_NAME);
