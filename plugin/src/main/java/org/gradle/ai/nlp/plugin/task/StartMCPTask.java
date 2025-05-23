@@ -29,7 +29,6 @@ public abstract class StartMCPTask extends DefaultTask {
     @TaskAction
     public void startServer() {
         MCPServerService serverService = getMCPService().get();
-        serverService.setLogger(getLogger());
         serverService.startServer();
     }
 }

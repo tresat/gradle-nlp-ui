@@ -31,7 +31,6 @@ public abstract class AskMCPTask extends DefaultTask {
     @TaskAction
     public void ask() {
         MCPClientService clientService = getMCPClient().get();
-        clientService.setLogger(getLogger());
         clientService.query(getQuery().get());
     }
 }
