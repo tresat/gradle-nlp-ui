@@ -11,9 +11,9 @@ guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 mcp-sdk = { group = "io.modelcontextprotocol.sdk", name = "mcp", version.ref = "mcp" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }
-spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client", version.ref = "spring-ai-bom" }
-spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server", version.ref = "spring-ai-bom" }
-spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic", version.ref = "spring-ai-bom" }
+spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client" }
+spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server" }
+spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" }
 spring-web = { group = "org.springframework", name = "spring-web", version.ref = "spring-web" }
 
 [plugins]

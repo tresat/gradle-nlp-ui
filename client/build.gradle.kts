@@ -11,7 +11,6 @@ dependencies {
 
     implementation(libs.mcp.sdk)
     implementation(libs.spring.ai.starter.mcp.client)
-    implementation(libs.spring.ai.starter.model.anthropic)
     implementation(libs.spring.web)
 }
 
