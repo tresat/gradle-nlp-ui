@@ -10,8 +10,4 @@ public class MCPClient {
 //        logger.lifecycle(ANSWER_MSG_TEMPLATE, answer);
         return answer;
     }
-
-    public static void main(String[] args) {
-
-    }
 }

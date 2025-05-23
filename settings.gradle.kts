@@ -20,6 +20,10 @@ dependencyResolutionManagement {
     }
 }
 
+pluginManagement {
+    includeBuild("build-logic")
+}
+
 include("client")
 include("server")
 include("plugin")

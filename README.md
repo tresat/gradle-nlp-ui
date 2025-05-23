@@ -52,3 +52,18 @@ From `/test-build`, run `./gradlew startMCP`
    }
    ```
 3. Start Claude Desktop and see the `spring-ai-mcp-weather` server in "Search and Tools"
+
+
+# Troubleshooting
+
+If you get a message like:
+```
+> Task :mcpStartServer FAILED
+Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'anthropicApi' defined in class path resource [org/springframework/ai/model/anthropic/autoconfigure/AnthropicChatAutoConfiguration.class]: Failed to instantiate [org.springframework.ai.anthropic.api.AnthropicApi]: Factory method 'anthropicApi' threw exception with message: apiKey cannot be null
+Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'anthropicApi' defined in class path resource [org/springframework/ai/model/anthropic/autoconfigure/AnthropicChatAutoConfiguration.class]: Failed to instantiate [org.springframework.ai.anthropic.api.AnthropicApi]: Factory method 'anthropicApi' threw exception with message: apiKey cannot be null
+```
+
+Then you probably need to export your Anthropic API key to the environment variable `ANTHROPIC_API_KEY` (or set it in the `application.properties` file).
+
+**Don't commit your API key to the repository!**
