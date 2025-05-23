@@ -29,6 +29,7 @@ From `/test-build`, run `./gradlew startMCP`
    ```bash
    ./gradlew :test-weather-java-client:run
    ```
+   The client will automatically start up the server jar in STDIO connection mode.
 
 ## Testing the Test Weather Server with Claude Desktop
 1. Build the `test-weather-server` project:
