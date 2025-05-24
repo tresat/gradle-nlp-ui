@@ -1,11 +1,11 @@
-package org.gradle
+package org.gradle.ai.nlp.server
 
-import org.gradle.ai.nlp.server.McpServerApplication
+
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
-class Test4 extends Specification {
+class McpServerApplicationFunctionalTest extends Specification {
     private ConfigurableApplicationContext context
 
     def setup() {
@@ -18,7 +18,7 @@ class Test4 extends Specification {
         }
     }
 
-    def "manual server startup"() {
+    def "can start and ping server"() {
         when:
         def restTemplate = new RestTemplate()
         def url = "http://localhost:8080/actuator/health"
