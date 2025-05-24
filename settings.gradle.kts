@@ -1,5 +1,13 @@
 @file:Suppress("UnstableApiUsage")
 
+pluginManagement {
+    includeBuild("build-logic")
+}
+
+plugins {
+    id("com.gradle.develocity") version "3.17.5"
+}
+
 dependencyResolutionManagement {
     repositories {
         maven {
@@ -20,8 +28,11 @@ dependencyResolutionManagement {
     }
 }
 
-pluginManagement {
-    includeBuild("build-logic")
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+    }
 }
 
 include("client")

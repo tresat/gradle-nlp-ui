@@ -1,5 +1,6 @@
 [versions]
 guava = "33.4.8-jre"
+logback = "1.5.13"
 mcp = "0.10.0"
 spock = "2.3-groovy-4.0"
 spring-ai-bom = "1.0.0"
@@ -8,13 +9,18 @@ spring-web = "6.2.6"
 
 [libraries]
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 mcp-sdk = { group = "io.modelcontextprotocol.sdk", name = "mcp", version.ref = "mcp" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }
 spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client" }
 spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server" }
-spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" }
+spring-ai-starter-mcp-server-webmvc = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server-webmvc" }
+spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" } # Used by build-logic only
 spring-web = { group = "org.springframework", name = "spring-web", version.ref = "spring-web" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring-boot" }
+spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator", version.ref = "spring-boot" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

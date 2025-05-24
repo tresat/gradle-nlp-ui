@@ -9,9 +9,9 @@ public class MCPClient implements AutoCloseable{
     public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '%s'%n";
     public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server: '%s'%n";
 
-    public static final String SERVER_URL = "http://localhost:8080"; // Default for Spring Boot
+    public static final String SERVER_URL = "http://localhost:8080";
 
-    private McpSyncClient mcpClient;
+    private final McpSyncClient mcpClient;
 
     public MCPClient() {
         var sseTransport = HttpClientSseClientTransport.builder(SERVER_URL).build();
@@ -19,8 +19,12 @@ public class MCPClient implements AutoCloseable{
         mcpClient.initialize();
     }
 
+    public boolean isConnected() {
+        return mcpClient.isInitialized();
+    }
+
     public String query(String query) {
-        Preconditions.checkState(mcpClient != null && mcpClient.isInitialized(), "MCP Client not initialized");
+        Preconditions.checkState(isConnected(), "MCP Client not connected");
 
         String answer = "42"; // Simulated response from the MCP server
         return answer;
@@ -28,7 +32,7 @@ public class MCPClient implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        if (mcpClient != null) {
+        if (isConnected()) {
             mcpClient.closeGracefully();
         }
     }
