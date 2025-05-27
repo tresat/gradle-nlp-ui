@@ -5,6 +5,7 @@ import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.TempDir
 
+
 class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
     protected File projectDir

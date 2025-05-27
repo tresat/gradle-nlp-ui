@@ -4,8 +4,12 @@ import com.google.common.base.Preconditions;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MCPClient implements AutoCloseable{
+    private final Logger logger = LoggerFactory.getLogger(MCPClient.class);
+
     public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '%s'%n";
     public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server: '%s'%n";
 
@@ -29,12 +33,14 @@ public class MCPClient implements AutoCloseable{
     public String query(String query) {
         Preconditions.checkState(isConnected(), "MCP Client not connected");
 
+        logger.info(String.format(QUERYING_MSG_TEMPLATE, query));
         String answer = "42"; // Simulated response from the MCP server
+        logger.info(String.format(ANSWER_MSG_TEMPLATE, answer));
         return answer;
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (isConnected()) {
             mcpClient.closeGracefully();
         }

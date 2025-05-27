@@ -1,6 +1,5 @@
 [versions]
 guava = "33.4.8-jre"
-logback = "1.5.13"
 mcp = "0.10.0"
 spock = "2.3-groovy-4.0"
 spring-ai-bom = "1.0.0"
@@ -9,7 +8,6 @@ spring-web = "6.2.6"
 
 [libraries]
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 mcp-sdk = { group = "io.modelcontextprotocol.sdk", name = "mcp", version.ref = "mcp" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }

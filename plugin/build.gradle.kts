@@ -3,30 +3,14 @@
 plugins {
     `java-gradle-plugin`
     id("library-conventions")
+    id("test-conventions")
 }
 
 dependencies {
-    implementation(project(":client"))
-    implementation(project(":server"))
-
-    implementation(platform(libs.spring.ai.bom))
-    implementation(libs.spring.ai.starter.mcp.server.webmvc)
-
-    implementation(libs.guava)
-    implementation(libs.spring.web)
+    api(project(":client"))
+    api(project(":server"))
 
     testFixturesImplementation(gradleTestKit())
-    testFixturesImplementation(libs.spock.core)
-}
-
-testing {
-    suites {
-        named<JvmTestSuite>("functionalTest").configure {
-            dependencies {
-                implementation(testFixtures(project()))
-            }
-        }
-    }
 }
 
 gradlePlugin {
