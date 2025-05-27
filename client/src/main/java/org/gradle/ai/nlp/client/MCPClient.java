@@ -9,13 +9,16 @@ public class MCPClient implements AutoCloseable{
     public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '%s'%n";
     public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server: '%s'%n";
 
-    public static final String SERVER_URL = "http://localhost:8080";
+    public static final String SERVER_URL = "http://localhost:8080/sse"; // TODO: inject URL into constructor
 
     private final McpSyncClient mcpClient;
 
     public MCPClient() {
         var sseTransport = HttpClientSseClientTransport.builder(SERVER_URL).build();
         mcpClient = McpClient.sync(sseTransport).build();
+    }
+
+    public void connect() {
         mcpClient.initialize();
     }
 

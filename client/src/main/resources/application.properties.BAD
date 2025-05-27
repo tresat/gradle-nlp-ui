@@ -3,9 +3,10 @@ spring.main.web-application-type=none
 
 spring.main.banner-mode=console
 
-spring.ai.anthropic.api-key=${ANTHROPIC_API_KEY}
-
 spring.ai.mcp.client.name=build-mcp-client
 spring.ai.mcp.client.version=0.0.1
 
 spring.ai.mcp.client.type=sync
+
+# Allow use of the Anthropic model via id("anthropic-model-conventions")
+spring.ai.anthropic.api-key=${ANTHROPIC_API_KEY}

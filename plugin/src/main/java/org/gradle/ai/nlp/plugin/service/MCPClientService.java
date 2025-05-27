@@ -13,7 +13,7 @@ public abstract class MCPClientService implements BuildService<BuildServiceParam
 
     private final Logger logger = Logging.getLogger(MCPClientService.class);
 
-    private MCPClient client;
+    private MCPClient client = new MCPClient();;
 
     public boolean isConnected() {
         return client != null;
@@ -21,7 +21,7 @@ public abstract class MCPClientService implements BuildService<BuildServiceParam
 
     public void connect() {
         Preconditions.checkState(!isConnected(), "Already connected");
-        client = new MCPClient();
+        client.connect();
     }
 
     public String query(String query) {
