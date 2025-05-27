@@ -5,9 +5,6 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(libs.spring.ai.bom))
-
-    implementation(libs.mcp.sdk)
     implementation(libs.spring.ai.starter.mcp.server)
     implementation(libs.spring.web)
 }
@@ -27,4 +24,9 @@ testing {
     }
 }
 
-description = "This project showcases the Spring AI MCP Server Boot Starter capabilities with STDIO transport implementation."
+description = """This project showcases the Spring AI MCP Server Boot Starter capabilities with STDIO transport implementation.
+    
+Run the class in /test to see a sample Java CLI application that connects to the server
+and queries the forecastByLocation service, printing the results.
+The path to the server jar is hard-coded in the test client's source.
+""".trimMargin()

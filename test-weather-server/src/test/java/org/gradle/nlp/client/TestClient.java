@@ -14,7 +14,7 @@ import java.util.Map;
 public class TestClient {
     public static void main(String[] args) {
         var stdioParams = ServerParameters.builder("java")
-                .args("-jar", "/Users/ttresansky/Projects/ai/gradle-nlp-ui/test-weather-server/build/libs/test-weather-server.jar")
+                .args("-jar", "/Users/ttresansky/Projects/ai/gradle-nlp-ui/test-weather-server/build/libs/test-weather-server-0.1.0-SNAPSHOT.jar")
                 .build();
         var stdioTransport = new StdioClientTransport(stdioParams);
         var mcpClient = McpClient.sync(stdioTransport).build();

@@ -19,6 +19,7 @@ spring-ai-model = { group = "org.springframework.ai", name = "spring-ai-model" }
 spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client" }
 spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server" }
 spring-ai-starter-mcp-server-webmvc = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server-webmvc" }
+spring-ai-anthropic = { group = "org.springframework.ai", name = "spring-ai-anthropic" }
 spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring-boot" }

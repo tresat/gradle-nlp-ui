@@ -41,7 +41,5 @@ include("server")
 
 // Test projects
 include("test-weather-server")
-include("test-weather-java-client")
-include("test-java-spring-chat-client")
 
 rootProject.name = "gradle-nlp-ui"
