@@ -1,8 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    `java-library`
-    alias(libs.plugins.spring.boot)
+    id("spring-boot-conventions")
 }
 
 dependencies {
@@ -15,10 +14,11 @@ dependencies {
 
 testing {
     suites {
-        val test by getting(JvmTestSuite::class) {
+        named<JvmTestSuite>("test").configure {
             targets {
                 all {
                     testTask.configure {
+                        // Only manually-run tests here
                         failOnNoDiscoveredTests = false
                     }
                 }

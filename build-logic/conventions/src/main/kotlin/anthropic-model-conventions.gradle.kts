@@ -1,14 +1,19 @@
+import org.gradle.ai.nlp.build.task.CheckAnthropicApiKeyTask
+
+// Access the version catalog in the included project
+val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+
 plugins {
     id("library-conventions")
 }
 
 dependencies {
-    implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
+    implementation(platform(libs.findLibrary("spring.ai.starter.model.anthropic").get()))
 }
 
-tasks.register("checkAnthropicApiKey", org.gradle.ai.nlp.build.task.CheckAnthropicApiKeyTask::class) {
+tasks.register("checkAnthropicApiKey", CheckAnthropicApiKeyTask::class) {
     group = "Verification"
-    description = "Checks if ANTHROPIC_API_KEY is set as a project property or environment variable."
+    description = "Ensures ANTHROPIC_API_KEY is set as a project property or environment variable."
 }
 
 tasks.named("check") {

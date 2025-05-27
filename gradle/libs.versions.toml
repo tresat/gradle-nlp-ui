@@ -13,10 +13,13 @@ logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.
 mcp-sdk = { group = "io.modelcontextprotocol.sdk", name = "mcp", version.ref = "mcp" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }
+spring-ai-client-chat = { group = "org.springframework.ai", name = "spring-ai-client-chat" }
+spring-ai-autoconfigure-model-tool = { group = "org.springframework.ai", name = "spring-ai-autoconfigure-model-tool" }
+spring-ai-model = { group = "org.springframework.ai", name = "spring-ai-model" }
 spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client" }
 spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server" }
 spring-ai-starter-mcp-server-webmvc = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server-webmvc" }
-spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" } # Used by build-logic only
+spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring-boot" }
 spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator", version.ref = "spring-boot" }

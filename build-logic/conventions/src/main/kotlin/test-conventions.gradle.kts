@@ -9,6 +9,10 @@ plugins {
     `java-test-fixtures`
 }
 
+dependencies {
+    testFixturesImplementation(libs.findLibrary("spock.core").get())
+}
+
 testing {
     suites {
         withType<JvmTestSuite> {
@@ -19,6 +23,7 @@ testing {
         val functionalTest by registering(JvmTestSuite::class) {
             dependencies {
                 implementation(project())
+                implementation(testFixtures(project()))
                 implementation(libs.findLibrary("spring.boot.starter.test").get())
             }
 
