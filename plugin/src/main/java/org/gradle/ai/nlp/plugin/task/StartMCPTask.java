@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.plugin.task;
 
 import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin;
+import org.gradle.ai.nlp.server.McpServerApplication;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.ServiceReference;
@@ -8,6 +9,7 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.work.DisableCachingByDefault;
+import org.springframework.boot.SpringApplication;
 
 import java.io.File;
 
@@ -28,7 +30,11 @@ public abstract class StartMCPTask extends DefaultTask {
 
     @TaskAction
     public void startServer() {
-        MCPServerService serverService = getMCPService().get();
-        serverService.startServer();
+        new SpringApplication(McpServerApplication.class).run(
+                "--spring.config.location=classpath:/application.properties",
+                "--org.gradle.ai.nlp.server.tasks.report.file=" + getTasksReportFile().get().getAbsolutePath()
+        );
+//        MCPServerService serverService = getMCPService().get();
+//        serverService.startServer();
     }
 }
