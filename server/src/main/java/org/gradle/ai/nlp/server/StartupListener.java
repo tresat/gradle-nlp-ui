@@ -22,5 +22,8 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
         if (event.getApplicationContext().isRunning()) {
             System.out.println("MCP server is listening on: " + url);
         }
+
+        String pathToTasksReport = environment.getProperty("org.gradle.ai.nlp.server.tasks.report.file");
+        System.out.println("Path to tasks report: " + pathToTasksReport);
     }
 }

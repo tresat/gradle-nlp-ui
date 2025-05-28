@@ -33,5 +33,17 @@ dependencies {
     }
 }
 
+testing {
+    suites {
+        named<JvmTestSuite>("functionalTest").configure {
+            targets.all {
+                testTask.configure {
+                    dependsOn(project(":server").tasks.named("assemble"))
+                }
+            }
+        }
+    }
+}
+
 description = """This project provides an MCP client built with Spring AI.  This project is ignorant of Gradle, 
 and can be run externally to a build to connect to an MCP server."""

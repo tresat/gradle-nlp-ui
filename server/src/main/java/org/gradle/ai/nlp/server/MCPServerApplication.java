@@ -2,6 +2,7 @@ package org.gradle.ai.nlp.server;
 
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -28,7 +29,7 @@ public class MCPServerApplication {
     }
 
     @Bean
-    public ToolCallbackProvider tasksInfoTool() {
-        return MethodToolCallbackProvider.builder().toolObjects(new TasksInfoTool()).build();
+    public ToolCallbackProvider tasksInfo(TasksInfoTool tasksInfoTool) {
+        return MethodToolCallbackProvider.builder().toolObjects(tasksInfoTool).build();
     }
 }

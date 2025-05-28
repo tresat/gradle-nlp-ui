@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.client
 
 import org.gradle.ai.nlp.test.TestUtil
+import org.springframework.ai.chat.client.ChatClient
 import spock.lang.Specification
 
 import static java.nio.file.Files.exists
