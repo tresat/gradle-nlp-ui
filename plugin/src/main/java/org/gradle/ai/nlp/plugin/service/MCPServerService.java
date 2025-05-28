@@ -26,7 +26,10 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
     public void startServer() {
         Preconditions.checkState(!isStarted(), "MCP Server already started");
 
-        serverContext = MCPServerApplication.run(new String[]{ "--server.port=" + getParameters().getPort().get() });
+        serverContext = MCPServerApplication.run(
+                getParameters().getPort().get(),
+                getParameters().getTasksReportFile().getAsFile().get()
+        );
         logger.lifecycle(SERVER_STARTUP_MESSAGE);
     }
 

@@ -1,6 +1,7 @@
 plugins {
     id("library-conventions")
     id("test-conventions")
+    id("anthropic-model-conventions")
 }
 
 dependencies {

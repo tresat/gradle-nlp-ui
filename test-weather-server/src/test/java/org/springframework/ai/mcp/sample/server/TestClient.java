@@ -72,7 +72,6 @@ public class TestClient {
         mcpClient.closeGracefully();
     }
 
-
     /**
      * Print each string in the list on a new line, adding an extra newline after every fourth item.
      *

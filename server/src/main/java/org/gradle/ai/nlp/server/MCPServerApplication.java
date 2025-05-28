@@ -7,10 +7,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.io.File;
+
 @SpringBootApplication
 public class MCPServerApplication {
     public static void main(String[] args) {
         run(args);
+    }
+
+    public static ConfigurableApplicationContext run(int port, File tasksReportFile) {
+        var args = new String[]{
+                "--server.port=" + port,
+                "--org.gradle.ai.nlp.server.tasks.report.file=" + tasksReportFile.getAbsolutePath()
+        };
+        return SpringApplication.run(MCPServerApplication.class, args);
     }
 
     public static ConfigurableApplicationContext run(String[] args) {
