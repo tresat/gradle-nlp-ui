@@ -2,4 +2,10 @@ plugins {
     id("org.gradle.ai.nlp")
 }
 
-defaultTasks(org.gradle.ai.nlp.plugin.GradleNlpUiPlugin.START_MCP_SERVER_TASK_NAME)
+tasks.register("flyPlane") {
+    description = "A task that simulates flying a plane."
+}
+
+tasks.register("flyPig") {
+    description = "A task that simulates flying a pig."
+}

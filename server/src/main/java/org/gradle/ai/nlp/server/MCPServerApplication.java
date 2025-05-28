@@ -8,13 +8,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class McpServerApplication {
+public class MCPServerApplication {
     public static void main(String[] args) {
         run(args);
     }
 
     public static ConfigurableApplicationContext run(String[] args) {
-        return SpringApplication.run(McpServerApplication.class, args);
+        return SpringApplication.run(MCPServerApplication.class, args);
     }
 
     @Bean

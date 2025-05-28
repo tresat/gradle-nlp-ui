@@ -6,15 +6,15 @@ import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class McpClient implements AutoCloseable{
-    private final Logger logger = LoggerFactory.getLogger(McpClient.class);
+public class MCPClient implements AutoCloseable{
+    private final Logger logger = LoggerFactory.getLogger(MCPClient.class);
 
     public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '%s'%n";
     public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server: '%s'%n";
 
     private final McpSyncClient mcpClient;
 
-    public McpClient(String serverBaseUrl) {
+    public MCPClient(String serverBaseUrl) {
         var serverUrl = serverBaseUrl + "/sse";
         var sseTransport = HttpClientSseClientTransport.builder(serverUrl).build();
         mcpClient = io.modelcontextprotocol.client.McpClient.sync(sseTransport).build();

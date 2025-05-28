@@ -12,7 +12,7 @@ import static java.nio.file.Paths.get
  * These tests start the server via running the jar as an external process and connects to
  * it to exercise the client.
  */
-class McpClientFunctionalTest extends Specification {
+class MCPClientFunctionalTest extends Specification {
     private static final String PATH_TO_SERVER_JAR = "../server/build/libs/server-0.1.0-SNAPSHOT.jar"
 
     private static String baseUrl
@@ -46,7 +46,7 @@ class McpClientFunctionalTest extends Specification {
 
     def "client can connect to server"() {
         given:
-        McpClient client = new McpClient(baseUrl)
+        MCPClient client = new MCPClient(baseUrl)
 
         when:
         client.connect()
@@ -57,7 +57,7 @@ class McpClientFunctionalTest extends Specification {
 
     def "client can query server"() {
         given:
-        McpClient client = new McpClient(baseUrl)
+        MCPClient client = new MCPClient(baseUrl)
         client.connect()
 
         when:

@@ -15,12 +15,11 @@ class AskMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
 
     def "query can be asked"() {
         when:
-        def result = succeeds(GradleNlpUiPlugin.QUERY_MCP_SERVER_TASK_NAME, "--${AskMCPTask.QUERY_PARAM}=Hi?")
+        def query = "Hi?"
+        def result = succeeds(GradleNlpUiPlugin.QUERY_MCP_SERVER_TASK_NAME, "--${AskMCPTask.QUERY_PARAM_NAME}=$query")
 
         then:
-        result.output.contains("Tools available:")
-
-//        result.output.contains("Querying MCP Server: 'Hi?'")
-//        result.output.contains("Response from MCP Server: '42'")
+        result.output.contains(AskMCPTask.QUERY_LOG_MESSAGE_TEMPLATE.replace("{}", query))
+        result.output.contains(AskMCPTask.RESPONSE_LOG_MESSAGE_TEMPLATE.replace("{}", "42"))
     }
 }

@@ -23,6 +23,7 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
     @Inject
     public CustomTasksReportTask(Problems problemsService) {
         setOutputFile(outputFile);
+        setShowDetail(true);
 
         doFirst(task -> {
             try {
@@ -38,10 +39,8 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
                     }
                 }
             } catch (Exception e) {
-                ProblemId id = ProblemId.create("io-error", "IO Error", ProblemGroup.create("mcp-plugin", "mcp-plugin"));
-                throw problemsService.getReporter().throwing(e, id, spec -> {
-                    spec.severity(Severity.ERROR);
-                });
+                ProblemId id = ProblemId.create("report-file-io-error", "Error Creating Report File", ProblemGroup.create("mcp-plugin", "mcp-plugin"));
+                throw problemsService.getReporter().throwing(e, id, spec -> spec.severity(Severity.ERROR));
             }
         });
     }

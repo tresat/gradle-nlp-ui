@@ -16,7 +16,7 @@ import spock.lang.Specification
  * <strong>Be sure to run the `:server:bootJar` task to generate the server
  * jar prior to running these tests.</strong>
  */
-class McpServerApplicationFunctionalTest extends Specification {
+class MCPServerApplicationFunctionalTest extends Specification {
     private static String baseUrl
     private static ConfigurableApplicationContext context
 
@@ -24,7 +24,7 @@ class McpServerApplicationFunctionalTest extends Specification {
         def port = TestUtil.readPortFromProperties()
         baseUrl = "http://localhost:$port/"
 
-        context = McpServerApplication.run("--server.port=$port")
+        context = MCPServerApplication.run("--server.port=$port")
     }
 
     def cleanupSpec() {

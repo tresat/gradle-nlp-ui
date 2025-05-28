@@ -1,5 +1,7 @@
 plugins {
     id("spring-boot-conventions")
+
+    // You can remove this if you don't have an Anthropic API key
     id("anthropic-model-conventions")
 }
 

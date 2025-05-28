@@ -12,13 +12,15 @@ import org.gradle.work.DisableCachingByDefault;
 
 @DisableCachingByDefault
 public abstract class AskMCPTask extends DefaultTask {
-    public static final String QUERY_PARAM = "query";
+    public static final String QUERY_PARAM_NAME = "query";
+    public static final String QUERY_LOG_MESSAGE_TEMPLATE = "MCP Server Query: '{}'";
+    public static final String RESPONSE_LOG_MESSAGE_TEMPLATE = "MCP Server Response: '{}'";
 
     @ServiceReference(GradleNlpUiPlugin.MCP_CLIENT_SERVICE_NAME)
     abstract Property<MCPClientService> getMCPClient();
 
     @Input
-    @Option(option = QUERY_PARAM, description = "Question to ask the MCP Server")
+    @Option(option = QUERY_PARAM_NAME, description = "Question to ask the MCP Server")
     public abstract Property<String> getQuery();
 
     public AskMCPTask() {
@@ -29,11 +31,15 @@ public abstract class AskMCPTask extends DefaultTask {
     }
 
     @TaskAction
-    public void ask() throws Exception {
+    public void ask() {
         MCPClientService clientService = getMCPClient().get();
         clientService.connect();
-        clientService.query(getQuery().get());
-        getLogger().lifecycle("Query done, back to task.");
+
+        var query = getQuery().get();
+        getLogger().lifecycle(QUERY_LOG_MESSAGE_TEMPLATE, query);
+        var response = clientService.query(query);
+        getLogger().lifecycle(RESPONSE_LOG_MESSAGE_TEMPLATE, response);
+
         clientService.close();
     }
 }
