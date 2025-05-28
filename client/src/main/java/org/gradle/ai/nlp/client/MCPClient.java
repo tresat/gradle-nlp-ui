@@ -36,6 +36,7 @@ public class MCPClient implements AutoCloseable{
         logger.info(String.format(QUERYING_MSG_TEMPLATE, query));
         String answer = "42"; // Simulated response from the MCP server
         logger.info(String.format(ANSWER_MSG_TEMPLATE, answer));
+
         return answer;
     }
 
@@ -43,6 +44,7 @@ public class MCPClient implements AutoCloseable{
     public void close() {
         if (isConnected()) {
             mcpClient.closeGracefully();
+            logger.info("MCP Client closed gracefully.");
         }
     }
 }

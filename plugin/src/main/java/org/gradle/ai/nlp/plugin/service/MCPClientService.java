@@ -54,8 +54,10 @@ public abstract class MCPClientService implements BuildService<BuildServiceParam
 
     @Override
     public void close() throws Exception {
+        logger.info("Closing MCP Client Service...");
         if (isConnected()) {
-            mcpClient.closeGracefully();
+            mcpClient.close();
         }
+        logger.info("Closed the MCP Client Service.");
     }
 }

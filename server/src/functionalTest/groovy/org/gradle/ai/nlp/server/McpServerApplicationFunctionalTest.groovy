@@ -44,6 +44,6 @@ class McpServerApplicationFunctionalTest extends Specification {
         then:
         mcpClient.initialized
 
-        Thread.sleep(10000000)
+        mcpClient.closeGracefully()
     }
 }

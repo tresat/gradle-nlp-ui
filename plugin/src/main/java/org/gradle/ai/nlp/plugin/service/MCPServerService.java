@@ -2,22 +2,24 @@ package org.gradle.ai.nlp.plugin.service;
 
 import com.google.common.base.Preconditions;
 import org.gradle.ai.nlp.server.McpServerApplication;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import org.gradle.api.logging.Logger;
 
-import java.io.File;
+import javax.inject.Inject;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
 
-public abstract class MCPServerService implements BuildService<BuildServiceParameters.@NotNull None>, AutoCloseable {
+public abstract class MCPServerService implements BuildService<MCPServerService.Params>, AutoCloseable {
     public static final String PROPERTIES_MESSAGE = "Using properties file: {}";
     public static final String SERVER_STARTUP_MESSAGE = "Started MCP Server";
     public static final String SERVER_SHUTDOWN_MESSAGE = "Shutdown MCP Server";
@@ -33,27 +35,36 @@ public abstract class MCPServerService implements BuildService<BuildServiceParam
     public void startServer() {
         Preconditions.checkState(!isStarted(), "MCP Server already started");
 
-        verifyProperties();
+//        verifyGradleProperties();
+//        verifyProperties();
 
-        serverContext = new SpringApplication(McpServerApplication.class).run(
-                "--spring.config.location=classpath:/application.properties"
-        );
+        serverContext = McpServerApplication.run(new String[]{});
+//        serverContext = McpServerApplication.run(Arrays.asList(
+//                "--spring.config.location=classpath:/application.properties",
+//                "--logging.file.name=" + getParameters().getLogFile().getAsFile().get().getAbsolutePath(),
+//                "--org.gradle.ai.nlp.server.tasks.report.file=" + getParameters().getTasksReportFile().getAsFile().get().getAbsolutePath()
+//        ));
         logger.lifecycle(SERVER_STARTUP_MESSAGE);
     }
 
+    private void verifyGradleProperties() {
+        System.out.println("LOG FILE: " + getParameters().getLogFile().getAsFile().get().getAbsolutePath());
+        System.out.println("TASKS REPORT FILE: " + getParameters().getTasksReportFile().getAsFile().get().getAbsolutePath());
+    }
+
     private void verifyProperties() {
-        URI propertiesURI = null;
+        URI propertiesURI;
         try {
-            propertiesURI = MCPServerService.class.getClassLoader().getResource("application.properties")
-                    .toURI();
+            propertiesURI = MCPServerService.class.getClassLoader().getResource("application.properties").toURI();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+
         logger.lifecycle(PROPERTIES_MESSAGE, propertiesURI);
         try (InputStream in = MCPServerService.class.getClassLoader().getResourceAsStream("application.properties")) {
             if (in != null) {
                 String propertiesContent = new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-                logger.lifecycle("application.properties contents:\n{}", propertiesContent);
+                logger.lifecycle(propertiesContent);
             } else {
                 logger.lifecycle("application.properties not found in classpath");
             }
@@ -68,5 +79,10 @@ public abstract class MCPServerService implements BuildService<BuildServiceParam
             serverContext.close();
             logger.lifecycle(SERVER_SHUTDOWN_MESSAGE);
         }
+    }
+
+    interface Params extends BuildServiceParameters {
+        RegularFileProperty getTasksReportFile();
+        RegularFileProperty getLogFile();
     }
 }

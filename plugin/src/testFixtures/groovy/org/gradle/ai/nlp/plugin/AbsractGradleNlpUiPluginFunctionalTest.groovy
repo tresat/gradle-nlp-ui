@@ -28,6 +28,10 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
             plugins {
                 id 'org.gradle.ai.nlp'
             }
+            
+            mcpServer {
+                logFile = project.layout.buildDirectory.dir("log").map { d -> d.file("mcp-server.log") }
+            }
         """.stripIndent()
 
         settingsFile.text = """
@@ -58,6 +62,7 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
 --------
 ai - Queries the MCP server
 mcpStartServer - Starts the MCP server
+mcpStopServer - Stops the MCP server
 mcpTasksReport - Feeds the tasks report output to the MCP server"""
     }
 }

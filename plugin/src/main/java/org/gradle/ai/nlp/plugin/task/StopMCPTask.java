@@ -14,17 +14,11 @@ import org.gradle.work.DisableCachingByDefault;
 import java.io.File;
 
 @DisableCachingByDefault
-public abstract class StartMCPTask extends DefaultTask {
+public abstract class StopMCPTask extends DefaultTask {
     @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
     abstract Property<MCPServerService> getMCPService();
 
-    @InputFile
-    public abstract Property<File> getTasksReportFile();
-
-    @OutputFile
-    public abstract RegularFileProperty getLogFile();
-
-    public StartMCPTask() {
+    public StopMCPTask() {
         getOutputs().upToDateWhen(task -> {
             // This task is never up-to-date
             return false;
@@ -32,8 +26,10 @@ public abstract class StartMCPTask extends DefaultTask {
     }
 
     @TaskAction
-    public void startServer() {
+    public void stopServer() {
+        getLogger().lifecycle("Stopping MCP server in task...");
         MCPServerService serverService = getMCPService().get();
-        serverService.startServer();
+        serverService.close();
+        getLogger().lifecycle("Stopped MCP server in task.");
     }
 }
