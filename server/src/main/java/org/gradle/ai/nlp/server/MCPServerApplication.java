@@ -20,7 +20,7 @@ public class MCPServerApplication {
                 "--server.port=" + port,
                 "--org.gradle.ai.nlp.server.tasks.report.file=" + tasksReportFile.getAbsolutePath()
         };
-        return SpringApplication.run(MCPServerApplication.class, args);
+        return run(args);
     }
 
     public static ConfigurableApplicationContext run(String[] args) {

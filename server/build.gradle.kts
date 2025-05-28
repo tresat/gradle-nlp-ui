@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     api(libs.spring.ai.starter.mcp.server.webmvc)
-
     api(libs.spring.web)
     api(libs.spring.boot.starter.actuator)
 }

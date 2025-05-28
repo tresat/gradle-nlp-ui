@@ -8,9 +8,9 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(libs.findLibrary("spring.ai.anthropic").get()))
+//    implementation(platform(libs.findLibrary("spring.ai.anthropic").get()))
     implementation(platform(libs.findLibrary("spring.ai.starter.model.anthropic").get()))
-    implementation(platform(libs.findLibrary("spring.ai.autoconfigure.model.tool").get()))
+//    implementation(platform(libs.findLibrary("spring.ai.autoconfigure.model.tool").get()))
 }
 
 tasks.register("checkAnthropicApiKey", CheckAnthropicApiKeyTask::class) {

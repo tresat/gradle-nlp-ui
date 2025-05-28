@@ -26,3 +26,5 @@
 #######################
 test-project/
 spring-ai-examples/
+
+api-keys.properties
