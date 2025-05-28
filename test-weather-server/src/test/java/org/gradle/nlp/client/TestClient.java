@@ -11,10 +11,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static java.nio.file.Files.*;
+import static java.nio.file.Paths.*;
+
+/**
+ * A simple client that demonstrates interacting with the Model Context Protocol (MCP) server.
+ *
+ * This client connects to a weather server and retrieves weather forecasts and alerts.
+ *
+ * <strong>Be sure to run the `bootJar` task to generate the server jar prior to running this test.</strong>
+ */
 public class TestClient {
     public static void main(String[] args) {
+        var bootJarPath = "test-weather-server/build/libs/test-weather-server-0.1.0-SNAPSHOT.jar";
+        if (!exists(get(bootJarPath))) {
+            System.err.println("Please run the `bootJar` task first to generate the boot JAR.");
+            System.exit(1);
+        }
+
         var stdioParams = ServerParameters.builder("java")
-                .args("-jar", "/Users/ttresansky/Projects/ai/gradle-nlp-ui/test-weather-server/build/libs/test-weather-server-0.1.0-SNAPSHOT.jar")
+                .args("-jar", bootJarPath)
                 .build();
         var stdioTransport = new StdioClientTransport(stdioParams);
         var mcpClient = McpClient.sync(stdioTransport).build();
