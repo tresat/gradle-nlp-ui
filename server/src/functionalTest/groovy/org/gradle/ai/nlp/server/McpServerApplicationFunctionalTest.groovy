@@ -2,21 +2,33 @@ package org.gradle.ai.nlp.server
 
 import io.modelcontextprotocol.client.McpClient
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport
+import org.gradle.ai.nlp.test.TestUtil
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
+/**
+ * Functional tests for the MCP server application.
+ * <p>
+ * These tests start the server via running it on the test classpath and verifies that
+ * it can respond to health checks and SSE connections via a simple client defined in the tests.
+ * <p>
+ * <strong>Be sure to run the `:server:bootJar` task to generate the server
+ * jar prior to running these tests.</strong>
+ */
 class McpServerApplicationFunctionalTest extends Specification {
-    private static final String BASE_URL = "http://localhost:8080/" // TODO: make port configurable
-
+    private static String baseUrl
     private static ConfigurableApplicationContext context
 
     def setupSpec() {
-        context = McpServerApplication.run()
+        def port = TestUtil.readPortFromProperties()
+        baseUrl = "http://localhost:$port/"
+
+        context = McpServerApplication.run("--server.port=$port")
     }
 
     def cleanupSpec() {
-        if (context != null && context.isActive()) {
+        if (context && context.isActive()) {
             context.close()
         }
     }
@@ -24,7 +36,7 @@ class McpServerApplicationFunctionalTest extends Specification {
     def "can start server and ping server health"() {
         when:
         def restTemplate = new RestTemplate()
-        def url = "$BASE_URL/actuator/health"
+        def url = "$baseUrl/actuator/health"
         def response = restTemplate.getForEntity(url, String)
 
         then:
@@ -32,9 +44,10 @@ class McpServerApplicationFunctionalTest extends Specification {
         response.body != null
     }
 
-    def "can start server and connect via SSE client"() {
+    def "can start server and connect via an SSE client"() {
         given:
-        def url = "$BASE_URL/sse" // TODO: grab SSE from props
+        def endpoint = context.environment.getProperty("spring.ai.mcp.server.sse-endpoint")
+        def url = "$baseUrl/$endpoint"
         def sseTransport = HttpClientSseClientTransport.builder(url).build()
         def mcpClient = McpClient.sync(sseTransport).build()
 
@@ -44,6 +57,7 @@ class McpServerApplicationFunctionalTest extends Specification {
         then:
         mcpClient.initialized
 
+        cleanup:
         mcpClient.closeGracefully()
     }
 }

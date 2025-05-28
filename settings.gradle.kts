@@ -38,6 +38,7 @@ develocity {
 include("client")
 include("server")
 include("plugin")
+include("test-util")
 
 // Test projects
 include("test-weather-server")

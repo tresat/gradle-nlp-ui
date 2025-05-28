@@ -1,10 +1,10 @@
 package org.gradle.ai.nlp.plugin
 
+import org.gradle.ai.nlp.test.TestUtil
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.TempDir
-
 
 class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
@@ -20,6 +20,12 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
 
     protected File getSettingsFile() {
         return new File(projectDir, 'settings.gradle')
+    }
+
+    private static int port
+
+    def setupSpec() {
+        port = TestUtil.readPortFromProperties()
     }
 
     def setup() {

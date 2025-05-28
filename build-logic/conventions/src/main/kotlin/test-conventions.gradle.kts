@@ -11,6 +11,10 @@ plugins {
 
 dependencies {
     testFixturesImplementation(libs.findLibrary("spock.core").get())
+
+    if (project.name != "test-util") {
+        testFixturesImplementation(project(":test-util"))
+    }
 }
 
 testing {
@@ -25,6 +29,10 @@ testing {
                 implementation(project())
                 implementation(testFixtures(project()))
                 implementation(libs.findLibrary("spring.boot.starter.test").get())
+
+                if (project.name != "test-util") {
+                    implementation(project(":test-util"))
+                }
             }
 
             targets {

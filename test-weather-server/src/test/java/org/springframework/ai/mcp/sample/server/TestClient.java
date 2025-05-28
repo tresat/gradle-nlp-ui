@@ -1,4 +1,4 @@
-package org.gradle.nlp.client;
+package org.springframework.ai.mcp.sample.server;
 
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.transport.ServerParameters;
@@ -16,16 +16,17 @@ import static java.nio.file.Paths.*;
 
 /**
  * A simple client that demonstrates interacting with the Model Context Protocol (MCP) server.
- *
+ * <p>
  * This client connects to a weather server and retrieves weather forecasts and alerts.
- *
- * <strong>Be sure to run the `bootJar` task to generate the server jar prior to running this test.</strong>
+ * <p>
+ * <strong>Be sure to run the `:test-weather-server:bootJar` task to generate the server
+ * jar prior to running this test.</strong>
  */
 public class TestClient {
     public static void main(String[] args) {
         var bootJarPath = "test-weather-server/build/libs/test-weather-server-0.1.0-SNAPSHOT.jar";
         if (!exists(get(bootJarPath))) {
-            System.err.println("Please run the `bootJar` task first to generate the boot JAR.");
+            System.err.println("Please run the `:test-weather-server:bootJar` task first to generate the boot JAR.");
             System.exit(1);
         }
 

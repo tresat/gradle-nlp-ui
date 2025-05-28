@@ -10,4 +10,5 @@ dependencies {
     api(libs.spring.boot.starter.actuator)
 }
 
-description = "This project provides an MCP server built with Spring AI that can be used for NLP Gradle build introspection."
+description = """This project provides an MCP server built with Spring AI that can be used for NLP Gradle build introspection." +
+This server is ignorant of Gradle, so it can be run externally to a build for testing purposes."""
