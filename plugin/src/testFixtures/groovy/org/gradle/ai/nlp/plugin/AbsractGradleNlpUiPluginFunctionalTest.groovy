@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.plugin
 
 import org.gradle.ai.nlp.test.TestUtil
+import org.gradle.ai.nlp.util.Util
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
@@ -37,6 +38,7 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
             
             mcpServer {
                 logFile = project.layout.buildDirectory.dir("log").map { d -> d.file("mcp-server.log") }
+                anthropicApiKey = "${Util.readAnthropicApiKeyFromProperties()}"
             }
         """.stripIndent()
 

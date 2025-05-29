@@ -6,4 +6,5 @@ import org.gradle.api.file.RegularFileProperty;
 public interface MCPServerExtension {
     Property<Integer> getPort();
     RegularFileProperty getLogFile();
+    Property<String> getAnthropicApiKey();
 }

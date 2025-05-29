@@ -30,6 +30,7 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
 
     public void connect() {
         Preconditions.checkState(!isConnected(), "Already connected!");
+        getParameters().getAnthropicApiKey(); // Calling get will throw an exception if the API key is not set
         mcpClient.connect();
         logger.info(CLIENT_STARTUP_MESSAGE);
     }
@@ -54,5 +55,6 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
 
     public interface Params extends BuildServiceParameters {
         Property<Integer> getPort();
+        Property<String> getAnthropicApiKey();
     }
 }

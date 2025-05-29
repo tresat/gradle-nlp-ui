@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.client
 
 import org.gradle.ai.nlp.test.TestUtil
+import org.gradle.ai.nlp.util.Util
 import org.springframework.ai.chat.client.ChatClient
 import spock.lang.Specification
 
@@ -47,7 +48,8 @@ class SpringMCPClientFunctionalTest extends Specification {
 
     def "client can connect to server"() {
         given:
-        def context = SpringMCPClient.run()
+        String anthropicApiKey = Util.readAnthropicApiKeyFromProperties()
+        def context = SpringMCPClient.run(anthropicApiKey)
 
         expect:
         context.isActive()
@@ -58,7 +60,8 @@ class SpringMCPClientFunctionalTest extends Specification {
 
     def "client can query server"() {
         given:
-        def context = SpringMCPClient.run()
+        String anthropicApiKey = Util.readAnthropicApiKeyFromProperties()
+        def context = SpringMCPClient.run(anthropicApiKey)
 
         when:
         ChatClient chatClient = context.getBean(ChatClient.class)

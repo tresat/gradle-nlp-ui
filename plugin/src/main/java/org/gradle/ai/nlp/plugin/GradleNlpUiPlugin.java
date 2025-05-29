@@ -76,6 +76,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
         //noinspection CodeBlock2Expr
         project.getGradle().getSharedServices().registerIfAbsent(MCP_CLIENT_SERVICE_NAME, MCPClientService.class, spec -> {
             spec.getParameters().getPort().set(extension.getPort());
+            spec.getParameters().getAnthropicApiKey().set(extension.getAnthropicApiKey());
         });
     }
 }

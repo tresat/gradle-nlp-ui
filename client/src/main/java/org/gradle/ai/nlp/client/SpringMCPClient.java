@@ -12,29 +12,30 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
+
+import static org.gradle.ai.nlp.util.Util.ANTHROPIC_API_KEY_PROPERTY;
 
 @SpringBootApplication
 public class SpringMCPClient {
-    public static final String API_KEYS_FILE = "api-keys.properties";
-    public static final String ANTHROPIC_API_KEY_PROPERTY = "spring.ai.anthropic.api-key";
-
     private static final Logger logger = LoggerFactory.getLogger(SpringMCPClient.class);
 
-    public static ConfigurableApplicationContext run() {
-        return run(new String[]{});
+    public static ConfigurableApplicationContext run(String anthropicApiKey) {
+        String[] args = new String[]{
+                "--spring.config.name=application-client",
+                "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
+        };
+        return SpringApplication.run(SpringMCPClient.class, args);
     }
 
-    public static ConfigurableApplicationContext run(String[] args) {
-        var anthropicApiKey = readAnthropicApiKeyFromProperties();
-        String[] updatedArgs = addAnthropicKeyToArgs(args, anthropicApiKey);
-        updatedArgs = addApplicationClientPropertiesArg(updatedArgs);
-
-        return SpringApplication.run(SpringMCPClient.class, updatedArgs);
-    }
+//    public static ConfigurableApplicationContext run(String[] args) {
+//        var anthropicApiKey = readAnthropicApiKeyFromProperties();
+//        String[] updatedArgs = addAnthropicKeyToArgs(args, anthropicApiKey);
+//        updatedArgs = addApplicationClientPropertiesArg(updatedArgs);
+//
+//        return SpringApplication.run(SpringMCPClient.class, updatedArgs);
+//    }
 
     private static String[] addAnthropicKeyToArgs(String[] args, String anthropicApiKey) {
         logger.info("ANTHROPIC_API_KEY: {}", anthropicApiKey);
@@ -50,25 +51,6 @@ public class SpringMCPClient {
         System.arraycopy(args, 0, updatedArgs, 0, args.length);
         updatedArgs[args.length] = "--spring.config.name=application-client";
         return updatedArgs;
-    }
-
-    // TODO: Get the API key from environment variable?  Additional properties profile?
-    public static String readAnthropicApiKeyFromProperties() {
-        Properties apiKeysProperties = new Properties();
-        try (var propStream = SpringMCPClient.class.getClassLoader().getResourceAsStream(API_KEYS_FILE)) {
-            if (propStream == null) {
-                throw new IllegalStateException(String.format("Properties file '%s' not found in classpath!", API_KEYS_FILE));
-            }
-            apiKeysProperties.load(propStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (!apiKeysProperties.containsKey(ANTHROPIC_API_KEY_PROPERTY)) {
-            throw new IllegalStateException(String.format("Property '%s' not found in '%s'!", ANTHROPIC_API_KEY_PROPERTY, API_KEYS_FILE));
-        }
-
-        return (String) apiKeysProperties.get(ANTHROPIC_API_KEY_PROPERTY);
     }
 
     @Bean
