@@ -38,7 +38,6 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
             
             mcpServer {
                 port = $port
-                logFile = project.layout.buildDirectory.dir("log").map { d -> d.file("mcp-server.log") }
                 anthropicApiKey = "${Util.readAnthropicApiKeyFromProperties()}"
             }
         """.stripIndent()

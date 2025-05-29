@@ -72,7 +72,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
     private void registerServices(Project project, MCPServerExtension extension) {
         project.getGradle().getSharedServices().registerIfAbsent(MCP_SERVER_SERVICE_NAME, MCPServerService.class, spec -> {
             spec.getParameters().getPort().set(extension.getPort());
-            spec.getParameters().getLogFile().set(project.getLayout().getBuildDirectory().file(MCP_SERVER_LOG_DIR + "/" + MCP_SERVER_LOG_FILE_NAME));
+            spec.getParameters().getLogFile().set(extension.getLogFile());
             spec.getParameters().getTasksReportFile().set(project.getLayout().getBuildDirectory().file(CustomTasksReportTask.MCP_REPORTS_DIR + "/" + CustomTasksReportTask.REPORTS_FILE));
             spec.getParameters().getAnthropicApiKey().set(extension.getAnthropicApiKey());
         });

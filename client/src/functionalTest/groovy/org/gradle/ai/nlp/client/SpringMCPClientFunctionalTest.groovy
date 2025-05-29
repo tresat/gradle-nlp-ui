@@ -20,7 +20,6 @@ class SpringMCPClientFunctionalTest extends AbstractServerRunningFunctionalTest 
         context.close()
     }
 
-
     def "client can query server"() {
         given:
         def context = startClient()

@@ -42,5 +42,13 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
         } else {
             throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
         }
+
+        String pathToLogFile = environment.getProperty("logging.file.name");
+        if (pathToLogFile == null || pathToLogFile.isEmpty()) {
+            throw new IllegalStateException("Property 'logging.file.name' is not set.");
+        }
+
+        File logFile = new File(pathToLogFile);
+        System.out.println("Path to log file: " + logFile.getAbsolutePath());
     }
 }
