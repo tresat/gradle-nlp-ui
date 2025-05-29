@@ -39,6 +39,7 @@ public class SpringMCPClient {
     public static ConfigurableApplicationContext run(String anthropicApiKey, List<String> mcpServerUrls) {
         String[] args = new String[]{
                 "--" + CONFIG_NAME_PROPERTY + "=application-client",
+                "--spring.config.location=", // This is to ensure that the application does not read from the default application.properties used by the server
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
         };
         String[] argsWithServers = addServersToArgs(args, mcpServerUrls);
@@ -50,7 +51,9 @@ public class SpringMCPClient {
         System.arraycopy(args, 0, result, 0, args.length);
 
         for (int i = 0; i < mcpServerUrls.size(); i++) {
-            result[args.length + i] = "--spring.ai.mcp.client.sse.connections.server" + (i + 1) + ".url=" + mcpServerUrls.get(i);
+            String newServer = "--spring.ai.mcp.client.sse.connections.server" + i + ".url=" + mcpServerUrls.get(i);
+            result[args.length + i] = newServer;
+            System.out.println("Adding MCP server URL to client properties: " + newServer);
         }
 
         return result;

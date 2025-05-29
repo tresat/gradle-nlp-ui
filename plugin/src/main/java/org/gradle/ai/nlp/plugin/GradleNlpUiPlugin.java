@@ -81,7 +81,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
         project.getGradle().getSharedServices().registerIfAbsent(MCP_CLIENT_SERVICE_NAME, MCPClientService.class, spec -> {
             spec.getParameters().getPort().set(extension.getPort());
             spec.getParameters().getAnthropicApiKey().set(extension.getAnthropicApiKey());
-            spec.getParameters().getServerUrls().add(extension.getPort().map(port -> "http://localhost:$port"));
+            spec.getParameters().getServerUrls().add(extension.getPort().map(port -> "http://localhost:" + port));
         });
     }
 }

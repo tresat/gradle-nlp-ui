@@ -10,7 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class MCPClientService implements BuildService<MCPClientService.@NotNull Params>, AutoCloseable {
+import java.io.Closeable;
+
+public abstract class MCPClientService implements BuildService<MCPClientService.@NotNull Params>, Closeable {
     public static final String CLIENT_STARTUP_MESSAGE = "Started MCP Client";
     public static final String CLIENT_SHUTDOWN_MESSAGE = "Shutdown MCP Client";
 

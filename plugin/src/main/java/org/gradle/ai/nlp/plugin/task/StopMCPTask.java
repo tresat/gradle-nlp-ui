@@ -23,6 +23,8 @@ public abstract class StopMCPTask extends DefaultTask {
     @TaskAction
     public void stopServer() {
         MCPServerService serverService = getMCPService().get();
-        serverService.close();
+        if (!serverService.isStarted()) {
+            serverService.close();
+        }
     }
 }

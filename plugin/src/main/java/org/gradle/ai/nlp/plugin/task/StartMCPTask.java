@@ -32,8 +32,10 @@ public abstract class StartMCPTask extends DefaultTask {
     }
 
     @TaskAction
-    public void startServer() {
+    public void startServer() throws InterruptedException {
         MCPServerService serverService = getMCPService().get();
         serverService.startServer();
+
+        Thread.sleep(5000);
     }
 }

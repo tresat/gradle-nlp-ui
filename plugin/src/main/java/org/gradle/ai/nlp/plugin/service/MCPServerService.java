@@ -11,7 +11,9 @@ import org.gradle.api.services.BuildServiceParameters;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public abstract class MCPServerService implements BuildService<MCPServerService.@NotNull Params>, AutoCloseable {
+import java.io.Closeable;
+
+public abstract class MCPServerService implements BuildService<MCPServerService.@NotNull Params>, Closeable {
     public static final String SERVER_STARTUP_MESSAGE = "Started MCP Server";
     public static final String SERVER_SHUTDOWN_MESSAGE = "Shutdown MCP Server";
 

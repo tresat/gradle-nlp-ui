@@ -26,6 +26,11 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
             System.out.println("MCP server is listening on: " + url);
         }
 
+        String propertyValue = environment.getProperty("spring.ai.mcp.client.enabled");
+        if (propertyValue != null) {
+            throw new IllegalStateException("MCP Server is reading client properties!");
+        }
+
         String pathToTasksReport = environment.getProperty("org.gradle.ai.nlp.server.tasks.report.file");
         if (pathToTasksReport == null || pathToTasksReport.isEmpty()) {
             throw new IllegalStateException("Property 'org.gradle.ai.nlp.server.tasks.report.file' is not set.");
