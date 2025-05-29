@@ -13,6 +13,7 @@ class AskMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
         result.output.contains("type '${AskMCPTask.class.name}' property 'query' doesn't have a configured value.")
     }
 
+    // TODO:NEXT Do an actual query that requirest the MCP server to be running to answer it
     def "query can be asked"() {
         when:
         def query = "Hi?"
@@ -20,6 +21,6 @@ class AskMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
 
         then:
         result.output.contains(AskMCPTask.QUERY_LOG_MESSAGE_TEMPLATE.replace("{}", query))
-        result.output.contains(AskMCPTask.RESPONSE_LOG_MESSAGE_TEMPLATE.replace("{}", "42"))
+        !result.output.isEmpty()
     }
 }

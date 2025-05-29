@@ -36,6 +36,6 @@ public abstract class StartMCPTask extends DefaultTask {
         MCPServerService serverService = getMCPService().get();
         serverService.startServer();
 
-        Thread.sleep(5000);
+        Thread.sleep(2000); // TODO: Wait for the server to start before proceeding - is this necessary?
     }
 }

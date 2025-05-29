@@ -11,7 +11,9 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
@@ -61,7 +63,9 @@ public class SpringMCPClient {
 
     private static ConfigurableApplicationContext run(String[] args) {
         verifyArgs(args);
-        return SpringApplication.run(SpringMCPClient.class, args);
+        return new SpringApplicationBuilder(SpringMCPClient.class)
+                .web(WebApplicationType.NONE)
+                .run(args);
     }
 
     @VisibleForTesting

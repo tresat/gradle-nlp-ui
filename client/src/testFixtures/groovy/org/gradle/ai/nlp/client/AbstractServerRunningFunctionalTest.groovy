@@ -35,13 +35,13 @@ abstract class AbstractServerRunningFunctionalTest extends Specification {
         serverProcess = process
 
         // TODO: find a better way to wait for the server to start
-        Thread.sleep(5000)
+        Thread.sleep(2000)
     }
 
     def cleanupSpec() {
         if (serverProcess) {
             serverProcess.destroy()
-            serverProcess.waitForOrKill(5000)
+            serverProcess.waitForOrKill(2000)
             serverProcess = null
         }
     }
