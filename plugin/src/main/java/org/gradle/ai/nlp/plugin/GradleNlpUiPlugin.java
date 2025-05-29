@@ -79,7 +79,6 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
 
         //noinspection CodeBlock2Expr
         project.getGradle().getSharedServices().registerIfAbsent(MCP_CLIENT_SERVICE_NAME, MCPClientService.class, spec -> {
-            spec.getParameters().getPort().set(extension.getPort());
             spec.getParameters().getAnthropicApiKey().set(extension.getAnthropicApiKey());
 
             // TODO:NEXT: Wire client to server URLs - Why does the Client fail to start as a service if the server is also running as a service?

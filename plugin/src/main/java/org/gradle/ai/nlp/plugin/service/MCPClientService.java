@@ -53,7 +53,6 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     }
 
     public interface Params extends BuildServiceParameters {
-        Property<Integer> getPort();
         Property<String> getAnthropicApiKey();
         ListProperty<String> getServerUrls();
     }
