@@ -19,7 +19,7 @@ class GradleNlpUiPluginTest extends Specification {
         Task startServerTask = project.tasks.named(GradleNlpUiPlugin.START_MCP_SERVER_TASK_NAME).get()
         startServerTask.group == GradleNlpUiPlugin.MCP_TASK_GROUP_NAME
 
-        Task queryServerTask = project.tasks.named(GradleNlpUiPlugin.QUERY_MCP_SERVER_TASK_NAME).get()
+        Task queryServerTask = project.tasks.named(GradleNlpUiPlugin.QUERY_MCP_QUERY_TASK_NAME).get()
         queryServerTask.group == GradleNlpUiPlugin.MCP_TASK_GROUP_NAME
     }
 }

@@ -6,6 +6,7 @@ import org.gradle.ai.nlp.plugin.task.AskMCPTask;
 import org.gradle.ai.nlp.plugin.task.CustomTasksReportTask;
 import org.gradle.ai.nlp.plugin.task.StartMCPTask;
 import org.gradle.ai.nlp.plugin.task.StopMCPTask;
+import org.gradle.ai.nlp.util.Util;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskProvider;
@@ -26,13 +27,15 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
     public static final String  START_MCP_SERVER_TASK_NAME = "mcpStartServer";
     public static final String  STOP_MCP_SERVER_TASK_NAME = "mcpStopServer";
 
-    public static final String QUERY_MCP_SERVER_TASK_NAME = "ai";
+    public static final String QUERY_MCP_QUERY_TASK_NAME = "ai";
 
     @Override
     public void apply(Project project) {
         MCPServerExtension extension = project.getExtensions().create("mcpServer", MCPServerExtension.class);
         extension.getPort().convention(MCP_SERVER_DEFAULT_PORT);
         extension.getLogFile().convention(project.getLayout().getBuildDirectory().dir(MCP_SERVER_LOG_DIR).map(d -> d.file(MCP_SERVER_LOG_FILE_NAME)));
+        extension.getAnthropicApiKey().convention(project.getProviders().environmentVariable("ANTHROPIC_API_KEY")
+                .orElse(project.provider(Util::readAnthropicApiKeyFromProperties)));
 
         registerServices(project, extension);
         registerTasks(project, extension);
@@ -57,7 +60,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
             task.setDescription("Stops the MCP server");
         });
 
-        project.getTasks().register(QUERY_MCP_SERVER_TASK_NAME, AskMCPTask.class, task -> {
+        project.getTasks().register(QUERY_MCP_QUERY_TASK_NAME, AskMCPTask.class, task -> {
             task.setGroup(MCP_TASK_GROUP_NAME);
             task.setDescription("Queries the MCP server");
 
@@ -71,6 +74,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
             spec.getParameters().getPort().set(extension.getPort());
             spec.getParameters().getLogFile().set(project.getLayout().getBuildDirectory().file(MCP_SERVER_LOG_DIR + "/" + MCP_SERVER_LOG_FILE_NAME));
             spec.getParameters().getTasksReportFile().set(project.getLayout().getBuildDirectory().file(CustomTasksReportTask.MCP_REPORTS_DIR + "/" + CustomTasksReportTask.REPORTS_FILE));
+            spec.getParameters().getAnthropicApiKey().set(extension.getAnthropicApiKey());
         });
 
         //noinspection CodeBlock2Expr

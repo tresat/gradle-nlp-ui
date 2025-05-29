@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+
 public class MCPClient implements AutoCloseable {
     private final Logger logger = LoggerFactory.getLogger(MCPClient.class);
 
@@ -16,9 +20,13 @@ public class MCPClient implements AutoCloseable {
     private ConfigurableApplicationContext clientContext;
 
     public void connect() {
+        connect(Collections.emptyList());
+    }
+
+    public void connect(List<URL> mcpServerUrls) {
         Preconditions.checkState(!isConnected(), "Client is already connected");
         String anthropicApiKey = Util.readAnthropicApiKeyFromProperties();
-        clientContext = SpringMCPClient.run(anthropicApiKey);
+        clientContext = SpringMCPClient.run(anthropicApiKey, mcpServerUrls);
     }
 
     public boolean isConnected() {

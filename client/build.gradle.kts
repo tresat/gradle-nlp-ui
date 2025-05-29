@@ -33,6 +33,8 @@ dependencies {
          */
         because("This is a workaround for the issue with Netty DNS resolution on macOS ARM64.")
     }
+
+    testFixturesImplementation(testFixtures(project(":shared")))
 }
 
 testing {

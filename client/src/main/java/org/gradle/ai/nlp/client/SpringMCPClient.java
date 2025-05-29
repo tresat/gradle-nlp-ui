@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,11 +33,27 @@ public class SpringMCPClient {
     }
 
     public static ConfigurableApplicationContext run(String anthropicApiKey) {
+        return run(anthropicApiKey, Collections.emptyList());
+    }
+
+    public static ConfigurableApplicationContext run(String anthropicApiKey, List<URL> mcpServerUrls) {
         String[] args = new String[]{
                 "--" + CONFIG_NAME_PROPERTY + "=application-client",
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
         };
-        return run(args);
+        String[] argsWithServers = addServersToArgs(args, mcpServerUrls);
+        return run(argsWithServers);
+    }
+
+    private static String[] addServersToArgs(String[] args, List<URL> mcpServerUrls) {
+        String[] result = new String[args.length + mcpServerUrls.size()];
+        System.arraycopy(args, 0, result, 0, args.length);
+
+        for (int i = 0; i < mcpServerUrls.size(); i++) {
+            result[args.length + i] = "--spring.ai.mcp.client.sse.connections.server" + (i + 1) + ".url=" + mcpServerUrls.get(i).toString();
+        }
+
+        return result;
     }
 
     private static ConfigurableApplicationContext run(String[] args) {

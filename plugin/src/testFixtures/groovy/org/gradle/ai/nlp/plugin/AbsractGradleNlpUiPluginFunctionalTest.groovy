@@ -7,7 +7,7 @@ import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.TempDir
 
-class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
+abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
     protected File projectDir
 
@@ -37,6 +37,7 @@ class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
             }
             
             mcpServer {
+                port = $port
                 logFile = project.layout.buildDirectory.dir("log").map { d -> d.file("mcp-server.log") }
                 anthropicApiKey = "${Util.readAnthropicApiKeyFromProperties()}"
             }
