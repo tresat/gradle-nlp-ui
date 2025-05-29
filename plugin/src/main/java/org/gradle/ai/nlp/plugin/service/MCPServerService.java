@@ -28,7 +28,9 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
 
         serverContext = MCPServerApplication.run(
                 getParameters().getPort().get(),
-                getParameters().getTasksReportFile().getAsFile().get()
+                getParameters().getTasksReportFile().getAsFile().get(),
+                getParameters().getLogFile().getAsFile().get(),
+                getParameters().getAnthropicApiKey().get()
         );
         logger.lifecycle(SERVER_STARTUP_MESSAGE);
     }
@@ -45,5 +47,6 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
         Property<Integer> getPort();
         RegularFileProperty getTasksReportFile();
         RegularFileProperty getLogFile();
+        Property<String> getAnthropicApiKey();
     }
 }

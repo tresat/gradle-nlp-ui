@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.client
 
 import org.gradle.ai.nlp.test.TestUtil
+import org.gradle.ai.nlp.util.Util
 import org.springframework.ai.chat.client.ChatClient
 import spock.lang.Specification
 
@@ -28,8 +29,14 @@ class MCPClientFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         // Start the server JAR as a background process
-        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=../client/src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
+        def process = ["java", "-jar", PATH_TO_SERVER_JAR,
+                       "--server.port=$port",
+                       "--org.gradle.ai.nlp.server.tasks.report.file=src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt",
+                       "--logging.file.name=build/logs/build-mcp-server.log",
+                       "--spring.ai.anthropic.api-key=${Util.readAnthropicApiKeyFromProperties()}"
+        ].execute()
         process.consumeProcessOutput(System.out, System.err)
+
         // Store the process for cleanup
         serverProcess = process
 

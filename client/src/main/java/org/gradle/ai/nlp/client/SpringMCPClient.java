@@ -1,6 +1,9 @@
 package org.gradle.ai.nlp.client;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.modelcontextprotocol.client.McpSyncClient;
+import org.gradle.ai.nlp.exception.MissingRequiredPropertiesException;
+import org.gradle.ai.nlp.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -15,42 +18,49 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.gradle.ai.nlp.util.Util.ANTHROPIC_API_KEY_PROPERTY;
-
 @SpringBootApplication
 public class SpringMCPClient {
+    public static final String CONFIG_NAME_PROPERTY = "spring.config.name";
+    public static final String ANTHROPIC_API_KEY_PROPERTY = Util.ANTHROPIC_API_KEY_PROPERTY;
+    public static final List<String> REQUIRED_PROPERTIES = List.of(ANTHROPIC_API_KEY_PROPERTY);
+
     private static final Logger logger = LoggerFactory.getLogger(SpringMCPClient.class);
+
+    public static void main(String[] args) {
+        run(args);
+    }
 
     public static ConfigurableApplicationContext run(String anthropicApiKey) {
         String[] args = new String[]{
-                "--spring.config.name=application-client",
+                "--" + CONFIG_NAME_PROPERTY + "=application-client",
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
         };
+        return run(args);
+    }
+
+    private static ConfigurableApplicationContext run(String[] args) {
+        verifyArgs(args);
         return SpringApplication.run(SpringMCPClient.class, args);
     }
 
-//    public static ConfigurableApplicationContext run(String[] args) {
-//        var anthropicApiKey = readAnthropicApiKeyFromProperties();
-//        String[] updatedArgs = addAnthropicKeyToArgs(args, anthropicApiKey);
-//        updatedArgs = addApplicationClientPropertiesArg(updatedArgs);
-//
-//        return SpringApplication.run(SpringMCPClient.class, updatedArgs);
-//    }
+    @VisibleForTesting
+    static void verifyArgs(String[] args) {
+        if (args == null || args.length < REQUIRED_PROPERTIES.size()) {
+            throw new MissingRequiredPropertiesException(REQUIRED_PROPERTIES, args);
+        }
 
-    private static String[] addAnthropicKeyToArgs(String[] args, String anthropicApiKey) {
-        logger.info("ANTHROPIC_API_KEY: {}", anthropicApiKey);
-
-        String[] updatedArgs = new String[args.length + 1];
-        System.arraycopy(args, 0, updatedArgs, 0, args.length);
-        updatedArgs[args.length] = "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey;
-        return updatedArgs;
-    }
-
-    private static String[] addApplicationClientPropertiesArg(String[] args) {
-        String[] updatedArgs = new String[args.length + 1];
-        System.arraycopy(args, 0, updatedArgs, 0, args.length);
-        updatedArgs[args.length] = "--spring.config.name=application-client";
-        return updatedArgs;
+        for (String requiredArg : REQUIRED_PROPERTIES) {
+            boolean found = false;
+            for (String arg : args) {
+                if (arg.startsWith("--" + requiredArg + "=")) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new MissingRequiredPropertiesException(REQUIRED_PROPERTIES, args);
+            }
+        }
     }
 
     @Bean
