@@ -7,13 +7,8 @@ plugins {
 }
 
 dependencies {
-    // TODO: These deps should be trimmed, and use the version catalog, but it was a pain to get this working
-    implementation(libs.spring.ai.starter.mcp.client.webflux)
-
-    implementation("org.springframework.ai:spring-ai-mcp")
-
-    implementation("org.springframework.ai:spring-ai-model")
-    implementation("org.springframework.ai:spring-ai-autoconfigure-model-chat-client")
+    api(libs.spring.ai.client.chat)
+    api(libs.spring.ai.starter.mcp.client.webflux)
 
     implementation("io.netty:netty-resolver-dns-native-macos:4.2.1.Final:osx-aarch_64") {
         /*
@@ -28,15 +23,12 @@ dependencies {
     }
 
     testFixturesImplementation(testFixtures(project(":shared")))
-    testFixturesImplementation("org.springframework:spring-context")
-    testFixturesImplementation("org.springframework.ai:spring-ai-client-chat")
 }
 
 testing {
     suites {
         named<JvmTestSuite>("functionalTest").configure {
             dependencies {
-                implementation("org.springframework.ai:spring-ai-client-chat")
                 implementation(testFixtures(project(":shared")))
             }
 
