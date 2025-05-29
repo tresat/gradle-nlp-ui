@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-//    api(project(":client"))
+    implementation(project(":client"))
     implementation(project(":server"))
 
     implementation(libs.spring.ai.starter.mcp.server.webmvc)

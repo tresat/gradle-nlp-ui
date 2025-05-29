@@ -5,6 +5,7 @@ import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
 import io.modelcontextprotocol.spec.McpSchema;
+import org.gradle.ai.nlp.client.MCPClient;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
@@ -21,38 +22,23 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
 
     private static final Logger logger = LoggerFactory.getLogger(MCPClientService.class);
 
-    private final McpSyncClient mcpClient;
+    private MCPClient mcpClient = new MCPClient();
 
-    public MCPClientService() {
-        var serverUrl = String.format("http://localhost:%d/%s", + getParameters().getPort().get(), "sse");
-
-        var sseTransport = HttpClientSseClientTransport.builder(serverUrl).build();
-        mcpClient = McpClient.sync(sseTransport).build();
-    }
     public boolean isConnected() {
-        return mcpClient.isInitialized();
+        return mcpClient.isConnected();
     }
 
     public void connect() {
         Preconditions.checkState(!isConnected(), "Already connected!");
-        mcpClient.initialize();
+        mcpClient.connect();
         logger.info(CLIENT_STARTUP_MESSAGE);
     }
 
     public String query(String query) {
+        Preconditions.checkState(isConnected(), "Client not connected");
+
         logger.info(QUERYING_MSG_TEMPLATE, query);
-
-        McpSchema.ListToolsResult toolsList = mcpClient.listTools();
-        System.out.println();
-        System.out.println("Tools available:");
-        toolsList.tools().forEach(t -> {
-            System.out.println("\tTool: " + t.name());
-            System.out.println("\tDescription: " + t.description());
-        });
-        System.out.println();
-
-        String answer = "42"; // Simulated response from the MCP server
-
+        var answer = mcpClient.query(query);
         logger.info(ANSWER_MSG_TEMPLATE, answer);
 
         return answer;
@@ -61,7 +47,7 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     @Override
     public void close() {
         if (isConnected()) {
-            mcpClient.closeGracefully();
+            mcpClient.close();
             logger.info(CLIENT_SHUTDOWN_MESSAGE);
         }
     }

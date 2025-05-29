@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class MCPClient implements AutoCloseable{
+public class MCPClient implements AutoCloseable {
     private final Logger logger = LoggerFactory.getLogger(MCPClient.class);
 
     public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server: '{}'%n";
