@@ -8,16 +8,12 @@ plugins {
 
 dependencies {
     // TODO: These deps should be trimmed, and use the version catalog, but it was a pain to get this working
-
     implementation(libs.spring.ai.starter.mcp.client.webflux)
 
-    implementation("org.springframework.ai:spring-ai-starter-mcp-client-webflux:1.0.0")
-    implementation("org.springframework.ai:spring-ai-mcp:1.0.0")
+    implementation("org.springframework.ai:spring-ai-mcp")
 
     implementation("org.springframework.ai:spring-ai-model")
     implementation("org.springframework.ai:spring-ai-autoconfigure-model-chat-client")
-
-    implementation("org.springframework.boot:spring-boot-starter-webflux:3.5.0")
 
     implementation("io.netty:netty-resolver-dns-native-macos:4.2.1.Final:osx-aarch_64") {
         /*
