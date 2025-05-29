@@ -18,6 +18,7 @@ spring-ai-starter-mcp-client = { group = "org.springframework.ai", name = "sprin
 spring-ai-starter-mcp-client-webflux = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-client-webflux" }
 spring-ai-starter-mcp-server = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server" }
 spring-ai-starter-mcp-server-webmvc = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server-webmvc" }
+spring-ai-starter-mcp-server-webflux = { group = "org.springframework.ai", name = "spring-ai-starter-mcp-server-webflux" }
 spring-ai-anthropic = { group = "org.springframework.ai", name = "spring-ai-anthropic" }
 spring-ai-starter-model-anthropic = { group = "org.springframework.ai", name = "spring-ai-starter-model-anthropic" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }

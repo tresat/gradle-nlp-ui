@@ -16,9 +16,7 @@ public final class TasksInfoTool {
     @Tool(description = "Task report information")
     public String tasksInfoTool() {
         File pathsReportFile = new File(tasksReportFilePath);
-        if (pathsReportFile.exists()) {
-            System.out.println("Path to tasks report in tool: " + pathsReportFile.getAbsolutePath());
-        } else {
+        if (!pathsReportFile.exists()) {
             throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
         }
 

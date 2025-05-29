@@ -13,14 +13,13 @@ class AskMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
         result.output.contains("type '${AskMCPTask.class.name}' property 'query' doesn't have a configured value.")
     }
 
-    // TODO:NEXT Do an actual query that requirest the MCP server to be running to answer it
-    def "query can be asked"() {
+    def "general Gradle query can be asked"() {
         when:
-        def query = "Hi?"
+        def query = "What task should I run to create a new Gradle project?  Respond in the following format, substituting X for the task name: To create a new Gradle project, you should run the `X` task."
         def result = succeeds(GradleNlpUiPlugin.QUERY_MCP_QUERY_TASK_NAME, "--${AskMCPTask.QUERY_PARAM_NAME}=$query")
 
         then:
         result.output.contains(AskMCPTask.QUERY_LOG_MESSAGE_TEMPLATE.replace("{}", query))
-        !result.output.isEmpty()
+        result.output.contains("To create a new Gradle project, you should run the `init` task.")
     }
 }

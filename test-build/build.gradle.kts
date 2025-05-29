@@ -3,6 +3,7 @@ plugins {
 }
 
 mcpServer {
+    port = 8100
     anthropicApiKey = project.providers.gradleProperty("ANTHROPIC_API_KEY")
         .orElse(project.providers.environmentVariable("ANTHROPIC_API_KEY"))
 }
