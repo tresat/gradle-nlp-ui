@@ -3,6 +3,8 @@ package org.gradle.ai.nlp.server
 import io.modelcontextprotocol.client.McpClient
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport
 import org.gradle.ai.nlp.test.TestUtil
+import org.springframework.ai.tool.method.MethodToolCallback
+import org.springframework.ai.tool.method.MethodToolCallbackProvider
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
@@ -24,7 +26,10 @@ class MCPServerApplicationFunctionalTest extends Specification {
         def port = TestUtil.readPortFromProperties()
         baseUrl = "http://localhost:$port/"
 
-        context = MCPServerApplication.run("--server.port=$port")
+        context = MCPServerApplication.run(
+            "--server.port=$port",
+            "--org.gradle.ai.nlp.server.tasks.report.file=sample-mcp-reports/custom-tasks-report.txt"
+        )
     }
 
     def cleanupSpec() {
@@ -59,5 +64,16 @@ class MCPServerApplicationFunctionalTest extends Specification {
 
         cleanup:
         mcpClient.closeGracefully()
+    }
+
+    def "server makes tasks info tool available"() {
+        when:
+        def callbacks = context.getBean("tasksInfo").toolCallbacks
+
+        then:
+        callbacks.size() == 1
+        def tasksInfoTool = callbacks[0]
+        tasksInfoTool.toolDefinition.name() == "tasksInfoTool"
+        tasksInfoTool.toolDefinition.description() == "Task report information"
     }
 }

@@ -1,0 +1,46 @@
+
+------------------------------------------------------------
+Tasks runnable from root project 'test-build'
+------------------------------------------------------------
+
+AI tasks
+--------
+ai - Queries the MCP server
+mcpStartServer - Starts the MCP server
+mcpStopServer - Stops the MCP server
+mcpTasksReport - Feeds the tasks report output to the MCP server
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+updateDaemonJvm - Generates or updates the Gradle Daemon JVM criteria.
+wrapper - Generates Gradle wrapper files.
+
+Develocity tasks
+----------------
+buildScanPublishPrevious - Publishes the data captured by the last build.
+provisionDevelocityAccessKey - Provisions a new access key for this build environment.
+provisionGradleEnterpriseAccessKey - Provisions a new access key for this build environment.
+
+Help tasks
+----------
+artifactTransforms - Displays the Artifact Transforms that can be executed in root project 'test-build'.
+buildEnvironment - Displays all buildscript dependencies declared in root project 'test-build'.
+dependencies - Displays all dependencies declared in root project 'test-build'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'test-build'.
+help - Displays a help message.
+javaToolchains - Displays the detected java toolchains.
+kotlinDslAccessorsReport - Prints the Kotlin code for accessing the currently available project extensions.
+outgoingVariants - Displays the outgoing variants of root project 'test-build'.
+projects - Displays the sub-projects of root project 'test-build'.
+properties - Displays the properties of root project 'test-build'.
+resolvableConfigurations - Displays the configurations that can be resolved in root project 'test-build'.
+tasks - Displays the tasks runnable from root project 'test-build'.
+
+Other tasks
+-----------
+flyPig - A task that simulates flying a pig.
+flyPlane - A task that simulates flying a plane.
+prepareKotlinBuildScriptModel
+remapPtsFingerprints - Translates input file and class name fingerprints to the original values in a JSON file. Typically the file is a response body from Predictive Test Selection info handlers.
+testDistributionWebSocketCheck - Performs a simple websocket connection to the Test Distribution Broker to help diagnosing connection problems.
