@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class MCPClient implements AutoCloseable {
         connect(Collections.emptyList());
     }
 
-    public void connect(List<URL> mcpServerUrls) {
+    public void connect(List<String> mcpServerUrls) {
         Preconditions.checkState(!isConnected(), "Client is already connected");
         String anthropicApiKey = Util.readAnthropicApiKeyFromProperties();
         clientContext = SpringMCPClient.run(anthropicApiKey, mcpServerUrls);

@@ -1,11 +1,8 @@
 package org.gradle.ai.nlp.plugin.service;
 
 import com.google.common.base.Preconditions;
-import io.modelcontextprotocol.client.McpClient;
-import io.modelcontextprotocol.client.McpSyncClient;
-import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
-import io.modelcontextprotocol.spec.McpSchema;
 import org.gradle.ai.nlp.client.MCPClient;
+import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
@@ -22,7 +19,7 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
 
     private static final Logger logger = LoggerFactory.getLogger(MCPClientService.class);
 
-    private MCPClient mcpClient = new MCPClient();
+    private final MCPClient mcpClient = new MCPClient();
 
     public boolean isConnected() {
         return mcpClient.isConnected();
@@ -31,7 +28,7 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     public void connect() {
         Preconditions.checkState(!isConnected(), "Already connected!");
         getParameters().getAnthropicApiKey(); // Calling get will throw an exception if the API key is not set
-        mcpClient.connect();
+        mcpClient.connect(getParameters().getServerUrls().get());
         logger.info(CLIENT_STARTUP_MESSAGE);
     }
 
@@ -56,5 +53,6 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     public interface Params extends BuildServiceParameters {
         Property<Integer> getPort();
         Property<String> getAnthropicApiKey();
+        ListProperty<String> getServerUrls();
     }
 }

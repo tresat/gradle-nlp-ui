@@ -48,6 +48,6 @@ abstract class AbstractServerRunningFunctionalTest extends Specification {
 
     protected ConfigurableApplicationContext startClient() {
         String anthropicApiKey = Util.readAnthropicApiKeyFromProperties()
-        return SpringMCPClient.run(anthropicApiKey, List.of(serverUrl))
+        return SpringMCPClient.run(anthropicApiKey, List.of(serverUrl.toString()))
     }
 }

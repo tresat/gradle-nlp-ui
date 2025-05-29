@@ -36,7 +36,7 @@ public class SpringMCPClient {
         return run(anthropicApiKey, Collections.emptyList());
     }
 
-    public static ConfigurableApplicationContext run(String anthropicApiKey, List<URL> mcpServerUrls) {
+    public static ConfigurableApplicationContext run(String anthropicApiKey, List<String> mcpServerUrls) {
         String[] args = new String[]{
                 "--" + CONFIG_NAME_PROPERTY + "=application-client",
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
@@ -45,12 +45,12 @@ public class SpringMCPClient {
         return run(argsWithServers);
     }
 
-    private static String[] addServersToArgs(String[] args, List<URL> mcpServerUrls) {
+    private static String[] addServersToArgs(String[] args, List<String> mcpServerUrls) {
         String[] result = new String[args.length + mcpServerUrls.size()];
         System.arraycopy(args, 0, result, 0, args.length);
 
         for (int i = 0; i < mcpServerUrls.size(); i++) {
-            result[args.length + i] = "--spring.ai.mcp.client.sse.connections.server" + (i + 1) + ".url=" + mcpServerUrls.get(i).toString();
+            result[args.length + i] = "--spring.ai.mcp.client.sse.connections.server" + (i + 1) + ".url=" + mcpServerUrls.get(i);
         }
 
         return result;
