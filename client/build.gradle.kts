@@ -3,7 +3,7 @@
 plugins {
     id("library-conventions")
     id("test-conventions")
-    //id("anthropic-model-conventions")
+    id("anthropic-model-conventions")
 }
 
 dependencies {
@@ -15,9 +15,6 @@ dependencies {
     implementation("org.springframework.ai:spring-ai-mcp:1.0.0")
 
     implementation("org.springframework.ai:spring-ai-model")
-    implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
-
-    //api("org.springframework.ai:spring-ai-client-chat")
     implementation("org.springframework.ai:spring-ai-autoconfigure-model-chat-client")
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.5.0")

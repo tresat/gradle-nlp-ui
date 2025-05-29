@@ -8,9 +8,7 @@ plugins {
 }
 
 dependencies {
-//    implementation(platform(libs.findLibrary("spring.ai.anthropic").get()))
-    implementation(platform(libs.findLibrary("spring.ai.starter.model.anthropic").get()))
-//    implementation(platform(libs.findLibrary("spring.ai.autoconfigure.model.tool").get()))
+    implementation(libs.findLibrary("spring.ai.starter.model.anthropic").get())
 }
 
 tasks.register("checkAnthropicApiKey", CheckAnthropicApiKeyTask::class) {
@@ -18,6 +16,6 @@ tasks.register("checkAnthropicApiKey", CheckAnthropicApiKeyTask::class) {
     description = "Ensures ANTHROPIC_API_KEY is set as a project property or environment variable."
 }
 
-tasks.named("check") {
-    dependsOn("checkAnthropicApiKey")
-}
+//tasks.named("check") {
+//    dependsOn("checkAnthropicApiKey")
+//}
