@@ -44,7 +44,7 @@ public class SpringMCPClient {
         return updatedArgs;
     }
 
-    // TODO: Get the API key from environment variable?
+    // TODO: Get the API key from environment variable?  Additional properties profile?
     public static String readAnthropicApiKeyFromProperties() {
         Properties apiKeysProperties = new Properties();
         try (var propStream = SpringMCPClient.class.getClassLoader().getResourceAsStream(API_KEYS_FILE)) {
@@ -72,10 +72,10 @@ public class SpringMCPClient {
                 .build();
     }
 
-    private void logClients(List<McpSyncClient> mcpSyncClients) {
+    private void logMCPConnections(List<McpSyncClient> mcpSyncClients) {
         var clientsMessage = "There are " + mcpSyncClients.size() + " clients: " + mcpSyncClients.stream()
-                .map(c -> c.getServerInfo())
-                .map(serverInfo -> serverInfo.toString())
+                .map(McpSyncClient::getServerInfo)
+                .map(Record::toString)
                 .collect(Collectors.joining(", "));
         logger.info(clientsMessage);
     }

@@ -2,7 +2,6 @@ package org.gradle.ai.nlp.client
 
 import org.gradle.ai.nlp.test.TestUtil
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.boot.SpringApplication
 import spock.lang.Specification
 
 import static java.nio.file.Files.exists
@@ -29,7 +28,7 @@ class SpringMCPClientFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         // Start the server JAR as a background process
-        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=/Users/ttresansky/Projects/ai/gradle-nlp-ui/client/src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
+        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=../client/src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
         process.consumeProcessOutput(System.out, System.err)
         // Store the process for cleanup
         serverProcess = process
@@ -69,7 +68,13 @@ class SpringMCPClientFunctionalTest extends Specification {
         then:
         response != null
 
-//        cleanup:
-//        context.close()
+        // Verify that the response contains some of the expected tasks
+        response.contains("ai - Queries the MCP server")
+        response.contains("mcpStartServer - Starts the MCP server")
+        response.contains("init - Initializes a new Gradle build")
+        response.contains("wrapper - Generates Gradle wrapper files")
+
+        cleanup:
+        context.close()
     }
 }

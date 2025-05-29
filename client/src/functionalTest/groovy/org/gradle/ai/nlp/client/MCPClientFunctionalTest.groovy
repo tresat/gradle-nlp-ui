@@ -28,7 +28,7 @@ class MCPClientFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         // Start the server JAR as a background process
-        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port"].execute()
+        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=../client/src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
         process.consumeProcessOutput(System.out, System.err)
         // Store the process for cleanup
         serverProcess = process
@@ -47,24 +47,30 @@ class MCPClientFunctionalTest extends Specification {
 
     def "client can connect to server"() {
         given:
-        MCPClient client = new MCPClient(baseUrl)
+        MCPClient client = new MCPClient()
 
         when:
         client.connect()
 
         then:
         client.isConnected()
+
+        cleanup:
+        client.close()
     }
 
     def "client can query server"() {
         given:
-        MCPClient client = new MCPClient(baseUrl)
+        MCPClient client = new MCPClient()
         client.connect()
 
         when:
-        def result = client.query("What is the capital of France?")
+        def result = client.query("What task should I run to create a new Gradle project?")
 
         then:
-        result == "42"
+        result.contains("init")
+
+        cleanup:
+        client.close()
     }
 }
