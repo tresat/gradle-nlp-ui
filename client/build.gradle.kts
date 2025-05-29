@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("library-conventions")
     id("test-conventions")
@@ -36,8 +38,13 @@ dependencies {
 testing {
     suites {
         named<JvmTestSuite>("functionalTest").configure {
+            dependencies {
+                implementation(testFixtures(project(":shared")))
+            }
+
             targets.all {
                 testTask.configure {
+                    // Ensure the server jar is re-built every time the client tests run
                     dependsOn(project(":server").tasks.named("assemble"))
                 }
             }

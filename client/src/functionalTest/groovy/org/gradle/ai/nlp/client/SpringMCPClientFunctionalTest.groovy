@@ -28,7 +28,7 @@ class SpringMCPClientFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         // Start the server JAR as a background process
-        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=../client/src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
+        def process = ["java", "-jar", PATH_TO_SERVER_JAR, "--server.port=$port", "--org.gradle.ai.nlp.server.tasks.report.file=src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"].execute()
         process.consumeProcessOutput(System.out, System.err)
         // Store the process for cleanup
         serverProcess = process

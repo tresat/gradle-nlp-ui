@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.spring.boot.starter.actuator)
 
     testFixturesImplementation(gradleTestKit())
+    testFixturesImplementation(testFixtures(project(":shared")))
 }
 
 // TODO: A better fix for this

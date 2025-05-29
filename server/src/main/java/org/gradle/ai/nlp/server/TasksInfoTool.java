@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 @Component
@@ -14,6 +15,13 @@ public final class TasksInfoTool {
 
     @Tool(description = "Task report information")
     public String tasksInfoTool() {
+        File pathsReportFile = new File(tasksReportFilePath);
+        if (pathsReportFile.exists()) {
+            System.out.println("Path to tasks report in tool: " + pathsReportFile.getAbsolutePath());
+        } else {
+            throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
+        }
+
         if (null != tasksReportFilePath) {
             try {
                 var tasksReportFile = new java.io.File(tasksReportFilePath);

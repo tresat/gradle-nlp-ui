@@ -3,12 +3,9 @@ package org.gradle.ai.nlp.server
 import io.modelcontextprotocol.client.McpClient
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport
 import org.gradle.ai.nlp.test.TestUtil
-import org.springframework.ai.tool.method.MethodToolCallback
-import org.springframework.ai.tool.method.MethodToolCallbackProvider
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
-
 /**
  * Functional tests for the MCP server application.
  * <p>
@@ -28,7 +25,7 @@ class MCPServerApplicationFunctionalTest extends Specification {
 
         context = MCPServerApplication.run(
             "--server.port=$port",
-            "--org.gradle.ai.nlp.server.tasks.report.file=sample-mcp-reports/custom-tasks-report.txt"
+            "--org.gradle.ai.nlp.server.tasks.report.file=src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt" // TODO: use a claspath resource, move to shared test resources
         )
     }
 

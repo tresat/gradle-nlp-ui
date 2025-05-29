@@ -31,6 +31,7 @@ public class SpringMCPClient {
     public static ConfigurableApplicationContext run(String[] args) {
         var anthropicApiKey = readAnthropicApiKeyFromProperties();
         String[] updatedArgs = addAnthropicKeyToArgs(args, anthropicApiKey);
+        updatedArgs = addApplicationClientPropertiesArg(updatedArgs);
 
         return SpringApplication.run(SpringMCPClient.class, updatedArgs);
     }
@@ -41,6 +42,13 @@ public class SpringMCPClient {
         String[] updatedArgs = new String[args.length + 1];
         System.arraycopy(args, 0, updatedArgs, 0, args.length);
         updatedArgs[args.length] = "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey;
+        return updatedArgs;
+    }
+
+    private static String[] addApplicationClientPropertiesArg(String[] args) {
+        String[] updatedArgs = new String[args.length + 1];
+        System.arraycopy(args, 0, updatedArgs, 0, args.length);
+        updatedArgs[args.length] = "--spring.config.name=application-client";
         return updatedArgs;
     }
 
@@ -66,7 +74,7 @@ public class SpringMCPClient {
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder, List<McpSyncClient> mcpSyncClients) {
         return chatClientBuilder
-                .defaultSystem("You are a Gradle expert.  You can answer questions about the Gradle build with the given tasks provided by the build-mcp-server.")
+                .defaultSystem("You are a Gradle expert.  Always use the TasksInfoTool available on the MCP server to answer task related questions about a specific Gradle build.  This tool provides the output of a tasks report for this specific Gradle build and describes all the available tasks in it.  Use this information to answer task related questions.  When asked for a specific task, provide the description as well, in the format: 'taskName - taskDescription'.")
                 .defaultToolCallbacks(new SyncMcpToolCallbackProvider(mcpSyncClients))
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().build()).build())
                 .build();
@@ -80,3 +88,4 @@ public class SpringMCPClient {
         logger.info(clientsMessage);
     }
 }
+

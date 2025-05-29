@@ -12,4 +12,8 @@ dependencies {
 
     api(libs.findLibrary("mcp.sdk").get())
     api(libs.findLibrary("guava").get())
+
+    if (project.name != "shared") {
+        implementation(project(":shared"))
+    }
 }

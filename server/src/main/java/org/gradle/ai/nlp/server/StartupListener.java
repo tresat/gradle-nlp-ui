@@ -5,6 +5,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.nio.file.Files;
+
 @Component
 public class StartupListener implements ApplicationListener<ApplicationReadyEvent> {
     private final Environment environment;
@@ -24,6 +27,15 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
         }
 
         String pathToTasksReport = environment.getProperty("org.gradle.ai.nlp.server.tasks.report.file");
-        System.out.println("Path to tasks report: " + pathToTasksReport);
+        if (pathToTasksReport == null || pathToTasksReport.isEmpty()) {
+            throw new IllegalStateException("Property 'org.gradle.ai.nlp.server.tasks.report.file' is not set.");
+        }
+
+        File pathsReportFile = new File(pathToTasksReport);
+        if (pathsReportFile.exists()) {
+            System.out.println("Path to tasks report: " + pathsReportFile.getAbsolutePath());
+        } else {
+            throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
+        }
     }
 }
