@@ -10,11 +10,6 @@ dependencies {
     implementation(project(":client"))
     implementation(project(":server"))
 
-    implementation(libs.spring.ai.starter.mcp.server.webmvc)
-
-    implementation(libs.spring.web)
-    implementation(libs.spring.boot.starter.actuator)
-
     testFixturesImplementation(gradleTestKit())
     testFixturesImplementation(testFixtures(project(":shared")))
 }
