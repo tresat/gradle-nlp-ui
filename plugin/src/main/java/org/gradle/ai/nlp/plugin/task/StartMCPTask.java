@@ -15,6 +15,8 @@ import java.io.File;
 
 @DisableCachingByDefault
 public abstract class StartMCPTask extends DefaultTask {
+    public static final String TASK_NAME = "mcpStartServer";
+
     @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
     abstract Property<MCPServerService> getMCPService();
 
@@ -38,7 +40,5 @@ public abstract class StartMCPTask extends DefaultTask {
     public void startServer() throws InterruptedException {
         MCPServerService serverService = getMCPService().get();
         serverService.startServer();
-
-        Thread.sleep(2000); // TODO: Wait for the server to start before proceeding - is this necessary?
     }
 }

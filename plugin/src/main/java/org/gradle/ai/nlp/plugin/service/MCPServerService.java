@@ -47,8 +47,10 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
 
     public interface Params extends BuildServiceParameters {
         Property<Integer> getPort();
-        RegularFileProperty getTasksReportFile();
-        RegularFileProperty getLogFile();
         Property<String> getAnthropicApiKey();
+        RegularFileProperty getLogFile();
+
+        RegularFileProperty getTasksReportFile();
+        RegularFileProperty getGradleFilesReportFile();
     }
 }

@@ -15,6 +15,7 @@ import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
 public abstract class CustomTasksReportTask extends TaskReportTask {
+    public static final String TASK_NAME = "tasksReport";
     public static final String REPORTS_FILE = "custom-tasks-report.txt";
 
     private final Provider<Directory> outputDir = getProject().getLayout().getBuildDirectory().dir(GradleNlpUiPlugin.MCP_REPORTS_DIR);
