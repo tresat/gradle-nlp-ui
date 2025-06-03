@@ -52,7 +52,6 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
 
             task.getTasksReportFile().convention(tasksReport.map(CustomTasksReportTask::getOutputFile));
             task.getGradleFilesFile().convention(gradleFilesReport.map(GradleFilesReportTask::getOutputFile).map(Provider::get));
-            task.getLogFile().convention(extension.getLogFile());
         });
 
         TaskProvider<@NotNull StopMCPTask> stopServer = project.getTasks().register(StopMCPTask.TASK_NAME, StopMCPTask.class, task -> {
@@ -75,7 +74,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
             spec.getParameters().getAnthropicApiKey().convention(extension.getAnthropicApiKey());
             spec.getParameters().getLogFile().convention(extension.getLogFile());
 
-            spec.getParameters().getTasksReportFile().convention(project.getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR).map(d -> d.file(CustomTasksReportTask.REPORTS_FILE)));
+            spec.getParameters().getTasksReportFile().convention(project.getTasks().named(CustomTasksReportTask.TASK_NAME, CustomTasksReportTask.class).map(CustomTasksReportTask::getRegularOutputFile).map(Provider::get));
             spec.getParameters().getGradleFilesReportFile().convention(project.getTasks().named(GradleFilesReportTask.TASK_NAME, GradleFilesReportTask.class).map(GradleFilesReportTask::getOutputFile).map(Provider::get));
         });
 

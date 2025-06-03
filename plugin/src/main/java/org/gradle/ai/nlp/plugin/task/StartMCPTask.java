@@ -26,9 +26,6 @@ public abstract class StartMCPTask extends DefaultTask {
     @InputFile
     public abstract RegularFileProperty getGradleFilesFile();
 
-    @OutputFile
-    public abstract RegularFileProperty getLogFile();
-
     public StartMCPTask() {
         getOutputs().upToDateWhen(task -> {
             // This task is never up-to-date
@@ -37,7 +34,9 @@ public abstract class StartMCPTask extends DefaultTask {
     }
 
     @TaskAction
-    public void startServer() throws InterruptedException {
+    public void startServer() {
+
+
         MCPServerService serverService = getMCPService().get();
         serverService.startServer();
     }
