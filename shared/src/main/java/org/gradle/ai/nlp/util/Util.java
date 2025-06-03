@@ -1,5 +1,6 @@
 package org.gradle.ai.nlp.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -27,5 +28,10 @@ public abstract class Util {
         }
 
         return (String) apiKeysProperties.get(ANTHROPIC_API_KEY_PROPERTY);
+    }
+
+    // TODO: replace this with a Groovy extension method?
+    public static String relativePathFrom(File file, File baseDir) {
+        return new File(baseDir.toPath().relativize(file.toPath()).toString()).toString();
     }
 }

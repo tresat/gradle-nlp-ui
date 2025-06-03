@@ -9,7 +9,7 @@ class CustomTasksReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFuncti
         def result = succeeds(GradleNlpUiPlugin.CUSTOM_TASKS_REPORT_TASK_NAME)
 
         then:
-        String pathToReportInProject = "${CustomTasksReportTask.MCP_REPORTS_DIR}/${CustomTasksReportTask.REPORTS_FILE}"
+        String pathToReportInProject = "${GradleNlpUiPlugin.MCP_REPORTS_DIR}${File.separatorChar}${CustomTasksReportTask.REPORTS_FILE}"
         def regex = /See the report at: file:\/\/.*$pathToReportInProject/
         result.output.find(regex)
 

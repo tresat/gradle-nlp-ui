@@ -1,5 +1,6 @@
 package org.gradle.ai.nlp.plugin.task;
 
+import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.Directory;
 import org.gradle.api.problems.ProblemGroup;
@@ -14,10 +15,9 @@ import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
 public abstract class CustomTasksReportTask extends TaskReportTask {
-    public static final String MCP_REPORTS_DIR = "mcp-reports";
     public static final String REPORTS_FILE = "custom-tasks-report.txt";
 
-    private final Provider<Directory> outputDir = getProject().getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR);
+    private final Provider<Directory> outputDir = getProject().getLayout().getBuildDirectory().dir(GradleNlpUiPlugin.MCP_REPORTS_DIR);
     private final File outputFile = outputDir.map(dir -> dir.file(REPORTS_FILE)).get().getAsFile();
 
     @Inject

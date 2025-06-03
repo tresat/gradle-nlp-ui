@@ -21,6 +21,9 @@ public abstract class StartMCPTask extends DefaultTask {
     @InputFile
     public abstract Property<File> getTasksReportFile();
 
+    @InputFile
+    public abstract RegularFileProperty getGradleFilesFile();
+
     @OutputFile
     public abstract RegularFileProperty getLogFile();
 

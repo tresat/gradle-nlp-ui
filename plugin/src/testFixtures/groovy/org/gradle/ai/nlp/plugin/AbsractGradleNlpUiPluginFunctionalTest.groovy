@@ -69,6 +69,7 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
         """AI tasks
 --------
 ai - Queries the MCP server
+collectGradleFiles - Collects Gradle build scripts from the build and any included builds
 mcpStartServer - Starts the MCP server
 mcpStopServer - Stops the MCP server
 mcpTasksReport - Feeds the tasks report output to the MCP server"""

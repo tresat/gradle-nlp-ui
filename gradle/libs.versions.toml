@@ -1,6 +1,7 @@
 [versions]
 guava = "33.4.8-jre"
 mcp = "0.10.0"
+mockito = "5.7.0"
 spock = "2.3-groovy-4.0"
 spring-ai-bom = "1.0.0"
 spring-boot = "3.5.0"
@@ -9,6 +10,7 @@ spring-web = "6.2.6"
 [libraries]
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 mcp-sdk = { group = "io.modelcontextprotocol.sdk", name = "mcp", version.ref = "mcp" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 spock-core = { group = "org.spockframework", name = "spock-core", version.ref = "spock" }
 spring-ai-bom = { group = "org.springframework.ai", name = "spring-ai-bom", version.ref = "spring-ai-bom" }
 spring-ai-client-chat = { group = "org.springframework.ai", name = "spring-ai-client-chat" }
