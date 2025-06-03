@@ -10,7 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public final class TasksInfoTool {
-    @Value("${org.gradle.ai.nlp.server.tasks.report.file}")
+    private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" +MCPServerApplication.TASKS_REPORT_FILE_PROPERTY + "}";
+
+    @Value(TASKS_REPORT_FILE_PATH_VALUE)
     public String tasksReportFilePath;
 
     @Tool(description = "Task report information")

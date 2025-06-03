@@ -20,8 +20,9 @@ public class MCPServerApplication {
     public static final String LOG_FILE_PROPERTY = "logging.file.name";
 
     public static final String TASKS_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.reports.tasks.file";
+    public static final String GRADLE_FILES_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.reports.gradle.file";
 
-    public static final List<String> REQUIRED_PROPERTIES = List.of(SERVER_PORT_PROPERTY, TASKS_REPORT_FILE_PROPERTY, LOG_FILE_PROPERTY, ANTHROPIC_API_KEY_PROPERTY);
+    public static final List<String> REQUIRED_PROPERTIES = List.of(SERVER_PORT_PROPERTY, ANTHROPIC_API_KEY_PROPERTY, LOG_FILE_PROPERTY, TASKS_REPORT_FILE_PROPERTY, GRADLE_FILES_REPORT_FILE_PROPERTY);
 
     public static void main(String[] args) {
         run(args);
@@ -33,6 +34,7 @@ public class MCPServerApplication {
                 "--" + LOG_FILE_PROPERTY + "=" + logFile.getAbsolutePath(),
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
                 "--" + TASKS_REPORT_FILE_PROPERTY + "=" + tasksReportFile.getAbsolutePath(),
+                "--" + GRADLE_FILES_REPORT_FILE_PROPERTY + "=" + gradleFilesReportFile.getAbsolutePath(),
         };
         return run(args);
     }
