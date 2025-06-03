@@ -3,7 +3,6 @@ package org.gradle.ai.nlp.plugin;
 import org.gradle.ai.nlp.plugin.service.MCPClientService;
 import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.ai.nlp.plugin.task.*;
-import org.gradle.ai.nlp.util.Util;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
@@ -26,14 +25,13 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
         MCPServerExtension extension = project.getExtensions().create("mcpServer", MCPServerExtension.class);
         extension.getPort().convention(MCP_SERVER_DEFAULT_PORT);
         extension.getLogFile().convention(project.getLayout().getBuildDirectory().dir(MCP_SERVER_LOG_DIR).map(d -> d.file(MCP_SERVER_LOG_FILE_NAME)));
-        extension.getAnthropicApiKey().convention(project.getProviders().environmentVariable("ANTHROPIC_API_KEY")
-                .orElse(project.provider(Util::readAnthropicApiKeyFromProperties)));
+        extension.getAnthropicApiKey().convention(project.getProviders().environmentVariable("ANTHROPIC_API_KEY"));
 
-        registerTasks(project, extension);
+        registerTasks(project);
         registerServices(project, extension);
     }
 
-    private void registerTasks(Project project, MCPServerExtension extension) {
+    private void registerTasks(Project project) {
         TaskProvider<@NotNull GradleFilesReportTask> gradleFilesReport = project.getTasks().register(GradleFilesReportTask.TASK_NAME, GradleFilesReportTask.class, task -> {
             task.setGroup(MCP_TASK_GROUP_NAME);
             task.setDescription("Collects Gradle build scripts from the build and any included builds");

@@ -1,7 +1,6 @@
 package org.gradle.ai.nlp.client;
 
 import com.google.common.base.Preconditions;
-import org.gradle.ai.nlp.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -18,13 +17,12 @@ public class MCPClient implements AutoCloseable {
 
     private ConfigurableApplicationContext clientContext;
 
-    public void connect() {
-        connect(Collections.emptyList());
+    public void connect(String anthropicApiKey) {
+        connect(anthropicApiKey, Collections.emptyList());
     }
 
-    public void connect(List<String> mcpServerUrls) {
+    public void connect(String anthropicApiKey, List<String> mcpServerUrls) {
         Preconditions.checkState(!isConnected(), "Client is already connected");
-        String anthropicApiKey = Util.readAnthropicApiKeyFromProperties();
         clientContext = SpringMCPClient.run(anthropicApiKey, mcpServerUrls);
     }
 

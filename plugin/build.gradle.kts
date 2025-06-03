@@ -21,6 +21,11 @@ testing {
                 implementation(testFixtures(project(":shared")))
             }
         }
+        named<JvmTestSuite>("functionalTest") {
+            dependencies {
+                implementation(project(":shared"))
+            }
+        }
     }
 }
 

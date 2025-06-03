@@ -21,18 +21,21 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
 
     private ConfigurableApplicationContext serverContext;
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isStarted() {
         return serverContext != null && serverContext.isActive();
     }
 
     public void startServer() {
         Preconditions.checkState(!isStarted(), "MCP Server already started");
+        Preconditions.checkState(getParameters().getAnthropicApiKey().isPresent(), "Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?");
 
         serverContext = MCPServerApplication.run(
                 getParameters().getPort().get(),
-                getParameters().getTasksReportFile().getAsFile().get(),
+                getParameters().getAnthropicApiKey().get(),
                 getParameters().getLogFile().getAsFile().get(),
-                getParameters().getAnthropicApiKey().get()
+                getParameters().getTasksReportFile().getAsFile().get(),
+                getParameters().getGradleFilesReportFile().getAsFile().get()
         );
         logger.lifecycle(SERVER_STARTUP_MESSAGE);
     }

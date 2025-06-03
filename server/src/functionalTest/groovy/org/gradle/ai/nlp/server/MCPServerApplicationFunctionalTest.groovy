@@ -25,10 +25,9 @@ class MCPServerApplicationFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         context = MCPServerApplication.run(
-                port,
+                port, Util.readAnthropicApiKeyFromProperties(), new File("build/logs/build-mcp-server.log"),
                 new File("src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"),
-                new File("build/logs/build-mcp-server.log"),
-                Util.readAnthropicApiKeyFromProperties()
+                new File("src/functionalTest/resources/sample-mcp-reports/gradle-tasks-report.txt"),
         )
     }
 

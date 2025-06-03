@@ -16,19 +16,7 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
     protected File projectDir
 
-    protected File getBuildDir() {
-        return new File(projectDir, 'build')
-    }
-
-    protected File getBuildFile() {
-        return new File(projectDir, 'build.gradle')
-    }
-
-    protected File getSettingsFile() {
-        return new File(projectDir, 'settings.gradle')
-    }
-
-    private static int port
+    protected static int port
 
     def setupSpec() {
         port = TestUtil.readPortFromProperties()
@@ -50,6 +38,18 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
         settingsFile.text = """
             rootProject.name = 'test-project'
         """
+    }
+
+    protected File getBuildDir() {
+        return new File(projectDir, 'build')
+    }
+
+    protected File getBuildFile() {
+        return new File(projectDir, 'build.gradle')
+    }
+
+    protected File getSettingsFile() {
+        return new File(projectDir, 'settings.gradle')
     }
 
     protected BuildResult succeeds(String... args) {

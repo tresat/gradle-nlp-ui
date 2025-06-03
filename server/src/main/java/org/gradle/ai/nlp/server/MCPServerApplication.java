@@ -16,9 +16,10 @@ import java.util.List;
 @SpringBootApplication
 public class MCPServerApplication {
     public static final String SERVER_PORT_PROPERTY = "server.port";
-    public static final String TASKS_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.tasks.report.file";
-    public static final String LOG_FILE_PROPERTY = "logging.file.name";
     public static final String ANTHROPIC_API_KEY_PROPERTY = Util.ANTHROPIC_API_KEY_PROPERTY;
+    public static final String LOG_FILE_PROPERTY = "logging.file.name";
+
+    public static final String TASKS_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.reports.tasks.file";
 
     public static final List<String> REQUIRED_PROPERTIES = List.of(SERVER_PORT_PROPERTY, TASKS_REPORT_FILE_PROPERTY, LOG_FILE_PROPERTY, ANTHROPIC_API_KEY_PROPERTY);
 
@@ -26,12 +27,12 @@ public class MCPServerApplication {
         run(args);
     }
 
-    public static ConfigurableApplicationContext run(int port, File tasksReportFile, File logFile, String anthropicApiKey) {
+    public static ConfigurableApplicationContext run(int port, String anthropicApiKey, File logFile, File tasksReportFile, File gradleFilesReportFile) {
         var args = new String[]{
                 "--" + SERVER_PORT_PROPERTY + "=" + port,
-                "--" + TASKS_REPORT_FILE_PROPERTY + "=" + tasksReportFile.getAbsolutePath(),
                 "--" + LOG_FILE_PROPERTY + "=" + logFile.getAbsolutePath(),
-                "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey
+                "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
+                "--" + TASKS_REPORT_FILE_PROPERTY + "=" + tasksReportFile.getAbsolutePath(),
         };
         return run(args);
     }

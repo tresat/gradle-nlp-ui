@@ -6,7 +6,6 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.services.ServiceReference;
 import org.gradle.api.tasks.InputFile;
-import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.work.DisableCachingByDefault;
@@ -35,8 +34,6 @@ public abstract class StartMCPTask extends DefaultTask {
 
     @TaskAction
     public void startServer() {
-
-
         MCPServerService serverService = getMCPService().get();
         serverService.startServer();
     }
