@@ -1,5 +1,6 @@
 package org.gradle.ai.nlp.server;
 
+import com.google.common.base.Preconditions;
 import org.springframework.ai.tool.annotation.Tool;
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,20 +18,17 @@ public final class TasksInfoTool {
 
     @Tool(description = "Task report information")
     public String tasksInfoTool() {
-        File pathsReportFile = new File(tasksReportFilePath);
-        if (!pathsReportFile.exists()) {
-            throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
+        Preconditions.checkState(tasksReportFilePath != null, "No tasks report file specified.");
+
+        File tasksReportFile = new File(tasksReportFilePath);
+        if (!tasksReportFile.exists()) {
+            throw new IllegalStateException("Tasks report file does not exist: " + tasksReportFile.getAbsolutePath());
         }
 
-        if (null != tasksReportFilePath) {
-            try {
-                var tasksReportFile = new java.io.File(tasksReportFilePath);
-                return Files.asCharSource(tasksReportFile, StandardCharsets.UTF_8).read();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to read tasks report contents", e);
-            }
-        } else {
-            return "No tasks report file specified.";
+        try {
+            return Files.asCharSource(tasksReportFile, StandardCharsets.UTF_8).read();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read tasks report contents", e);
         }
     }
 }

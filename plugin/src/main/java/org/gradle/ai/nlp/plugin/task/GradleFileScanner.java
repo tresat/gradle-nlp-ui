@@ -47,7 +47,7 @@ import java.util.*;
 
     // TODO: Is there a most robust solution to walk the build tree?
     @VisibleForTesting
-    /* package */ List<File> findIncludedBuilds(File settingsFile) {
+    List<File> findIncludedBuilds(File settingsFile) {
         List<File> includedBuilds = new ArrayList<>();
         // Regex: ^\s*(?:[^;]*;\s*)?includeBuild\s*\((['"])(.+?)\1\)
         // - Only whitespace or (anything then semicolon then whitespace) before includeBuild

@@ -25,7 +25,9 @@ class MCPServerApplicationFunctionalTest extends Specification {
         baseUrl = "http://localhost:$port/"
 
         context = MCPServerApplication.run(
-                port, Util.readAnthropicApiKeyFromProperties(), new File("build/logs/build-mcp-server.log"),
+                port,
+                Util.readAnthropicApiKeyFromProperties(),
+                new File("build/logs/build-mcp-server.log"),
                 new File("src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"),
                 new File("src/functionalTest/resources/sample-mcp-reports/gradle-tasks-report.txt"),
         )
@@ -65,6 +67,8 @@ class MCPServerApplicationFunctionalTest extends Specification {
         mcpClient.closeGracefully()
     }
 
+    // TODO: move to separate test class per tool - test calls to tools
+    // TODO: description is a constant in the tool definition
     def "server makes tasks info tool available"() {
         when:
         def callbacks = context.getBean("tasksInfo").toolCallbacks
@@ -75,4 +79,21 @@ class MCPServerApplicationFunctionalTest extends Specification {
         tasksInfoTool.toolDefinition.name() == "tasksInfoTool"
         tasksInfoTool.toolDefinition.description() == "Task report information"
     }
+
+    def "server makes gradle files tool available"() {
+        when:
+        def callbacks = context.getBean("gradleFiles").toolCallbacks
+
+        then:
+        callbacks.size() == 1
+        def tasksInfoTool = callbacks[0]
+        tasksInfoTool.toolDefinition.name() == "gradleFilesTool"
+        tasksInfoTool.toolDefinition.description() == "Lists the absolute path to every Gradle file present in the build (and any included builds, recursively), and their contents"
+
+    }
+
+//    def "server makes gradle files contents tool available"() {
+//        expect:
+//        throw new RuntimeException("Not implemented yet")
+//    }
 }

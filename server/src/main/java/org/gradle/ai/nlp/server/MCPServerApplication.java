@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.gradle.ai.nlp.exception.MissingRequiredPropertiesException;
 import org.gradle.ai.nlp.util.Util;
 import org.springframework.ai.tool.ToolCallbackProvider;
+import org.springframework.ai.tool.function.FunctionToolCallback;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -64,8 +65,25 @@ public class MCPServerApplication {
         }
     }
 
+    // Note that the names of the @Bean methods are used as the tool names in the client, so they should be descriptive.
+    // They must also be unique vs. the names of the @Tool methods in the tool classes.
+
     @Bean
     public ToolCallbackProvider tasksInfo(TasksInfoTool tasksInfoTool) {
         return MethodToolCallbackProvider.builder().toolObjects(tasksInfoTool).build();
     }
+
+    @Bean
+    public ToolCallbackProvider gradleFiles(GradleFilesTool gradleFilesTool) {
+        return MethodToolCallbackProvider.builder().toolObjects(gradleFilesTool).build();
+    }
+
+//    @Bean
+//    public FunctionToolCallback<String, String> gradleFileContents() {
+//        return FunctionToolCallback
+//                .builder("readFile", new ReadGradleFileService())
+//                .description("Read the contents of a Gradle file identified by its absolute path")
+//                .inputType(String.class)
+//                .build();
+//    }
 }
