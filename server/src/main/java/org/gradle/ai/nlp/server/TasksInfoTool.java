@@ -12,11 +12,12 @@ import java.nio.charset.StandardCharsets;
 @Component
 public final class TasksInfoTool {
     private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" +MCPServerApplication.TASKS_REPORT_FILE_PROPERTY + "}";
+    public static final String TOOL_DESCRIPTION = "Task report information";
 
     @Value(TASKS_REPORT_FILE_PATH_VALUE)
     public String tasksReportFilePath;
 
-    @Tool(description = "Task report information")
+    @Tool(description = TOOL_DESCRIPTION)
     public String tasksInfoTool() {
         Preconditions.checkState(tasksReportFilePath != null, "No tasks report file specified.");
 

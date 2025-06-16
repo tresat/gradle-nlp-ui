@@ -13,11 +13,12 @@ import java.nio.charset.StandardCharsets;
 @Component
 public final class GradleFilesTool {
     private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" +MCPServerApplication.GRADLE_FILES_REPORT_FILE_PROPERTY + "}";
+    public static final String TOOL_DESCRIPTION = "Lists the absolute path to every Gradle file present in the build (and any included builds, recursively), and their contents";
 
     @Value(GRADLE_FILES_REPORT_FILE_PATH_VALUE)
     public String gradleFilesReportFilePath;
 
-    @Tool(description = "Lists the absolute path to every Gradle file present in the build (and any included builds, recursively), and their contents")
+    @Tool(description = TOOL_DESCRIPTION)
     public String gradleFilesTool() {
         Preconditions.checkState(gradleFilesReportFilePath != null, "No Gradle files report file specified.");
 

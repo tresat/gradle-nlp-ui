@@ -13,7 +13,7 @@ public final class ReadGradleFileService implements Function<String, String> {
             File requestedFile = Util.readableFile(requestedFilePath, "Gradle file");
             return Files.asCharSource(requestedFile, StandardCharsets.UTF_8).read();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to read Gradle file", e);
+            throw new RuntimeException("Failed to read Gradle file: " + requestedFilePath, e);
         }
     }
 }
