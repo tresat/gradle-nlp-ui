@@ -16,19 +16,20 @@ class MCPServerApplicationTest extends Specification {
         where:
         args << [
             [],
-            ["--server.port=8080"],
-            ["--org.gradle.ai.nlp.server.tasks.report.file=build/reports/tasks-report.txt"],
-            ["--server.port=8080", "--org.gradle.ai.nlp.server.tasks.report.file=build/reports/tasks-report.txt"]
+            ["--${MCPServerApplication.SERVER_PORT_PROPERTY}=8080"],
+            ["--${MCPServerApplication.TASKS_REPORT_FILE_PROPERTY}=build/reports/tasks-report.txt"],
+            ["--${MCPServerApplication.SERVER_PORT_PROPERTY}=8080", "--${MCPServerApplication.TASKS_REPORT_FILE_PROPERTY}=build/reports/tasks-report.txt"]
         ]
     }
 
     def "can provide additional properties when running server"() {
         expect:
         MCPServerApplication.verifyArgs([
-                "--server.port=8080",
-                "--org.gradle.ai.nlp.server.tasks.report.file=build/reports/tasks-report.txt",
-                "--logging.file.name=build/logs/mcp-server.log",
-                "--spring.ai.anthropic.api-key=test-key",
+                "--${MCPServerApplication.SERVER_PORT_PROPERTY}=8080",
+                "--${MCPServerApplication.ANTHROPIC_API_KEY_PROPERTY}=test-key",
+                "--${MCPServerApplication.LOG_FILE_PROPERTY}=build/logs/mcp-server.log",
+                "--${MCPServerApplication.TASKS_REPORT_FILE_PROPERTY}=build/reports/tasks-report.txt",
+                "--${MCPServerApplication.GRADLE_FILES_REPORT_FILE_PROPERTY}=build/reports/gradle-files-report.txt",
                 "--spring.ai.mcp.server.other=something",
         ] as String[])
     }

@@ -29,8 +29,9 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
 
     public void connect() {
         Preconditions.checkState(!isConnected(), "Already connected!");
-        getParameters().getAnthropicApiKey(); // Calling get will throw an exception if the API key is not set
-        mcpClient.connect(getParameters().getServerUrls().get());
+        Preconditions.checkState(getParameters().getAnthropicApiKey().isPresent(), "Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?");
+
+        mcpClient.connect(getParameters().getAnthropicApiKey().get(), getParameters().getServerUrls().get());
         logger.info(CLIENT_STARTUP_MESSAGE);
     }
 

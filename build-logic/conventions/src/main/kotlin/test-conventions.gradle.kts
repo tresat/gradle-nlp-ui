@@ -11,7 +11,6 @@ plugins {
 
 dependencies {
     testFixturesImplementation(libs.findLibrary("spock.core").get())
-
     if (project.name != "shared") {
         testFixturesImplementation(project(":shared"))
     }
@@ -23,7 +22,11 @@ testing {
             useSpock()
         }
 
-        val test by getting(JvmTestSuite::class)
+        val test by getting(JvmTestSuite::class) {
+            dependencies {
+                implementation(libs.findLibrary("mockito.core").get())
+            }
+        }
         val functionalTest by registering(JvmTestSuite::class) {
             dependencies {
                 implementation(project())
@@ -43,3 +46,4 @@ testing {
         }
     }
 }
+

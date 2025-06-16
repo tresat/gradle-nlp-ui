@@ -12,6 +12,7 @@ import org.gradle.work.DisableCachingByDefault;
 
 @DisableCachingByDefault
 public abstract class AskMCPTask extends DefaultTask {
+    public static final String TASK_NAME = "ai";
     public static final String QUERY_PARAM_NAME = "query";
     public static final String QUERY_LOG_MESSAGE_TEMPLATE = "MCP Server Query: '{}'";
     public static final String RESPONSE_LOG_MESSAGE_TEMPLATE = "MCP Server Response: '{}'";

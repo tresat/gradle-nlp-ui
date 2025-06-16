@@ -39,7 +39,7 @@ public class SpringMCPClient {
     }
 
     public static ConfigurableApplicationContext run(String anthropicApiKey, List<String> mcpServerUrls) {
-        String[] args = new String[]{
+        String[] args = new String[] {
                 "--" + CONFIG_NAME_PROPERTY + "=application-client",
                 "--spring.config.location=", // This is to ensure that the application does not read from the default application.properties used by the server
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,

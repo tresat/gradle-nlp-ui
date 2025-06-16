@@ -1,4 +1,7 @@
 package org.gradle.ai.nlp.client
+
+import org.gradle.ai.nlp.util.Util
+
 /**
  * Functional tests for the MCP client application.
  * <p>
@@ -11,7 +14,7 @@ class MCPClientFunctionalTest extends AbstractServerRunningFunctionalTest {
         MCPClient client = new MCPClient()
 
         when:
-        client.connect(List.of(serverUrl.toString()))
+        client.connect(Util.readAnthropicApiKeyFromProperties(), List.of(serverUrl.toString()))
 
         then:
         client.isConnected()
@@ -23,7 +26,7 @@ class MCPClientFunctionalTest extends AbstractServerRunningFunctionalTest {
     def "client can query server"() {
         given:
         MCPClient client = new MCPClient()
-        client.connect(List.of(serverUrl.toString()))
+        client.connect(Util.readAnthropicApiKeyFromProperties(), List.of(serverUrl.toString()))
 
         when:
         def result = client.query("What task should I run to create a new Gradle project?")

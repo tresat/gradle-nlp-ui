@@ -18,7 +18,7 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        String port = environment.getProperty("local.server.port", "8080");
+        String port = environment.getProperty(MCPServerApplication.SERVER_PORT_PROPERTY, "8080");
         String sseEndpoint = environment.getProperty("spring.ai.mcp.server.sse-endpoint", "/sse");
         String url = "http://localhost:" + port + sseEndpoint;
 
@@ -31,9 +31,9 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
             throw new IllegalStateException("MCP Server is reading client properties!");
         }
 
-        String pathToTasksReport = environment.getProperty("org.gradle.ai.nlp.server.tasks.report.file");
+        String pathToTasksReport = environment.getProperty(MCPServerApplication.TASKS_REPORT_FILE_PROPERTY);
         if (pathToTasksReport == null || pathToTasksReport.isEmpty()) {
-            throw new IllegalStateException("Property 'org.gradle.ai.nlp.server.tasks.report.file' is not set.");
+            throw new IllegalStateException("Property '" + MCPServerApplication.TASKS_REPORT_FILE_PROPERTY + "' is not set.");
         }
 
         File pathsReportFile = new File(pathToTasksReport);
@@ -43,9 +43,9 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
             throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
         }
 
-        String pathToLogFile = environment.getProperty("logging.file.name");
+        String pathToLogFile = environment.getProperty(MCPServerApplication.LOG_FILE_PROPERTY);
         if (pathToLogFile == null || pathToLogFile.isEmpty()) {
-            throw new IllegalStateException("Property 'logging.file.name' is not set.");
+            throw new IllegalStateException("Property '" + MCPServerApplication.LOG_FILE_PROPERTY + "' is not set.");
         }
 
         File logFile = new File(pathToLogFile);

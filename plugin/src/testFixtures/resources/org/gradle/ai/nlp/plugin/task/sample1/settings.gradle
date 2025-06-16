@@ -1,0 +1,6 @@
+package org.gradle.ai.nlp.plugin.task.sample1
+
+include('sub1', 'sub2')
+includeBuild('build-logic')
+includeBuild('something/other')
+rootProject.name = 'test-project'

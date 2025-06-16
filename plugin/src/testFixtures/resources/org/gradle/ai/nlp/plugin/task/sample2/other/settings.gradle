@@ -1,0 +1,4 @@
+package org.gradle.ai.nlp.plugin.task.sample2.other
+
+include('sub1')
+rootProject.name = 'other'

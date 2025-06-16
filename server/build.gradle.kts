@@ -6,6 +6,8 @@ dependencies {
     api(libs.spring.ai.starter.mcp.server.webflux)
     api(libs.spring.web)
     api(libs.spring.boot.starter.actuator)
+
+    testFixturesImplementation(testFixtures(project(":shared")))
 }
 
 testing {

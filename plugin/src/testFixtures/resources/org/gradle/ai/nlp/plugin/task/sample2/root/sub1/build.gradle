@@ -1,0 +1,3 @@
+package org.gradle.ai.nlp.plugin.task.sample2.root.sub1
+
+apply plugin: 'java'

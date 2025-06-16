@@ -1,5 +1,10 @@
 package org.gradle.ai.nlp.plugin
 
+import org.gradle.ai.nlp.plugin.task.AskMCPTask
+import org.gradle.ai.nlp.plugin.task.CustomTasksReportTask
+import org.gradle.ai.nlp.plugin.task.GradleFilesReportTask
+import org.gradle.ai.nlp.plugin.task.StartMCPTask
+import org.gradle.ai.nlp.plugin.task.StopMCPTask
 import org.gradle.ai.nlp.test.TestUtil
 import org.gradle.ai.nlp.util.Util
 import org.gradle.testkit.runner.BuildResult
@@ -11,19 +16,7 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     @TempDir
     protected File projectDir
 
-    protected File getBuildDir() {
-        return new File(projectDir, 'build')
-    }
-
-    protected File getBuildFile() {
-        return new File(projectDir, 'build.gradle')
-    }
-
-    protected File getSettingsFile() {
-        return new File(projectDir, 'settings.gradle')
-    }
-
-    private static int port
+    protected static int port
 
     def setupSpec() {
         port = TestUtil.readPortFromProperties()
@@ -47,6 +40,18 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
         """
     }
 
+    protected File getBuildDir() {
+        return new File(projectDir, 'build')
+    }
+
+    protected File getBuildFile() {
+        return new File(projectDir, 'build.gradle')
+    }
+
+    protected File getSettingsFile() {
+        return new File(projectDir, 'settings.gradle')
+    }
+
     protected BuildResult succeeds(String... args) {
         def runner = GradleRunner.create()
                 .withProjectDir(projectDir)
@@ -68,9 +73,10 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
     protected String knownAITasks() {
         """AI tasks
 --------
-ai - Queries the MCP server
-mcpStartServer - Starts the MCP server
-mcpStopServer - Stops the MCP server
-mcpTasksReport - Feeds the tasks report output to the MCP server"""
+${AskMCPTask.TASK_NAME} - Queries the MCP server
+${GradleFilesReportTask.TASK_NAME} - Collects Gradle build scripts from the build and any included builds
+${StartMCPTask.TASK_NAME} - Starts the MCP server
+${StopMCPTask.TASK_NAME} - Stops the MCP server
+${CustomTasksReportTask.TASK_NAME} - Gathers the output of running the `tasks` report"""
     }
 }

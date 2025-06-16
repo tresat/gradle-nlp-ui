@@ -2,11 +2,8 @@ package org.gradle.ai.nlp.server
 
 import io.modelcontextprotocol.client.McpClient
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport
-import org.gradle.ai.nlp.test.TestUtil
-import org.gradle.ai.nlp.util.Util
-import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.web.client.RestTemplate
-import spock.lang.Specification
+
 /**
  * Functional tests for the MCP server application.
  * <p>
@@ -16,28 +13,7 @@ import spock.lang.Specification
  * <strong>Be sure to run the `:server:bootJar` task to generate the server
  * jar prior to running these tests.</strong>
  */
-class MCPServerApplicationFunctionalTest extends Specification {
-    private static String baseUrl
-    private static ConfigurableApplicationContext context
-
-    def setupSpec() {
-        def port = TestUtil.readPortFromProperties()
-        baseUrl = "http://localhost:$port/"
-
-        context = MCPServerApplication.run(
-                port,
-                new File("src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"),
-                new File("build/logs/build-mcp-server.log"),
-                Util.readAnthropicApiKeyFromProperties()
-        )
-    }
-
-    def cleanupSpec() {
-        if (context && context.isActive()) {
-            context.close()
-        }
-    }
-
+class MCPServerApplicationFunctionalTest extends AbstractMCPServerApplicationFunctionalTest {
     def "can start server and ping server health"() {
         when:
         def restTemplate = new RestTemplate()
@@ -64,16 +40,5 @@ class MCPServerApplicationFunctionalTest extends Specification {
 
         cleanup:
         mcpClient.closeGracefully()
-    }
-
-    def "server makes tasks info tool available"() {
-        when:
-        def callbacks = context.getBean("tasksInfo").toolCallbacks
-
-        then:
-        callbacks.size() == 1
-        def tasksInfoTool = callbacks[0]
-        tasksInfoTool.toolDefinition.name() == "tasksInfoTool"
-        tasksInfoTool.toolDefinition.description() == "Task report information"
     }
 }

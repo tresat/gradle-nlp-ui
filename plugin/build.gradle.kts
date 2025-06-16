@@ -14,6 +14,21 @@ dependencies {
     testFixturesImplementation(testFixtures(project(":shared")))
 }
 
+testing {
+    suites {
+        named<JvmTestSuite>("test") {
+            dependencies {
+                implementation(testFixtures(project(":shared")))
+            }
+        }
+        named<JvmTestSuite>("functionalTest") {
+            dependencies {
+                implementation(project(":shared"))
+            }
+        }
+    }
+}
+
 // TODO: A better fix for this
 /*
  * Gradle's built-in logging implementation conflicts with Logback, provided by Spring, so exclude Logback.

@@ -1,5 +1,8 @@
 package org.gradle.ai.nlp.util;
 
+import org.jspecify.annotations.Nullable;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -27,5 +30,29 @@ public abstract class Util {
         }
 
         return (String) apiKeysProperties.get(ANTHROPIC_API_KEY_PROPERTY);
+    }
+
+    // TODO: replace this with a Groovy extension method?
+    public static String relativePathFrom(File file, File baseDir) {
+        return new File(baseDir.toPath().relativize(file.toPath()).toString()).toString();
+    }
+
+    public static File readableFile(String filePath) {
+        return readableFile(filePath, null);
+    }
+
+    public static File readableFile(String filePath, @Nullable String fileDesc) {
+        if (fileDesc == null) {
+            fileDesc = "File";
+        }
+
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new IllegalStateException(fileDesc + " does not exist: " + file.getAbsolutePath());
+        }
+        if (!file.canRead()) {
+            throw new IllegalStateException(fileDesc + " cannot be read: " + file.getAbsolutePath());
+        }
+        return file;
     }
 }
