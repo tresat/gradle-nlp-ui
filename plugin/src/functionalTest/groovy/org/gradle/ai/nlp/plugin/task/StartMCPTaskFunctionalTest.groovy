@@ -4,6 +4,7 @@ import org.gradle.ai.nlp.plugin.AbsractGradleNlpUiPluginFunctionalTest
 import org.gradle.ai.nlp.plugin.service.MCPServerService
 import org.gradle.ai.nlp.util.Util
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Assumptions
 
 class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run start server task"() {
@@ -42,7 +43,10 @@ class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest 
     }
 
     def "service gives good error message if Anthropic API key not set"() {
-        given: "Clear the environment variable to simulate the absence of the API key"
+        given:
+        Assumptions.assumeTrue(System.getenv("ANTHROPIC_API_KEY") == null, "Skipping test as ANTHROPIC_API_KEY is set in the environment")
+
+        and: "Clear the environment variable to simulate the absence of the API key"
         System.clearProperty("ANTHROPIC_API_KEY")
 
         and: "Set up the build file without an API key"
