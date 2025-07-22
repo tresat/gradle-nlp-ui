@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.client;
 
 import com.google.common.annotations.VisibleForTesting;
+import io.modelcontextprotocol.client.McpAsyncClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import org.gradle.ai.nlp.exception.MissingRequiredPropertiesException;
 import org.gradle.ai.nlp.util.Util;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.mcp.AsyncMcpToolCallbackProvider;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -89,10 +91,11 @@ public class SpringMCPClient {
     }
 
     @Bean
-    public ChatClient chatClient(ChatClient.Builder chatClientBuilder, List<McpSyncClient> mcpSyncClients) {
+    public ChatClient chatClient(ChatClient.Builder chatClientBuilder, List<McpSyncClient> mcpSyncClients, List<McpAsyncClient> mcpAsyncClients) {
         return chatClientBuilder
                 .defaultSystem("You are a Gradle expert.  Always use the TasksInfoTool available on the MCP server to answer task related questions about a specific Gradle build.  This tool provides the output of a tasks report for this specific Gradle build and describes all the available tasks in it.  Use this information to answer task related questions.  When asked for a specific task, provide the description as well, in the format: 'taskName - taskDescription'.")
                 .defaultToolCallbacks(new SyncMcpToolCallbackProvider(mcpSyncClients))
+                .defaultToolCallbacks(new AsyncMcpToolCallbackProvider(mcpAsyncClients))
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().build()).build())
                 .build();
     }

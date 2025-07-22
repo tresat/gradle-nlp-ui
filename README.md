@@ -38,8 +38,10 @@ Or run with Claude Desktop:
    }
    ```
 3. Start Claude Desktop and see the `spring-ai-mcp-weather` server in "Search and Tools"
-4. 
+
 # Troubleshooting
+
+## apiKey cannot be null
 
 If you get a message like:
 ```
@@ -52,3 +54,17 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 Then you probably need to export your Anthropic API key to the environment variable `ANTHROPIC_API_KEY` (or set it in the `application.properties` file).
 
 **Don't commit your API key to the repository!**
+
+## HTTP 529 Overloaded
+
+If you get a message like:
+```
+org.springframework.ai.retry.TransientAiException: HTTP 529 - {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}
+	at org.springframework.ai.retry.autoconfigure.SpringAiRetryAutoConfiguration$2.handleError(SpringAiRetryAutoConfiguration.java:119) ~[spring-ai-autoconfigure-retry-1.0.0.jar:1.0.0]
+	at org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:58) ~[spring-web-6.2.6.jar:6.2.6]
+	at org.springframework.web.client.StatusHandler.lambda$fromErrorHandler$1(StatusHandler.java:71) ~[spring-web-6.2.6.jar:6.2.6]
+	at org.springframework.web.client.StatusHandler.handle(StatusHandler.java:146) ~[spring-web-6.2.6.jar:6.2.6]
+```
+
+This is probably an error from the Anthropic API indicating that the service is overloaded.
+Check https://status.anthropic.com/ to confirm this.
