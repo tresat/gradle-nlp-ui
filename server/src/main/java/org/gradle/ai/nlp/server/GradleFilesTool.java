@@ -2,6 +2,7 @@ package org.gradle.ai.nlp.server;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
+import org.gradle.ai.nlp.util.ServerKeys;
 import org.gradle.ai.nlp.util.Util;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public final class GradleFilesTool {
-    private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" +MCPServerApplication.GRADLE_FILES_REPORT_FILE_PROPERTY + "}";
+    private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.GRADLE_FILES_REPORT_FILE_PROPERTY + "}";
     public static final String TOOL_DESCRIPTION = "Lists the absolute path to every Gradle file present in the build (and any included builds, recursively), and their contents";
 
     @Value(GRADLE_FILES_REPORT_FILE_PATH_VALUE)

@@ -2,7 +2,7 @@ package org.gradle.ai.nlp.server;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.gradle.ai.nlp.exception.MissingRequiredPropertiesException;
-import org.gradle.ai.nlp.util.Util;
+import org.gradle.ai.nlp.util.ServerKeys;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
@@ -12,20 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Description;
 
 import java.io.File;
-import java.util.List;
 import java.util.function.Function;
 
 @SpringBootApplication
-public class MCPServerApplication {
-    public static final String SERVER_PORT_PROPERTY = "server.port";
-    public static final String ANTHROPIC_API_KEY_PROPERTY = Util.ANTHROPIC_API_KEY_PROPERTY;
-    public static final String LOG_FILE_PROPERTY = "logging.file.name";
-
-    public static final String TASKS_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.reports.tasks.file";
-    public static final String GRADLE_FILES_REPORT_FILE_PROPERTY = "org.gradle.ai.nlp.server.reports.gradle.file";
-
-    public static final List<String> REQUIRED_PROPERTIES = List.of(SERVER_PORT_PROPERTY, ANTHROPIC_API_KEY_PROPERTY, LOG_FILE_PROPERTY, TASKS_REPORT_FILE_PROPERTY, GRADLE_FILES_REPORT_FILE_PROPERTY);
-
+public class MCPServerApplication implements ServerKeys {
     public static final String TASKS_INFO_TOOL_NAME = "tasksInfo";
     public static final String GRADLE_FILES_TOOL_NAME = "gradleFiles";
     public static final String GRADLE_FILE_CONTENTS_TOOL_NAME = "gradleFileContents";

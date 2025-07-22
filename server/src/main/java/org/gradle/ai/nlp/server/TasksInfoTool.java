@@ -1,6 +1,7 @@
 package org.gradle.ai.nlp.server;
 
 import com.google.common.base.Preconditions;
+import org.gradle.ai.nlp.util.ServerKeys;
 import org.springframework.ai.tool.annotation.Tool;
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public final class TasksInfoTool {
-    private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" +MCPServerApplication.TASKS_REPORT_FILE_PROPERTY + "}";
+    private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.TASKS_REPORT_FILE_PROPERTY + "}";
     public static final String TOOL_DESCRIPTION = "Task report information";
 
     @Value(TASKS_REPORT_FILE_PATH_VALUE)

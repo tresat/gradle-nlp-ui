@@ -12,6 +12,7 @@ class SpringMCPClientTest extends Specification {
         def e = thrown(MissingRequiredPropertiesException)
         e.message.contains(MissingRequiredPropertiesException.requiredArgsMsg(SpringMCPClient.REQUIRED_PROPERTIES))
         e.message.contains(MissingRequiredPropertiesException.providedArgsMsg(args as String[]))
+        e.message.contains(MissingRequiredPropertiesException.missingPropertiesMsg(SpringMCPClient.REQUIRED_PROPERTIES, args as String[]))
 
         where:
         args << [
