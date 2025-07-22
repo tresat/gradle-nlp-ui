@@ -28,7 +28,9 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
     public abstract RegularFileProperty getRegularOutputFile();
 
     @Inject
-    public CustomTasksReportTask(Problems problemsService) {
+    public abstract Problems getProblemsService();
+
+    public CustomTasksReportTask() {
         File rawOutputFile = outputFile.get().getAsFile();
 
         setOutputFile(rawOutputFile);
@@ -50,7 +52,7 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
                 }
             } catch (Exception e) {
                 ProblemId id = ProblemId.create("report-file-io-error", "Error Creating Report File", ProblemGroup.create("mcp-plugin", "mcp-plugin"));
-                throw problemsService.getReporter().throwing(e, id, spec -> spec.severity(Severity.ERROR));
+                throw getProblemsService().getReporter().throwing(e, id, spec -> spec.severity(Severity.ERROR));
             }
         });
     }
