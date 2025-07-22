@@ -8,8 +8,20 @@ class GradleFilesReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFuncti
         def result = succeeds(GradleFilesReportTask.TASK_NAME)
 
         then:
-        result.output.contains("""Collected Gradle build scripts:
-settings.gradle
-build.gradle""")
+        def output = result.output
+        def matcher = output =~ /See the report at: (.*\/gradle-files-report.txt)/
+        assert matcher.find()
+
+        and:
+        def reportPath = matcher.group(1)
+        def reportFile = new File(reportPath)
+        assert reportFile.exists()
+
+        and:
+        def expectedFiles = [
+                "build.gradle",
+                "settings.gradle"
+        ].collect { new File(projectDir, it).absolutePath }
+        reportFile.readLines() == expectedFiles
     }
 }

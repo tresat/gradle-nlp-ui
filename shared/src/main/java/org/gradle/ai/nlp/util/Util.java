@@ -34,7 +34,13 @@ public abstract class Util {
 
     // TODO: replace this with a Groovy extension method?
     public static String relativePathFrom(File file, File baseDir) {
-        return new File(baseDir.toPath().relativize(file.toPath()).toString()).toString();
+        var result = new File(baseDir.toPath().relativize(file.toPath()).toString()).toString();
+        return maybeTrimPathPrefix(result);
+    }
+
+    // Removes "/private" prefix on macOS (TODO: find a better way to do this)
+    public static String maybeTrimPathPrefix(String path) {
+        return path.startsWith("/private") ? path.substring(8) : path;
     }
 
     public static File readableFile(String filePath) {

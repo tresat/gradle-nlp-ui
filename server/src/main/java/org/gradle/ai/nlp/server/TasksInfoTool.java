@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public final class TasksInfoTool {
     private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.TASKS_REPORT_FILE_PROPERTY + "}";
-    public static final String TOOL_DESCRIPTION = "Task report information";
+    public static final String TOOL_DESCRIPTION = "Provides the result of running the tasks task to report information on this specific build's available tasks";
 
     @Value(TASKS_REPORT_FILE_PATH_VALUE)
     public String tasksReportFilePath;

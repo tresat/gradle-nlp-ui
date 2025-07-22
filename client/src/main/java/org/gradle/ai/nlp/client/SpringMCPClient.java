@@ -12,17 +12,16 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.mcp.AsyncMcpToolCallbackProvider;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class SpringMCPClient {
@@ -36,18 +35,18 @@ public class SpringMCPClient {
         run(args);
     }
 
-    public static ConfigurableApplicationContext run(String anthropicApiKey) {
+    public static AnnotationConfigApplicationContext run(String anthropicApiKey) {
         return run(anthropicApiKey, Collections.emptyList());
     }
 
-    public static ConfigurableApplicationContext run(String anthropicApiKey, List<String> mcpServerUrls) {
+    public static AnnotationConfigApplicationContext run(String anthropicApiKey, List<String> mcpServerUrls) {
         String[] args = new String[] {
                 "--" + CONFIG_NAME_PROPERTY + "=application-client",
                 "--spring.config.location=", // This is to ensure that the application does not read from the default application.properties used by the server
                 "--" + ANTHROPIC_API_KEY_PROPERTY + "=" + anthropicApiKey,
         };
         String[] argsWithServers = addServersToArgs(args, mcpServerUrls);
-        return run(argsWithServers);
+        return (AnnotationConfigApplicationContext) run(argsWithServers);
     }
 
     private static String[] addServersToArgs(String[] args, List<String> mcpServerUrls) {
@@ -67,6 +66,7 @@ public class SpringMCPClient {
         verifyArgs(args);
         return new SpringApplicationBuilder(SpringMCPClient.class)
                 .web(WebApplicationType.NONE)
+                .bannerMode(Banner.Mode.OFF) // TODO: Why is this needed? the application-client file says no banner?
                 .run(args);
     }
 
@@ -98,14 +98,6 @@ public class SpringMCPClient {
                 .defaultToolCallbacks(new AsyncMcpToolCallbackProvider(mcpAsyncClients))
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(MessageWindowChatMemory.builder().build()).build())
                 .build();
-    }
-
-    private void logMCPConnections(List<McpSyncClient> mcpSyncClients) {
-        var clientsMessage = "There are " + mcpSyncClients.size() + " clients: " + mcpSyncClients.stream()
-                .map(McpSyncClient::getServerInfo)
-                .map(Record::toString)
-                .collect(Collectors.joining(", "));
-        logger.info(clientsMessage);
     }
 }
 
