@@ -1,4 +1,4 @@
-package org.gradle.ai.nlp.server;
+package org.gradle.ai.nlp.server.tools;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.Files;
@@ -12,15 +12,18 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 @Component
-public final class GradleFilesTool {
-    private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.GRADLE_FILES_REPORT_FILE_PROPERTY + "}";
+public final class ProjectLocationsInfoTool {
+    public static final String TOOL_NAME = "projectLocationsInfo"; // Should match method name
     public static final String TOOL_DESCRIPTION = "Lists the absolute path to every Gradle file present in this specific build (and any included builds, recursively)";
+
+    private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.PROJECT_LOCATIONS_REPORT_FILE_PROPERTY + "}";
 
     @Value(GRADLE_FILES_REPORT_FILE_PATH_VALUE)
     public String gradleFilesReportFilePath;
 
     @Tool(description = TOOL_DESCRIPTION)
-    public String gradleFilesTool() {
+    public String projectLocationsInfo() {
+        //noinspection ConstantValue
         Preconditions.checkState(gradleFilesReportFilePath != null, "No Gradle files report file specified.");
 
         File gradleFilesReportFile = Util.readableFile(gradleFilesReportFilePath, "Gradle files report file");

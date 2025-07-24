@@ -12,6 +12,7 @@ dependencies {
 
     testFixturesImplementation(gradleTestKit())
     testFixturesImplementation(testFixtures(project(":shared")))
+    testFixturesImplementation(libs.commons.io)
 }
 
 testing {

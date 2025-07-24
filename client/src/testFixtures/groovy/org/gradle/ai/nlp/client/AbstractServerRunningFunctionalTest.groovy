@@ -29,7 +29,7 @@ abstract class AbstractServerRunningFunctionalTest extends Specification impleme
         // Start the server JAR as a background process
         def process = ["java", "-jar", PATH_TO_SERVER_JAR,
                        "--${SERVER_PORT_PROPERTY}=$port",
-                       "--${GRADLE_FILES_REPORT_FILE_PROPERTY}=src/functionalTest/resources/sample-mcp-reports/gradle-files-report.txt",
+                       "--${PROJECT_LOCATIONS_REPORT_FILE_PROPERTY}=src/functionalTest/resources/sample-mcp-reports/project-locations-report.txt",
                        "--${TASKS_REPORT_FILE_PROPERTY}=src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt",
                        "--${LOG_FILE_PROPERTY}=build/logs/build-mcp-server.log",
                        "--${ANTHROPIC_API_KEY_PROPERTY}=${Util.readAnthropicApiKeyFromProperties()}"

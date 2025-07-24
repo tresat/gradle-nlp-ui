@@ -35,7 +35,7 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
                 getParameters().getAnthropicApiKey().get(),
                 getParameters().getLogFile().getAsFile().get(),
                 getParameters().getTasksReportFile().getAsFile().get(),
-                getParameters().getGradleFilesReportFile().getAsFile().get()
+                getParameters().getProjectLocationsReportFile().getAsFile().get()
         );
         logger.lifecycle(SERVER_STARTUP_MESSAGE);
     }
@@ -56,6 +56,6 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
         RegularFileProperty getLogFile();
 
         RegularFileProperty getTasksReportFile();
-        RegularFileProperty getGradleFilesReportFile();
+        RegularFileProperty getProjectLocationsReportFile();
     }
 }

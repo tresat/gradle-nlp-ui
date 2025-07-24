@@ -22,7 +22,7 @@ class AbstractMCPServerApplicationFunctionalTest extends Specification {
                 Util.readAnthropicApiKeyFromProperties(),
                 new File("build/logs/build-mcp-server.log"),
                 new File("src/functionalTest/resources/sample-mcp-reports/custom-tasks-report.txt"),
-                new File("src/functionalTest/resources/sample-mcp-reports/gradle-tasks-report.txt"),
+                new File("src/functionalTest/resources/sample-mcp-reports/project-locations-report.txt"),
         )
     }
 

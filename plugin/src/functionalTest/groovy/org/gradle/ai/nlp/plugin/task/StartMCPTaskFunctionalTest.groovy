@@ -9,7 +9,7 @@ import spock.lang.Requires
 class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run start server task"() {
         when:
-        def result = succeeds(StartMCPTask.TASK_NAME)
+        def result = succeeds(StartMCPTask.NAME)
 
         then:
         result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)
@@ -32,7 +32,7 @@ class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest 
             when: "Providing the ANTHROPIC_API_KEY as an environment variable"
             def result = GradleRunner.create()
                     .withProjectDir(projectDir)
-                    .withArguments(StartMCPTask.TASK_NAME)
+                    .withArguments(StartMCPTask.NAME)
                     .withEnvironment(["ANTHROPIC_API_KEY": Util.readAnthropicApiKeyFromProperties()])
                     .withPluginClasspath()
                     .forwardOutput()
@@ -57,7 +57,7 @@ class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest 
             """.stripIndent()
 
             then:
-            def result = fails(StartMCPTask.TASK_NAME)
+            def result = fails(StartMCPTask.NAME)
 
             and:
             result.output.contains("Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?")

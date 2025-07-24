@@ -12,6 +12,11 @@ dependencyResolutionManagement {
     }
 }
 
+include(":core")
+
+include(":ui")
+project(":ui").projectDir = file("features/ui")
+
 develocity {
     buildScan {
         termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"

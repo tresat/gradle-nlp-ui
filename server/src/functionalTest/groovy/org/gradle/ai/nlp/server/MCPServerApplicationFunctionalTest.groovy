@@ -41,4 +41,26 @@ class MCPServerApplicationFunctionalTest extends AbstractMCPServerApplicationFun
         cleanup:
         mcpClient.closeGracefully()
     }
+
+    // TODO: load example reports from the test resources, start the server with those reports, and then query the server
+    // Try using getPrompt() on the mcpClient for this
+//    def "ask about flying pigs"() {
+//        when:
+//        def query = "What task should I run to fly a barnyard animal?  Respond in the following format, substituting X for the task name: To fly an animal, you should run the `X` task."
+//        def result = succeeds(AskMCPTask.NAME, "--${AskMCPTask.QUERY_PARAM_NAME}=$query")
+//
+//        then:
+//        result.output.contains(AskMCPTask.QUERY_LOG_MESSAGE_TEMPLATE.replace("{}", query))
+//        result.output.contains("To fly an animal, you should run the `flyPig` task.")
+//    }
+//
+//    def "ask about non-default project locations"() {
+//        when:
+//        def query = "What projects have non-default project locations?  Respond in the following format, substituting X for the project name and Y for the directory: Project X is located in directory Y."
+//        def result = succeeds(AskMCPTask.NAME, "--${AskMCPTask.QUERY_PARAM_NAME}=$query")
+//
+//        then:
+//        result.output.contains(AskMCPTask.QUERY_LOG_MESSAGE_TEMPLATE.replace("{}", query))
+//        result.output.contains("To fly an animal, you should run the `flyPig` task.")
+//    }
 }

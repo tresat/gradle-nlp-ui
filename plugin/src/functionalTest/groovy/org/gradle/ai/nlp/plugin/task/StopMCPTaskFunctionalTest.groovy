@@ -6,7 +6,7 @@ import org.gradle.ai.nlp.plugin.service.MCPServerService
 class StopMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run stop server task"() {
         when:
-        def result = succeeds(StartMCPTask.TASK_NAME, StopMCPTask.TASK_NAME)
+        def result = succeeds(StartMCPTask.NAME, StopMCPTask.NAME)
 
         then:
         result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)

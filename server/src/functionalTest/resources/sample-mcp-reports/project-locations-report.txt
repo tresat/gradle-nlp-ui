@@ -1,0 +1,17 @@
+Gradle Project Locations Report
+Settings: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/settings.gradle.kts
+
+Project: core
+Build File: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/core/build.gradle.kts
+Project Directory: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/core
+
+Root Project: test-build
+Build File: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/build.gradle.kts
+Project Directory: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build
+Children:
+  - core
+  - ui
+
+Project: ui
+Build File: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/features/ui/build.gradle.kts
+Project Directory: /Users/ttresansky/Projects/ai/gradle-nlp-ui/test-build/features/ui
