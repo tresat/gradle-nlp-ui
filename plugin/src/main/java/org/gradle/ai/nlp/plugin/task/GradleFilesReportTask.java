@@ -5,8 +5,11 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.*;
 
+import static org.gradle.ai.nlp.util.Util.maybeTrimPathPrefix;
 import static org.gradle.ai.nlp.util.Util.relativePathFrom;
 
 public abstract class GradleFilesReportTask extends DefaultTask {
@@ -30,13 +33,13 @@ public abstract class GradleFilesReportTask extends DefaultTask {
         GradleFileScanner scanner = new GradleFileScanner();
         Set<File> collected = scanner.collectGradleFiles(buildRootDir);
 
-        getLogger().lifecycle("Collected Gradle build scripts:");
+        // TODO: process the files, read the contents, organize by build, etc.
         collected.forEach(f -> {
             String relativePath = relativePathFrom(f, buildRootDir);
-            getLogger().lifecycle(relativePath);
         });
 
         writeToOutputFile(collected);
+        getLogger().lifecycle("See the report at: {}", getOutputFile().getAsFile().get().getPath());
     }
 
     private void writeToOutputFile(Set<File> files) {
@@ -50,9 +53,13 @@ public abstract class GradleFilesReportTask extends DefaultTask {
             }
 
             try (var writer = new java.io.FileWriter(outputFile)) {
-                for (File file : files) {
-                    writer.write(file.getAbsolutePath() + System.lineSeparator());
-                }
+                files.stream().sorted().forEach(file -> {
+                    try {
+                        writer.write(maybeTrimPathPrefix(file.getAbsolutePath()) + System.lineSeparator());
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
             }
         } catch (Exception e) {
             throw new RuntimeException("Error writing to output file: " + e.getMessage(), e);

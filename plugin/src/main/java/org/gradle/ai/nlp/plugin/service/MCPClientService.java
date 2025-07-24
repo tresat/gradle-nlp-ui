@@ -7,8 +7,8 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 
 import java.io.Closeable;
 
@@ -16,12 +16,12 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     public static final String CLIENT_STARTUP_MESSAGE = "Started MCP Client";
     public static final String CLIENT_SHUTDOWN_MESSAGE = "Shutdown MCP Client";
 
-    public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server from the Client Service: '{}'%n";
-    public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server in the Client Service: '{}'%n";
+    public static final String QUERYING_MSG_TEMPLATE = "Querying MCP Server from the Client Service: '{}'";
+    public static final String ANSWER_MSG_TEMPLATE = "Response from MCP Server in the Client Service: '{}'";
 
-    private static final Logger logger = LoggerFactory.getLogger(MCPClientService.class);
+    private final Logger logger = Logging.getLogger(MCPClientService.class);
 
-    private final MCPClient mcpClient = new MCPClient();
+    private final MCPClient mcpClient = new MCPClient(logger);
 
     public boolean isConnected() {
         return mcpClient.isConnected();
@@ -38,9 +38,9 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     public String query(String query) {
         Preconditions.checkState(isConnected(), "Client not connected");
 
-        logger.info(QUERYING_MSG_TEMPLATE, query);
+        logger.lifecycle(QUERYING_MSG_TEMPLATE, query);
         var answer = mcpClient.query(query);
-        logger.info(ANSWER_MSG_TEMPLATE, answer);
+        logger.lifecycle(ANSWER_MSG_TEMPLATE, answer);
 
         return answer;
     }
@@ -48,13 +48,14 @@ public abstract class MCPClientService implements BuildService<MCPClientService.
     @Override
     public void close() {
         if (isConnected()) {
+            logger.lifecycle("Closing MCP Client...");
             mcpClient.close();
-            logger.info(CLIENT_SHUTDOWN_MESSAGE);
+            logger.lifecycle(CLIENT_SHUTDOWN_MESSAGE);
         }
     }
 
     public interface Params extends BuildServiceParameters {
-        Property<String> getAnthropicApiKey();
-        ListProperty<String> getServerUrls();
+        Property<@NotNull String> getAnthropicApiKey();
+        ListProperty<@NotNull String> getServerUrls();
     }
 }

@@ -9,7 +9,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.web.reactive.context.ConfigurableReactiveWebApplicationContext;
 
 import java.io.Closeable;
 
@@ -19,7 +19,7 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
 
     private final Logger logger = Logging.getLogger(MCPServerService.class);
 
-    private ConfigurableApplicationContext serverContext;
+    private ConfigurableReactiveWebApplicationContext serverContext;
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isStarted() {
@@ -30,7 +30,7 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
         Preconditions.checkState(!isStarted(), "MCP Server already started");
         Preconditions.checkState(getParameters().getAnthropicApiKey().isPresent(), "Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?");
 
-        serverContext = MCPServerApplication.run(
+        serverContext = (ConfigurableReactiveWebApplicationContext) MCPServerApplication.run(
                 getParameters().getPort().get(),
                 getParameters().getAnthropicApiKey().get(),
                 getParameters().getLogFile().getAsFile().get(),
@@ -43,6 +43,8 @@ public abstract class MCPServerService implements BuildService<MCPServerService.
     @Override
     public void close() {
         if (serverContext != null && !serverContext.isClosed()) {
+            logger.lifecycle("Closing MCP Server...");
+            serverContext.stop();
             serverContext.close();
             logger.lifecycle(SERVER_SHUTDOWN_MESSAGE);
         }

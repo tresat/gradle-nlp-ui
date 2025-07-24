@@ -4,7 +4,7 @@ import org.gradle.ai.nlp.plugin.AbsractGradleNlpUiPluginFunctionalTest
 import org.gradle.ai.nlp.plugin.service.MCPServerService
 import org.gradle.ai.nlp.util.Util
 import org.gradle.testkit.runner.GradleRunner
-import org.junit.jupiter.api.Assumptions
+import spock.lang.Requires
 
 class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run start server task"() {
@@ -16,54 +16,63 @@ class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest 
         result.output.contains(MCPServerService.SERVER_SHUTDOWN_MESSAGE)
     }
 
-    def "can run start server task using ANTHROPIC_API_KEY from environment"() {
-        given: "Set up the build file without an API key"
-        buildFile.text = """
-            plugins {
-                id 'org.gradle.ai.nlp'
-            }
-            
-            mcpServer {
-                port = $port
-            }
-        """.stripIndent()
+    static class WithoutAnthropicApiKeySetInBuild extends AbsractGradleNlpUiPluginFunctionalTest {
+        def "can run start server task using ANTHROPIC_API_KEY from environment"() {
+            given: "Set up the build file without an API key"
+            buildFile.text = """
+                plugins {
+                    id 'org.gradle.ai.nlp'
+                }
+                
+                mcpServer {
+                    port = $port
+                }
+            """.stripIndent()
 
-        when: "Providing the ANTHROPIC_API_KEY as an environment variable"
-        def result = GradleRunner.create()
-                .withProjectDir(projectDir)
-                .withArguments(StartMCPTask.TASK_NAME)
-                .withEnvironment(["ANTHROPIC_API_KEY": Util.readAnthropicApiKeyFromProperties()])
-                .withPluginClasspath()
-                .forwardOutput()
-                .build()
+            when: "Providing the ANTHROPIC_API_KEY as an environment variable"
+            def result = GradleRunner.create()
+                    .withProjectDir(projectDir)
+                    .withArguments(StartMCPTask.TASK_NAME)
+                    .withEnvironment(["ANTHROPIC_API_KEY": Util.readAnthropicApiKeyFromProperties()])
+                    .withPluginClasspath()
+                    .forwardOutput()
+                    .build()
 
-        then:
-        result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)
-        result.output.contains(MCPServerService.SERVER_SHUTDOWN_MESSAGE)
-    }
+            then:
+            result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)
+            result.output.contains(MCPServerService.SERVER_SHUTDOWN_MESSAGE)
+        }
 
-    def "service gives good error message if Anthropic API key not set"() {
-        given:
-        Assumptions.assumeTrue(System.getenv("ANTHROPIC_API_KEY") == null, "Skipping test as ANTHROPIC_API_KEY is set in the environment")
+        @Requires({ System.getenv("ANTHROPIC_API_KEY") == null })
+        def "service gives good error message if Anthropic API key not set"() {
+            when: "Set up the build file without an API key"
+            buildFile.text = """
+                plugins {
+                    id 'org.gradle.ai.nlp'
+                }
+                
+                mcpServer {
+                    port = $port
+                }
+            """.stripIndent()
 
-        and: "Clear the environment variable to simulate the absence of the API key"
-        System.clearProperty("ANTHROPIC_API_KEY")
+            then:
+            def result = fails(StartMCPTask.TASK_NAME)
 
-        and: "Set up the build file without an API key"
-        buildFile.text = """
-            plugins {
-                id 'org.gradle.ai.nlp'
-            }
-            
-            mcpServer {
-                port = $port
-            }
-        """.stripIndent()
+            and:
+            result.output.contains("Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?")
+        }
 
-        when:
-        def result = fails(StartMCPTask.TASK_NAME)
-
-        then:
-        result.output.contains("Anthropic API key is not available in the service parameters - was it set in the plugin extension or via the ANTHROPIC_API_KEY environment variable?")
+        def setup() {
+            buildFile.text = """
+                plugins {
+                    id 'org.gradle.ai.nlp'
+                }
+                
+                mcpServer {
+                    port = $port
+                }
+            """.stripIndent()
+        }
     }
 }

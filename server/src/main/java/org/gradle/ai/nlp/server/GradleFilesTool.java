@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public final class GradleFilesTool {
     private static final String GRADLE_FILES_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.GRADLE_FILES_REPORT_FILE_PROPERTY + "}";
-    public static final String TOOL_DESCRIPTION = "Lists the absolute path to every Gradle file present in the build (and any included builds, recursively), and their contents";
+    public static final String TOOL_DESCRIPTION = "Lists the absolute path to every Gradle file present in this specific build (and any included builds, recursively)";
 
     @Value(GRADLE_FILES_REPORT_FILE_PATH_VALUE)
     public String gradleFilesReportFilePath;

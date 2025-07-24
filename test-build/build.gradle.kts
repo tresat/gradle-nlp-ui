@@ -8,7 +8,15 @@ mcpServer {
         .orElse(project.providers.environmentVariable("ANTHROPIC_API_KEY"))
 }
 
-tasks.register("flyPlane") {
+tasks.register("flyRocket") {
+    description = "Rockets fly higher than anything else."
+}
+
+tasks.register("flySuperman") {
+    description = "Able to leap tall buildings in a single bound."
+}
+
+tasks.register("flyAirplane") {
     description = "A task that simulates flying a plane."
 }
 
@@ -16,6 +24,5 @@ tasks.register("flyPig") {
     description = "A task that simulates flying a pig."
 }
 
-tasks.register("flySuperman") {
-    description = "Able to leap tall buildings in a single bound."
-}
+// Whoops, this build contains a secret: "SuperSeCrEtKey123"
+description = "A Gradle build script that simulates flying various objects."

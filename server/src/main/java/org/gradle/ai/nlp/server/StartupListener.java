@@ -37,9 +37,7 @@ public class StartupListener implements ApplicationListener<ApplicationReadyEven
         }
 
         File pathsReportFile = new File(pathToTasksReport);
-        if (pathsReportFile.exists()) {
-            System.out.println("Path to tasks report: " + pathsReportFile.getAbsolutePath());
-        } else {
+        if (!pathsReportFile.exists()) {
             throw new IllegalStateException("Tasks report file does not exist: " + pathsReportFile.getAbsolutePath());
         }
 
