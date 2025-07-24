@@ -5,6 +5,7 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.initialization.ProjectDescriptor;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.project.ProjectRegistry;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.initialization.DefaultProjectDescriptor;
@@ -19,17 +20,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class GradleProjectLocationsReportTask extends DefaultTask {
-    public static final String TASK_NAME = "gradleProjectsLocationsReport";
-    public static final String REPORTS_FILE_NAME = "gradle-project-locations-report.txt";
+public abstract class ProjectLocationsReportTask extends DefaultTask {
+    public static final String TASK = "projectsLocationsReport";
+    public static final String DESCRIPTION = "Collects information about Gradle projects and build scripts from the build";
+
+    public static final String REPORTS_FILE_NAME = "project-locations-report.txt";
 
     @OutputFile
     public abstract RegularFileProperty getOutputFile();
 
-    private final File settingsFile = ((GradleInternal) getProject().getGradle()).getSettings().getBuildscript().getSourceFile();
+    private final Provider<File> settingsFile = getProject().getProviders().provider(() -> ((GradleInternal) getProject().getGradle()).getSettings().getBuildscript().getSourceFile());
     private final Set<ProjectInfo> projectInfos = new HashSet<>();
 
-    public GradleProjectLocationsReportTask() {
+    public ProjectLocationsReportTask() {
         ProjectRegistry<@NotNull DefaultProjectDescriptor> projectRegistry = ((GradleInternal) getProject().getGradle()).getSettings().getProjectRegistry();
         Map<ProjectDescriptor, ProjectInfo> projectInfoBuilder = new HashMap<>();
 
@@ -67,7 +70,7 @@ public abstract class GradleProjectLocationsReportTask extends DefaultTask {
     private String buildReportContents() {
         StringBuilder result = new StringBuilder();
         result.append("Gradle Project Locations Report\n");
-        result.append("Settings: ").append(settingsFile.toPath()).append("\n\n");
+        result.append("Settings: ").append(settingsFile.get().toPath()).append("\n\n");
         result.append(projectInfos.stream().map(ProjectInfo::report).collect(Collectors.joining("\n")));
         return result.toString();
     }

@@ -3,14 +3,14 @@ package org.gradle.ai.nlp.plugin.task
 
 import org.gradle.ai.nlp.plugin.AbsractGradleNlpUiPluginFunctionalTest
 
-class GradleProjectLocationsReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
+class ProjectLocationsReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run projects report task #ccStatus"() {
         when:
-        def result = succeeds(GradleProjectLocationsReportTask.TASK_NAME, ccStatus)
+        def result = succeeds(ProjectLocationsReportTask.TASK, ccStatus)
 
         then:
         def output = result.output
-        def matcher = output =~ /See the report at: (.*\/${GradleProjectLocationsReportTask.REPORTS_FILE_NAME})/
+        def matcher = output =~ /See the report at: (.*\/${ProjectLocationsReportTask.REPORTS_FILE_NAME})/
         assert matcher.find()
 
         and:
@@ -44,11 +44,11 @@ class GradleProjectLocationsReportTaskFunctionalTest extends AbsractGradleNlpUiP
         """
 
         when:
-        def result = succeeds(GradleProjectLocationsReportTask.TASK_NAME)
+        def result = succeeds(ProjectLocationsReportTask.TASK)
 
         then:
         def output = result.output
-        def matcher = output =~ /See the report at: (.*\/${GradleProjectLocationsReportTask.REPORTS_FILE_NAME})/
+        def matcher = output =~ /See the report at: (.*\/${ProjectLocationsReportTask.REPORTS_FILE_NAME})/
         assert matcher.find()
 
         and:

@@ -9,7 +9,10 @@ Run the default `build` task via `./gradlew`
 ## Use the Test Build
 The `test-build` project is a Gradle build that includes the plugin project and applies the plugin for easy testing.
 
-From `/test-build`, run `./gradlew ai --query="What task can I run to make a farm animal fly?"`
+From `/test-build`, here are some sample queries to run that the server should be able to answer:
+- `./gradlew ai --query="What task can I run to make a farm animal fly?"`
+- `./gradlew ai --query="List the paths to all the gradle build files in this build where the project dir is not in the default location.  Response in the following format: Project X has a non-default location of Y"`
+
 
 # Testing Other Examples
 

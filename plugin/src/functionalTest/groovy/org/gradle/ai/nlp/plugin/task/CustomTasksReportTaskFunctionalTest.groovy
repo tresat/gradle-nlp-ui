@@ -6,7 +6,7 @@ import org.gradle.ai.nlp.plugin.GradleNlpUiPlugin
 class CustomTasksReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run tasks report task #ccStatus"() {
         when:
-        def result = succeeds(CustomTasksReportTask.TASK_NAME, ccStatus)
+        def result = succeeds(CustomTasksReportTask.NAME, ccStatus)
 
         then:
         String pathToReportInProject = "${GradleNlpUiPlugin.MCP_REPORTS_DIR}${File.separatorChar}${CustomTasksReportTask.REPORTS_FILE_NAME}"

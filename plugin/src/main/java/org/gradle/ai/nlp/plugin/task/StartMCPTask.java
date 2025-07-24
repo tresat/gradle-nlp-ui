@@ -9,25 +9,24 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.work.DisableCachingByDefault;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 @DisableCachingByDefault
 public abstract class StartMCPTask extends DefaultTask {
-    public static final String TASK_NAME = "mcpStartServer";
+    public static final String NAME = "mcpStartServer";
+    public static final String DESCRIPTION = "Starts the MCP server";
 
     @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
     abstract Property<MCPServerService> getMCPService();
 
-    // Kept as Property<File> to match whats available in the TaskReportTask
+    // Kept as Property<File> to match what's available in the TaskReportTask
     @InputFile
     public abstract Property<File> getTasksReportFile();
 
     @InputFile
-    public abstract RegularFileProperty getGradleProjectsReportFile();
-
-    @InputFile
-    public abstract RegularFileProperty getGradleFilesFile();
+    public abstract RegularFileProperty getProjectLocationsReportFile();
 
     public StartMCPTask() {
         getOutputs().upToDateWhen(task -> {

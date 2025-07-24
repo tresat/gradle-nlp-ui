@@ -29,7 +29,7 @@ class MCPServerApplicationTest extends Specification {
                 "--${MCPServerApplication.ANTHROPIC_API_KEY_PROPERTY}=test-key",
                 "--${MCPServerApplication.LOG_FILE_PROPERTY}=build/logs/mcp-server.log",
                 "--${MCPServerApplication.TASKS_REPORT_FILE_PROPERTY}=build/reports/tasks-report.txt",
-                "--${MCPServerApplication.GRADLE_FILES_REPORT_FILE_PROPERTY}=build/reports/gradle-files-report.txt",
+                "--${MCPServerApplication.PROJECT_LOCATIONS_REPORT_FILE_PROPERTY}=build/reports/gradle-files-report.txt",
                 "--spring.ai.mcp.server.other=something",
         ] as String[])
     }

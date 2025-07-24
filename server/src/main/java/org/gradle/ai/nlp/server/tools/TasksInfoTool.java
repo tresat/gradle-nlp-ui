@@ -1,4 +1,4 @@
-package org.gradle.ai.nlp.server;
+package org.gradle.ai.nlp.server.tools;
 
 import com.google.common.base.Preconditions;
 import org.gradle.ai.nlp.util.ServerKeys;
@@ -12,14 +12,17 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public final class TasksInfoTool {
-    private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.TASKS_REPORT_FILE_PROPERTY + "}";
+    public static final String TOOL_NAME = "tasksInfo"; // Should match method name
     public static final String TOOL_DESCRIPTION = "Provides the result of running the tasks task to report information on this specific build's available tasks";
+
+    private static final String TASKS_REPORT_FILE_PATH_VALUE = "${" + ServerKeys.TASKS_REPORT_FILE_PROPERTY + "}";
 
     @Value(TASKS_REPORT_FILE_PATH_VALUE)
     public String tasksReportFilePath;
 
     @Tool(description = TOOL_DESCRIPTION)
-    public String tasksInfoTool() {
+    public String tasksInfo() {
+        //noinspection ConstantValue
         Preconditions.checkState(tasksReportFilePath != null, "No tasks report file specified.");
 
         File tasksReportFile = new File(tasksReportFilePath);

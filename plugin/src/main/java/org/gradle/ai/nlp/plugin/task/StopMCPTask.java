@@ -10,7 +10,8 @@ import org.gradle.work.DisableCachingByDefault;
 
 @DisableCachingByDefault
 public abstract class StopMCPTask extends DefaultTask {
-    public static final String TASK_NAME = "mcpStopServer";
+    public static final String NAME = "mcpStopServer";
+    public static final String DESCRIPTION = "Stops the MCP server";
 
     @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
     abstract Property<MCPServerService> getMCPService();
