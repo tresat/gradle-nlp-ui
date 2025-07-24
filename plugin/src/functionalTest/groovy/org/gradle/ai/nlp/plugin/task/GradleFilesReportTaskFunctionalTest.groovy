@@ -9,13 +9,14 @@ class GradleFilesReportTaskFunctionalTest extends AbsractGradleNlpUiPluginFuncti
 
         then:
         def output = result.output
-        def matcher = output =~ /See the report at: (.*\/gradle-files-report.txt)/
+        def matcher = output =~ /See the report at: (.*\/${GradleFilesReportTask.REPORTS_FILE_NAME})/
         assert matcher.find()
 
         and:
         def reportPath = matcher.group(1)
         def reportFile = new File(reportPath)
         assert reportFile.exists()
+        println(reportFile.text)
 
         and:
         def expectedFiles = [

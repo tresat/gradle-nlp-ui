@@ -1,8 +1,10 @@
 package org.gradle.ai.nlp.plugin
 
+import org.apache.commons.io.FileUtils
 import org.gradle.ai.nlp.plugin.task.AskMCPTask
 import org.gradle.ai.nlp.plugin.task.CustomTasksReportTask
 import org.gradle.ai.nlp.plugin.task.GradleFilesReportTask
+import org.gradle.ai.nlp.plugin.task.GradleProjectLocationsReportTask
 import org.gradle.ai.nlp.plugin.task.StartMCPTask
 import org.gradle.ai.nlp.plugin.task.StopMCPTask
 import org.gradle.ai.nlp.test.TestUtil
@@ -70,11 +72,19 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
         return runner.buildAndFail()
     }
 
+    protected File file(String path) {
+        def file = new File(projectDir, path)
+        FileUtils.createParentDirectories(file)
+        file.createNewFile()
+        return file
+    }
+
     protected String knownAITasks() {
         """AI tasks
 --------
 ${AskMCPTask.TASK_NAME} - Queries the MCP server
 ${GradleFilesReportTask.TASK_NAME} - Collects Gradle build scripts from the build and any included builds
+${GradleProjectLocationsReportTask.TASK_NAME} - Collects information about Gradle projects and build scripts from the build
 ${StartMCPTask.TASK_NAME} - Starts the MCP server
 ${StopMCPTask.TASK_NAME} - Stops the MCP server
 ${CustomTasksReportTask.TASK_NAME} - Gathers the output of running the `tasks` report"""

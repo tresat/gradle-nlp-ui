@@ -19,10 +19,10 @@ import java.io.File;
 @SuppressWarnings("UnstableApiUsage")
 public abstract class CustomTasksReportTask extends TaskReportTask {
     public static final String TASK_NAME = "tasksReport";
-    public static final String REPORTS_FILE = "custom-tasks-report.txt";
+    public static final String REPORTS_FILE_NAME = "custom-tasks-report.txt";
 
     private final Provider<Directory> outputDir = getProject().getLayout().getBuildDirectory().dir(GradleNlpUiPlugin.MCP_REPORTS_DIR);
-    private final Provider<RegularFile> outputFile = outputDir.map(dir -> dir.file(REPORTS_FILE));
+    private final Provider<RegularFile> outputFile = outputDir.map(dir -> dir.file(REPORTS_FILE_NAME));
 
     @OutputFile
     public abstract RegularFileProperty getRegularOutputFile();

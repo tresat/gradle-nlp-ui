@@ -14,7 +14,7 @@ import static org.gradle.ai.nlp.util.Util.relativePathFrom;
 
 public abstract class GradleFilesReportTask extends DefaultTask {
     public static final String TASK_NAME = "gradleFilesReport";
-    public static final String REPORTS_FILE = "gradle-files-report.txt";
+    public static final String REPORTS_FILE_NAME = "gradle-files-report.txt";
 
     private final File buildRootDir = getProject().getRootProject().getRootDir();
 

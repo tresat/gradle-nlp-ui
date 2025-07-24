@@ -9,7 +9,7 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class GradleNlpUiPlugin implements Plugin<Project> {
+public abstract class GradleNlpUiPlugin implements Plugin<@NotNull Project> {
     public static final int MCP_SERVER_DEFAULT_PORT = 8085;
     public static final String MCP_SERVER_LOG_DIR = "log";
     public static final String MCP_SERVER_LOG_FILE_NAME = "mcp-server.log";
@@ -36,7 +36,14 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
             task.setGroup(MCP_TASK_GROUP_NAME);
             task.setDescription("Collects Gradle build scripts from the build and any included builds");
 
-            task.getOutputFile().convention(project.getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR).map(d -> d.file(GradleFilesReportTask.REPORTS_FILE)));
+            task.getOutputFile().convention(project.getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR).map(d -> d.file(GradleFilesReportTask.REPORTS_FILE_NAME)));
+        });
+
+        TaskProvider<@NotNull GradleProjectLocationsReportTask> gradleProjectsReport = project.getTasks().register(GradleProjectLocationsReportTask.TASK_NAME, GradleProjectLocationsReportTask.class, task -> {
+            task.setGroup(MCP_TASK_GROUP_NAME);
+            task.setDescription("Collects information about Gradle projects and build scripts from the build");
+
+            task.getOutputFile().convention(project.getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR).map(d -> d.file(GradleProjectLocationsReportTask.REPORTS_FILE_NAME)));
         });
 
         TaskProvider<@NotNull CustomTasksReportTask> tasksReport = project.getTasks().register(CustomTasksReportTask.TASK_NAME, CustomTasksReportTask.class, task -> {
@@ -50,6 +57,7 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
 
             task.getTasksReportFile().convention(tasksReport.map(CustomTasksReportTask::getOutputFile));
             task.getGradleFilesFile().convention(gradleFilesReport.map(GradleFilesReportTask::getOutputFile).map(Provider::get));
+            task.getGradleProjectsReportFile().convention(gradleProjectsReport.map(GradleProjectLocationsReportTask::getOutputFile).map(Provider::get));
         });
 
         TaskProvider<@NotNull StopMCPTask> stopServer = project.getTasks().register(StopMCPTask.TASK_NAME, StopMCPTask.class, task -> {

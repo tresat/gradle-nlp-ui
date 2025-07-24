@@ -19,8 +19,12 @@ public abstract class StartMCPTask extends DefaultTask {
     @ServiceReference(GradleNlpUiPlugin.MCP_SERVER_SERVICE_NAME)
     abstract Property<MCPServerService> getMCPService();
 
+    // Kept as Property<File> to match whats available in the TaskReportTask
     @InputFile
     public abstract Property<File> getTasksReportFile();
+
+    @InputFile
+    public abstract RegularFileProperty getGradleProjectsReportFile();
 
     @InputFile
     public abstract RegularFileProperty getGradleFilesFile();
