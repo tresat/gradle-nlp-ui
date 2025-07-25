@@ -26,6 +26,11 @@ abstract class AbstractServerRunningFunctionalTest extends Specification impleme
             System.exit(1)
         }
 
+        if (isServerRunning()) {
+            System.err.println("Server is already running at $serverUrl. Please stop it before running these tests.")
+            System.exit(1)
+        }
+
         // Start the server JAR as a background process
         def process = ["java", "-jar", PATH_TO_SERVER_JAR,
                        "--${SERVER_PORT_PROPERTY}=$port",
@@ -51,6 +56,8 @@ abstract class AbstractServerRunningFunctionalTest extends Specification impleme
         }
     }
 
+    // If this test fails, it probably means the server didn't stop correctly on the last run and needs to be killed manually
+    // Check http://localhost:8082/sse (serverUrl)
     def "can start server for functional client tests"() {
         given:
         // TODO: find a better way to wait for the server to start
@@ -66,5 +73,17 @@ abstract class AbstractServerRunningFunctionalTest extends Specification impleme
     protected ConfigurableApplicationContext startClient() {
         String anthropicApiKey = Util.readAnthropicApiKeyFromProperties()
         return SpringMCPClient.run(anthropicApiKey, List.of(serverUrl.toString()))
+    }
+
+    private boolean isServerRunning() {
+        try {
+            def conn = serverUrl.openConnection()
+            conn.setConnectTimeout(1000)
+            conn.setReadTimeout(1000)
+            conn.inputStream.close()
+            return true
+        } catch (Exception e) {
+            return false
+        }
     }
 }

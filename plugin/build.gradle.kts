@@ -25,6 +25,7 @@ testing {
         named<JvmTestSuite>("functionalTest") {
             dependencies {
                 implementation(project(":shared"))
+                implementation(testFixtures(project(":shared")))
             }
         }
     }

@@ -2,10 +2,17 @@ package org.gradle.ai.nlp.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+
+import java.io.InputStreamReader;
 
 public abstract class TestUtil {
     private static final String TEST_PROPERTIES_FILE = "application-test.properties";
@@ -31,6 +38,27 @@ public abstract class TestUtil {
         }
 
         return Integer.parseInt((String) testProperties.get(PORT_PROPERTY));
+    }
+
+    /**
+     * Reads a text resource file from the classpath and returns its content as a String.
+     * <p>
+     * The resource file should be present directly on the classpath, <strong>NOT</strong> inside a JAR file on the classpath.
+     *
+     * @param resourceFileRelativePath the relative path to the resource file (e.g., 'sample1/sample1.txt') from the classpath root
+     * @return the content of the resource file as a String
+     */
+    public static String readResourceFile(String resourceFileRelativePath) {
+        var resource = TestUtil.class.getClassLoader().getResource(resourceFileRelativePath);
+        if (resource == null) {
+            throw new IllegalArgumentException("Resource file '" + resourceFileRelativePath + "' not found.");
+        }
+
+        try {
+            return Files.readString(new File(resource.toURI()).toPath());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read resource file: " + resource, e);
+        }
     }
 
     /**
@@ -91,6 +119,29 @@ public abstract class TestUtil {
                     Files.copy(file.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
             }
+        }
+    }
+
+    public static boolean isAnthropicAvailable() {
+        String urlStr = "https://status.anthropic.com/api/v2/status.json";
+        try {
+            var url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+
+            try (InputStreamReader isr = new InputStreamReader(conn.getInputStream());
+                 JsonReader reader = Json.createReader(isr)) {
+                JsonObject root = reader.readObject();
+                JsonObject status = root.getJsonObject("status");
+                String indicator = status.getString("indicator", "");
+                // "none" means no outage, "major" or "critical" or anything else means outage
+                return "none".equalsIgnoreCase(indicator);
+            }
+        } catch (Exception e) {
+            // If unable to check, assume not available
+            return false;
         }
     }
 }

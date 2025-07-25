@@ -1,6 +1,8 @@
 package org.gradle.ai.nlp.client
 
+import org.gradle.ai.nlp.test.TestUtil
 import org.gradle.ai.nlp.util.Util
+import spock.lang.Requires
 
 /**
  * Functional tests for the MCP client application.
@@ -23,6 +25,7 @@ class MCPClientFunctionalTest extends AbstractServerRunningFunctionalTest {
         client.close()
     }
 
+    @Requires({ TestUtil.isAnthropicAvailable() })
     def "client can query server"() {
         given:
         MCPClient client = new MCPClient()

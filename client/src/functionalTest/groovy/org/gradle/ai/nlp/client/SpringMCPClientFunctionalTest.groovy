@@ -1,7 +1,9 @@
 package org.gradle.ai.nlp.client
 
-
+import org.gradle.ai.nlp.test.TestUtil
 import org.springframework.ai.chat.client.ChatClient
+import spock.lang.Requires
+
 /**
  * Functional tests for the MCP client application.
  * <p>
@@ -20,6 +22,7 @@ class SpringMCPClientFunctionalTest extends AbstractServerRunningFunctionalTest 
         context.close()
     }
 
+    @Requires({ TestUtil.isAnthropicAvailable() })
     def "client can query server"() {
         given:
         def context = startClient()

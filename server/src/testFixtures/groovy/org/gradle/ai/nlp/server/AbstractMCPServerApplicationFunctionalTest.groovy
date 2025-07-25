@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import spock.lang.Specification
 import spock.lang.TempDir
 
-class AbstractMCPServerApplicationFunctionalTest extends Specification {
+abstract class AbstractMCPServerApplicationFunctionalTest extends Specification {
     protected static String baseUrl
     protected static ConfigurableApplicationContext context
 

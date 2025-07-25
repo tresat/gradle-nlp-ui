@@ -25,6 +25,13 @@ testing {
         val test by getting(JvmTestSuite::class) {
             dependencies {
                 implementation(libs.findLibrary("mockito.core").get())
+                implementation(libs.findLibrary("kotlin.stdlib").get()) {
+                    because("""
+                        Required for debugging tests, otherwise:
+                            Exception in thread "main" Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+                            java.lang.NoClassDefFoundError: kotlin/Result
+                    """.trimMargin())
+                }
             }
         }
         val functionalTest by registering(JvmTestSuite::class) {
@@ -32,6 +39,13 @@ testing {
                 implementation(project())
                 implementation(testFixtures(project()))
                 implementation(libs.findLibrary("spring.boot.starter.test").get())
+                implementation(libs.findLibrary("kotlin.stdlib").get()) {
+                    because("""
+                        Required for debugging tests, otherwise:
+                            Exception in thread "main" Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+                            java.lang.NoClassDefFoundError: kotlin/Result
+                    """.trimMargin())
+                }
             }
 
             targets {

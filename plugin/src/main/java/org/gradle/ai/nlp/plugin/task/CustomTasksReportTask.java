@@ -10,7 +10,6 @@ import org.gradle.api.problems.ProblemId;
 import org.gradle.api.problems.Problems;
 import org.gradle.api.problems.Severity;
 import org.gradle.api.provider.Provider;
-import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.diagnostics.TaskReportTask;
 
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 import java.io.File;
 
 @SuppressWarnings("UnstableApiUsage")
-@CacheableTask // Re-enable caching (disabled by default in TaskReportTask, also need TaskOutputs.cacheIf to return true for caching to work)
 public abstract class CustomTasksReportTask extends TaskReportTask {
     public static final String NAME = "tasksReport";
     public static final String DESCRIPTION = "Gathers the output of running the `tasks` report";
@@ -35,8 +33,6 @@ public abstract class CustomTasksReportTask extends TaskReportTask {
     public abstract Problems getProblemsService();
 
     public CustomTasksReportTask() {
-        getOutputs().cacheIf(s -> true);
-
         File rawOutputFile = outputFile.get().getAsFile();
 
         setOutputFile(rawOutputFile);

@@ -1,6 +1,8 @@
 package org.gradle.ai.nlp.plugin
 
 import org.gradle.ai.nlp.plugin.task.AskMCPTask
+import spock.lang.Requires
+import org.gradle.ai.nlp.test.TestUtil
 
 class GradleNlpUiPluginFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can apply plugin"() {
@@ -11,6 +13,7 @@ class GradleNlpUiPluginFunctionalTest extends AbsractGradleNlpUiPluginFunctional
         result.output.contains(knownAITasks())
     }
 
+    @Requires({ TestUtil.isAnthropicAvailable() })
     def "general Gradle query can be asked"() {
         when:
         def query = "What task should I run to create a new Gradle project?  Respond in the following format, substituting X for the task name: To create a new Gradle project, you should run the `X` task."
