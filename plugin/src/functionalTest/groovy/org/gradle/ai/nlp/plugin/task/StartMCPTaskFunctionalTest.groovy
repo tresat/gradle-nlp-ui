@@ -9,7 +9,7 @@ import spock.lang.Requires
 class StartMCPTaskFunctionalTest extends AbsractGradleNlpUiPluginFunctionalTest {
     def "can run start server task"() {
         when:
-        def result = succeeds(StartMCPTask.NAME)
+        def result = succeeds(StartMCPTask.NAME, "-S")
 
         then:
         result.output.contains(MCPServerService.SERVER_STARTUP_MESSAGE)

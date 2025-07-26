@@ -10,7 +10,6 @@ import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.initialization.DefaultProjectDescriptor;
 import org.gradle.util.internal.GFileUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -32,8 +31,9 @@ public abstract class ProjectLocationsReportTask extends DefaultTask {
     private final Provider<File> settingsFile = getProject().getProviders().provider(() -> ((GradleInternal) getProject().getGradle()).getSettings().getBuildscript().getSourceFile());
     private final Set<ProjectInfo> projectInfos = new HashSet<>();
 
+    @SuppressWarnings("CodeBlock2Expr")
     public ProjectLocationsReportTask() {
-        ProjectRegistry<@NotNull DefaultProjectDescriptor> projectRegistry = ((GradleInternal) getProject().getGradle()).getSettings().getProjectRegistry();
+        ProjectRegistry<DefaultProjectDescriptor> projectRegistry = ((GradleInternal) getProject().getGradle()).getSettings().getProjectRegistry();
         Map<ProjectDescriptor, ProjectInfo> projectInfoBuilder = new HashMap<>();
 
         projectRegistry.getAllProjects().forEach(projectDescriptor -> {
@@ -68,11 +68,9 @@ public abstract class ProjectLocationsReportTask extends DefaultTask {
     }
 
     private String buildReportContents() {
-        StringBuilder result = new StringBuilder();
-        result.append("Gradle Project Locations Report\n");
-        result.append("Settings: ").append(settingsFile.get().toPath()).append("\n\n");
-        result.append(projectInfos.stream().map(ProjectInfo::report).collect(Collectors.joining("\n")));
-        return result.toString();
+        return "Gradle Project Locations Report\n" +
+                "Settings: " + settingsFile.get().toPath() + "\n\n" +
+                projectInfos.stream().map(ProjectInfo::report).collect(Collectors.joining("\n"));
     }
 
     private static final class ProjectInfo {

@@ -9,7 +9,6 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.ai.nlp.plugin.service.MCPServerService;
 import org.gradle.work.DisableCachingByDefault;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -27,6 +26,9 @@ public abstract class StartMCPTask extends DefaultTask {
 
     @InputFile
     public abstract RegularFileProperty getProjectLocationsReportFile();
+
+    @InputFile
+    public abstract RegularFileProperty getBuildEnvironmentReportFile();
 
     public StartMCPTask() {
         getOutputs().upToDateWhen(task -> {

@@ -2,6 +2,7 @@ package org.gradle.ai.nlp.plugin
 
 import org.apache.commons.io.FileUtils
 import org.gradle.ai.nlp.plugin.task.AskMCPTask
+import org.gradle.ai.nlp.plugin.task.CustomBuildEnvironmentReportTask
 import org.gradle.ai.nlp.plugin.task.CustomTasksReportTask
 import org.gradle.ai.nlp.plugin.task.ProjectLocationsReportTask
 import org.gradle.ai.nlp.plugin.task.StartMCPTask
@@ -82,6 +83,7 @@ abstract class AbsractGradleNlpUiPluginFunctionalTest extends Specification {
         """AI tasks
 --------
 ${AskMCPTask.NAME} - ${AskMCPTask.DESCRIPTION}
+${CustomBuildEnvironmentReportTask.NAME} - ${CustomBuildEnvironmentReportTask.DESCRIPTION}
 ${StartMCPTask.NAME} - ${StartMCPTask.DESCRIPTION}
 ${StopMCPTask.NAME} - ${StopMCPTask.DESCRIPTION}
 ${ProjectLocationsReportTask.TASK} - ${ProjectLocationsReportTask.DESCRIPTION}

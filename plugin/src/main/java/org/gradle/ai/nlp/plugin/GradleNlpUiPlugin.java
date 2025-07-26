@@ -43,12 +43,21 @@ public abstract class GradleNlpUiPlugin implements Plugin<Project> {
             task.setDescription(CustomTasksReportTask.DESCRIPTION);
         });
 
+        TaskProvider<CustomBuildEnvironmentReportTask> buildEnvironmentReport = project.getTasks().register(CustomBuildEnvironmentReportTask.NAME, CustomBuildEnvironmentReportTask.class, task -> {
+            task.setGroup(MCP_TASK_GROUP_NAME);
+            task.setDescription(CustomBuildEnvironmentReportTask.DESCRIPTION);
+
+            task.setImpliesSubProjects(true);
+            task.getOutputFile().convention(project.getLayout().getBuildDirectory().dir(MCP_REPORTS_DIR).map(d -> d.file(CustomBuildEnvironmentReportTask.REPORTS_FILE_NAME)));
+        });
+
         TaskProvider<StartMCPTask> startServer = project.getTasks().register(StartMCPTask.NAME, StartMCPTask.class, task -> {
             task.setGroup(MCP_TASK_GROUP_NAME);
             task.setDescription(StartMCPTask.DESCRIPTION);
 
             task.getTasksReportFile().convention(tasksReport.map(CustomTasksReportTask::getOutputFile));
             task.getProjectLocationsReportFile().convention(projectLocationsReport.map(ProjectLocationsReportTask::getOutputFile).map(Provider::get));
+            task.getBuildEnvironmentReportFile().convention(buildEnvironmentReport.map(CustomBuildEnvironmentReportTask::getOutputFile).map(Provider::get));
         });
 
         TaskProvider<StopMCPTask> stopServer = project.getTasks().register(StopMCPTask.NAME, StopMCPTask.class, task -> {
